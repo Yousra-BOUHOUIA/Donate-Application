@@ -1,9 +1,11 @@
-import 'package:donate_application/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/views/widgets/input_field.dart';
+import 'package:donate_application/views/screens/user/user_edit_profile.dart';
+
 
 class UserProfileDetailsScreen extends StatelessWidget {
-  const UserProfileDetailsScreen({Key? key}) : super(key: key);
+  const UserProfileDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +14,10 @@ class UserProfileDetailsScreen extends StatelessWidget {
         backgroundColor: appBarColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Profile details', style: TextStyle(color: Colors.black)),
+        title: const Text('Profile details', style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
       body: Container(
@@ -24,62 +26,117 @@ class UserProfileDetailsScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
+                Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: AssetImage('assets/profile_picture.jpg'), // Replace with your image asset path
+                      backgroundColor: Colors.grey[200],
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          // Navigate to the EditUserProfileScreen when the edit icon is clicked
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const EditUserProfileScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey, width: 1),
+                          ),
+                          padding: const EdgeInsets.all(5),
+                          child: const Icon(
+                            Icons.edit,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Full name', // Replace with dynamic name if needed
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'youremail@domain.com', // Replace with dynamic email if needed
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 24),
                 InputField(
                   label: 'Full name',
-                  enabled: false, 
+                  enabled: false,
                   backgroundColor: Colors.white,
                   controller: TextEditingController(text: 'sirine'),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 InputField(
                   label: 'Email',
-                  enabled: false, 
+                  enabled: false,
                   backgroundColor: Colors.white,
                   controller: TextEditingController(text: 'sirine44@example.com'),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(
                       child: InputField(
                         label: "Gender",
-                        enabled: false, 
-                        backgroundColor: Colors.white, 
+                        enabled: false,
+                        backgroundColor: Colors.white,
                         controller: TextEditingController(text: 'Female'),
                       ),
                     ),
-                    SizedBox(width: 25),
+                    const SizedBox(width: 25),
                     Expanded(
                       child: InputField(
                         label: "Profession",
-                        enabled: false, 
+                        enabled: false,
                         backgroundColor: Colors.white,
                         controller: TextEditingController(text: 'Student'),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 InputField(
                   label: 'Date of birth',
                   enabled: false,
                   backgroundColor: Colors.white,
                   controller: TextEditingController(text: '22-07-2004'),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 InputField(
                   label: 'Phone number',
                   enabled: false,
-                  backgroundColor: Colors.white, 
+                  backgroundColor: Colors.white,
                   controller: TextEditingController(text: '+213 6 12 34 56 78'),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 InputField(
                   label: 'Address',
-                  enabled: false, 
+                  enabled: false,
                   backgroundColor: Colors.white,
                   controller: TextEditingController(
                       text: 'Rue Bouzered Hocine, Annaba 23000, Algeria'),

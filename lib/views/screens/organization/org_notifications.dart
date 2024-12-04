@@ -1,61 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges_lib; 
-import '/themes/colors.dart';
-import '/views/widgets/footer.dart'; 
+import 'package:badges/badges.dart' as badges_lib;
+import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/widgets/footer.dart'; // Make sure to import your footer widget
+import 'package:donate_application/views/widgets/main_background.dart'; // Add this import
 
-class NotificationsPage extends StatelessWidget {
+class OrgNotification extends StatelessWidget {
   static const pageRoute = '/org_notifications';
-  const NotificationsPage({super.key});
+  const OrgNotification({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Notifications',
-          style: TextStyle(
-            fontSize: 24,
-            color: Colors.black,
-          ),
-        ),
-        backgroundColor: appBarColor,
+    return GradientPage(
+      gradientStartColor: topGradientStart, // Replace with your gradient start color
+      gradientEndColor: topGradientEnd,    // Replace with your gradient end color
+      pageTitle: "Notifications",
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Container(
+            
+            decoration: const BoxDecoration(
+              color: appBackgroundColor, // White background
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), // Top left radius
+                topRight: Radius.circular(30), // Top right radius
+              ),
+              ),
+            child: Column(
+              children: [
+              
+                
+                // Body Content
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    child: Column(
+                      children: const [
+                        NotificationFilterRow(),
+                        Expanded(child: NotificationList()),
+                      ],
+                    ),
+                  ),
+                ),
+                // Footer
+                const Footer(),
+              ],
+            ),
+          );
+        },
       ),
-      backgroundColor: appBackgroundColor,
-      body: Column(
-        children: const [
-          const Expanded(child: NotificationsBody()),  // Make sure NotificationsBody takes available space
-          const Footer(),  // Add Footer here to be visible on the NotificationsPage
-        ],
-      ),
-        // Footer added here
-    );
-  }
-}
-
-class NotificationsBody extends StatelessWidget {
-  const NotificationsBody({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        NotificationFilterRow(),
-        Expanded(child: NotificationList()),
-      ],
     );
   }
 }
 
 class NotificationFilterRow extends StatelessWidget {
   const NotificationFilterRow({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
+        color: appBackgroundColor,
+        borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,7 +75,7 @@ class NotificationFilterRow extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
-                    ),
+                       ),
                   ),
                   const SizedBox(height: 2),
                   Container(
@@ -91,8 +96,9 @@ class NotificationFilterRow extends StatelessWidget {
                   elevation: 0,
                 ),
               ),
+
             ],
-          ),
+              ),
           Row(
             children: [
               const Text(
@@ -109,7 +115,7 @@ class NotificationFilterRow extends StatelessWidget {
                   '2',
                   style: TextStyle(color: Colors.black),
                 ),
-                badgeStyle: const badges_lib.BadgeStyle(
+                 badgeStyle: const badges_lib.BadgeStyle(
                   badgeColor: Color(0xFFF2F4F6),
                   elevation: 0,
                 ),
@@ -132,7 +138,6 @@ class NotificationFilterRow extends StatelessWidget {
 
 class NotificationList extends StatelessWidget {
   const NotificationList({super.key});
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -143,7 +148,6 @@ class NotificationList extends StatelessWidget {
     );
   }
 }
-
 class NotificationItem extends StatelessWidget {
   const NotificationItem({super.key});
 

@@ -1,10 +1,12 @@
 // in pubspec.yaml add image_picker: ^0.8.7+3 in dependencies 
+// in pubspec.yaml add image_picker: ^0.8.7+3 in dependencies 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'build3DDropdown.dart';
-import 'build3DTextField.dart';
+import 'package:donate_application/views/widgets/build3DDropdown.dart';
+import 'package:donate_application/views/widgets/build3DTextField.dart';
 import 'dart:io';
-import 'colors.dart';
+import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/widgets/footer.dart';
 
 class AddDonationScreen extends StatefulWidget {
   const AddDonationScreen({super.key});
@@ -97,9 +99,9 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
                     ],
                   ),
                   child: _selectedImage == null
-                      ? Column(
+                      ? const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(Icons.image, size: 50, color: Colors.grey),
                             SizedBox(height: 10),
                             Text(
@@ -195,6 +197,7 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
           ),
         ),
       ),
+       bottomNavigationBar: const Footer()
     );
   }
 }

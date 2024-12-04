@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'build3DSection.dart';
-
+import 'package:donate_application/views/widgets/build3DSection.dart';
+import 'package:donate_application/views/widgets/footer.dart';
 class OrgProfilePage extends StatelessWidget {
+  const OrgProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -12,13 +14,14 @@ class OrgProfilePage extends StatelessWidget {
           gradientEndColor: Color(0xFF87A7D0),   // End color
           child: OrgProfileContent(),
         ),
+        bottomNavigationBar: Footer(), // Added Footer here
       ),
     );
   }
 }
 
 class OrgProfileContent extends StatelessWidget {
-  const OrgProfileContent();
+  const OrgProfileContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,26 +48,26 @@ class OrgProfileContent extends StatelessWidget {
                   // Section for Information details, Edit profile information, My posts
                   build3DSection(
                     children: [
-                      ProfileActionButton(
+                      const ProfileActionButton(
                         icon: Icons.info,
                         text: "Information details",
                       ),
-                      ProfileActionButton(
+                      const ProfileActionButton(
                         icon: Icons.edit,
                         text: "Edit profile information",
                       ),
-                      ProfileActionButton(
+                      const ProfileActionButton(
                         icon: Icons.post_add,
                         text: "My posts",
                       ),
                     ],
                   ),
                   //const Divider(height: 30),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                   // Section for Language, Contact us, Terms and Policies
                   build3DSection(
                     children: [
-                      ProfileActionButton(
+                      const ProfileActionButton(
                         icon: Icons.language,
                         text: "Language",
                         // ignore: prefer_const_constructors
@@ -72,26 +75,26 @@ class OrgProfileContent extends StatelessWidget {
                           "English",
                           style: TextStyle(color: Colors.blue),),
                       ),
-                      ProfileActionButton(
+                      const ProfileActionButton(
                         icon: Icons.contact_support,
                         text: "Contact us",
                       ),
-                      ProfileActionButton(
+                      const ProfileActionButton(
                         icon: Icons.policy,
                         text: "Terms and Policies",
                       ),
                     ],
                   ),
                   //const Divider(height: 30),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                   // Section for Change password and Log out
                   build3DSection(
                     children: [
-                      ProfileActionButton(
+                      const ProfileActionButton(
                         icon: Icons.password,
                         text: "Change password",
                       ),
-                      ProfileActionButton(
+                      const ProfileActionButton(
                         icon: Icons.logout,
                         text: "Log out",
                       ),
@@ -100,10 +103,14 @@ class OrgProfileContent extends StatelessWidget {
                 ],
               ),
             ),
+            
           ),
+          
         ),
       ],
+      
     );
+  
   }
 
   
@@ -114,7 +121,7 @@ class ProfileActionButton extends StatelessWidget {
   final String text;
   final Widget? trailing;
 
-  const ProfileActionButton({
+  const ProfileActionButton({super.key, 
     required this.icon,
     required this.text,
     this.trailing,
@@ -149,7 +156,7 @@ class GradientHeader extends StatelessWidget {
   final Color gradientEndColor;
   final Widget child;
 
-  const GradientHeader({
+  const GradientHeader({super.key, 
     required this.gradientStartColor,
     required this.gradientEndColor,
     required this.child,
@@ -179,9 +186,9 @@ class GradientHeader extends StatelessWidget {
         Positioned(
           top: 180, // Adjust to fine-tune position
           left: MediaQuery.of(context).size.width / 2 - 50, // Center horizontally
-          child: CircleAvatar(
+          child: const CircleAvatar(
             radius: 50,
-            backgroundImage: AssetImage('lib/assets/images/org_profile.jpg'), // Replace with your image
+            backgroundImage: AssetImage('assets/images/org_profile.jpg'), // Replace with your image
           ),
         ),
         // Content Below Gradient and Profile Picture

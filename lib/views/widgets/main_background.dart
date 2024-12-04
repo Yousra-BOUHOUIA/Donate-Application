@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:donate_application/themes/colors.dart';
 
-void main() {
-  runApp(SimpleGradientApp());
-}
+
 
 class SimpleGradientApp extends StatelessWidget {
   @override
@@ -10,14 +9,11 @@ class SimpleGradientApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: GradientPage(
-        gradientStartColor: Color(0xFF0E1B48),
-        gradientEndColor: Color(0xFF87A7D0),
+        gradientStartColor: topGradientStart,
+        gradientEndColor: topGradientEnd,
         pageTitle: "All",
         child: Center(
-          child: Text(
-            "Content Goes Here",
-            style: TextStyle(fontSize: 20, color: Colors.black),
-          ),
+          
         ),
       ),
     );
@@ -45,7 +41,10 @@ class GradientPage extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [gradientStartColor, gradientEndColor],
-            stops: const [0.0, 0.3], // First color will take 30%, second will take 70%
+            stops: const [
+              0.0,
+              0.3
+            ], // First color will take 30%, second will take 70%
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -57,7 +56,7 @@ class GradientPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    icon: const Icon(Icons.arrow_back, color: topBarColor),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -67,14 +66,13 @@ class GradientPage extends StatelessWidget {
                       pageTitle,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: topBarColor,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                 
-                  const SizedBox(width: 48), 
+                  const SizedBox(width: 48),
                 ],
               ),
             ),

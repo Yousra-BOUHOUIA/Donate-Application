@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/colors.dart';
+import 'package:donate_application/themes/colors.dart';
 
 const double cardWidth = 250;
 const double cardHeight = 150;

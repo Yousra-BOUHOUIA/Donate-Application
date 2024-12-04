@@ -3,12 +3,14 @@ import 'package:donate_application/themes/colors.dart';
 
 class DonationDescriptionScreen extends StatelessWidget {
   const DonationDescriptionScreen({super.key});
+  static const pageRoute = '/donation_description';
+
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-
+    
     return Scaffold(
      
 
@@ -80,8 +82,8 @@ class DonationDescriptionScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                child: Row(
-                                  children: const [
+                                child: const Row(
+                                  children: [
                                     Icon(Icons.location_on, color: Colors.grey, size: 18),
                                     SizedBox(width: 4),
                                     Text(
@@ -150,8 +152,8 @@ class DonationDescriptionScreen extends StatelessWidget {
                           const SizedBox(height: 16),
             
                           // Verified account section
-                          Row(
-                            children: const [
+                          const Row(
+                            children: [
                               Text(
                                 "Social Project",
                                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),

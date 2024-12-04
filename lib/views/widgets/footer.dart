@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:donate_application/themes/colors.dart';
-
+import 'package:donate_application/views/screens/organization/org_notifications.dart';
+import 'package:donate_application/views/screens/user/user_notification.dart';
 class Footer extends StatefulWidget {
   const Footer({super.key});
 
@@ -18,22 +19,22 @@ class _FooterState extends State<Footer> {
       _selectedIndex = index;
     });
     // Uncomment and replace with your actual navigation logic
-    /*
+    
     switch (index) {
-      case 0:
-        Navigator.pushNamed(context, '/home');
-        break;
-      case 1:
-        Navigator.pushNamed(context, '/donations');
-        break;
+      //case 0:
+        //Navigator.pushNamed(context, '/home');
+        //break;
+      //case 1:
+        //Navigator.pushNamed(context, '/donations');
+        //break;
       case 2:
-        Navigator.pushNamed(context, '/notifications');
+        Navigator.pushNamed(context, NotificationsPage.pageRoute); 
         break;
-      case 3:
-        Navigator.pushNamed(context, '/profile');
-        break;
+      //case 3:
+        //Navigator.pushNamed(context, '/profile');
+        //break;
     }
-    */
+    
   }
 
   @override

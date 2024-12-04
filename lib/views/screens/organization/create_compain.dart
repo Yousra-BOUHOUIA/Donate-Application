@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:project_link/views/widgets/build3DTextField.dart';
-import 'package:project_link/views/widgets/build3DDropdown.dart';
-import 'package:project_link/themes/colors.dart';
-import 'package:project_link/views/widgets/footer.dart';
+import 'package:donate_application/views/widgets/build3DTextField.dart';
+import 'package:donate_application/views/widgets/build3DDropdown.dart';
+import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/widgets/footer.dart';
 
 class CreateCampaignScreen extends StatefulWidget {
   const CreateCampaignScreen({super.key});

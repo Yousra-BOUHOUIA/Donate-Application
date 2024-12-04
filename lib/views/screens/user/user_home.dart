@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:project/colors.dart';
-import 'user_card.dart';
-import 'event_card.dart';
-
+import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/widgets/user_card.dart';
+import 'package:donate_application/views/widgets/event_card.dart';
+import 'package:donate_application/views/widgets/footer.dart';
+import 'package:donate_application/views/widgets/custom_drawer.dart';
 
 class UserHomePage extends StatelessWidget {
-  const UserHomePage({Key? key}) : super(key: key);
+  const UserHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            // Sidebar logic
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Sidebar logic
+              },
+              icon: const Icon(Icons.menu),
+            );
           },
-          icon: const Icon(Icons.menu),
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -33,6 +38,12 @@ class UserHomePage extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
+      drawer: CustomDrawer(
+        profilePicture: 'assets/images/user_profile.jpg', // Replace with actual URL or asset
+        name: 'User Name',
+        email: 'email@example.com',
+        isOrganization: true,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -49,11 +60,11 @@ class UserHomePage extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    eventCard('Event 1 Description', 'lib/assets/images/event_picture.jpg', '10'),
+                    eventCard('Event 1 Description', 'assets/images/event_picture.jpg', '10'),
                     const SizedBox(width: 16),
-                    eventCard('Event 2 Description', 'lib/assets/images/event_picture.jpg', '20'),
+                    eventCard('Event 2 Description', 'assets/images/event_picture.jpg', '20'),
                     const SizedBox(width: 16),
-                    eventCard('Event 3 Description', 'lib/assets/images/event_picture.jpg', '30'),
+                    eventCard('Event 3 Description', 'assets/images/event_picture.jpg', '30'),
                   ],
                 ),
               ),
@@ -85,7 +96,6 @@ class UserHomePage extends StatelessWidget {
                       shape: StadiumBorder(),
                     ),
                     SizedBox(width: chipSpacing),
-                    
                   ],
                 ),
               ),
@@ -98,7 +108,7 @@ class UserHomePage extends StatelessWidget {
               createCard(
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
-                'lib/assets/images/user_image.jpg',
+                'assets/images/user_image.jpg',
                 120,
                 200,
               ),
@@ -106,7 +116,7 @@ class UserHomePage extends StatelessWidget {
           ),
         ),
       ),
-    
+      bottomNavigationBar: const Footer(),
     );
   }
 }

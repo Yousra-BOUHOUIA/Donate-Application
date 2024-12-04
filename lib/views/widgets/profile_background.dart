@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'colors.dart';
+
 
 void main() {
   runApp(GradientHeaderApp());
@@ -11,14 +13,9 @@ class GradientHeaderApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: GradientHeader(
-          gradientStartColor: Color(0xFF0E1B48),  // Start color
-          gradientEndColor: Color(0xFF87A7D0),    // End color
-          child: Center(
-            child: Text(
-              "Content Goes Here",
-              style: TextStyle(fontSize: 20, color: Colors.black),
-            ),
-          ),
+          gradientStartColor: topGradientStart,
+          gradientEndColor: topGradientEnd,
+          child: Center(),
         ),
       ),
     );
@@ -51,7 +48,7 @@ class GradientHeader extends StatelessWidget {
           top: 40,
           left: 16,
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: topBarColor),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -81,9 +78,12 @@ class GradientHeaderPainter extends CustomPainter {
     Paint paint = Paint()
       ..shader = LinearGradient(
         colors: [gradientStartColor, gradientEndColor],
-        stops: const [0.0, 0.8], // First color takes 30%, second color takes 70%
+        stops: const [
+          0.0,
+          0.8
+        ], // First color takes 30%, second color takes 70%
         begin: Alignment.topLeft,
-        end: Alignment.bottomRight, 
+        end: Alignment.bottomRight,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
     Path path = Path();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges_lib; // Alias the badges package
 import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/widgets/footer.dart';
 
 // Main notifications page
 class UserNotification extends StatelessWidget {
@@ -21,7 +22,12 @@ class UserNotification extends StatelessWidget {
         backgroundColor: appBarColor,
       ),
       backgroundColor: appBackgroundColor,
-      body: const NotificationsBody(),
+     body: Column(
+        children: const [
+          const Expanded(child: NotificationsBody()),  // Make sure NotificationsBody takes available space
+          const Footer(),  // Add Footer here to be visible on the NotificationsPage
+        ],
+      ),
     );
   }
 }

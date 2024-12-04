@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/widgets/footer.dart';  
 
 class UsersDonationsScreen extends StatelessWidget {
-static const pageRoute = '/user_donations';
+  static const pageRoute = '/user_donations';
+
   UsersDonationsScreen({super.key});
 
   final List<Map<String, String>> cardData = [
@@ -79,6 +81,7 @@ static const pageRoute = '/user_donations';
               ),
             ),
           ),
+          const Footer(), 
         ],
       ),
     );

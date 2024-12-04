@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges_lib; 
 import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/widgets/footer.dart'; // Make sure to import your footer widget
 
 class NotificationsPage extends StatelessWidget {
   static const pageRoute = '/org_notifications';
@@ -20,7 +21,13 @@ class NotificationsPage extends StatelessWidget {
         backgroundColor: appBarColor,
       ),
       backgroundColor: appBackgroundColor,
-      body: const NotificationsBody(),
+      body: Column(
+        children: const [
+          const Expanded(child: NotificationsBody()),  // Make sure NotificationsBody takes available space
+          const Footer(),  // Add Footer here to be visible on the NotificationsPage
+        ],
+      ),
+        // Footer added here
     );
   }
 }
@@ -62,14 +69,14 @@ class NotificationFilterRow extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black, // Changed to black
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Container(
                     height: 2,
                     width: 20,
-                    color: Colors.blue, // Blue underline
+                    color: Colors.blue,
                   ),
                 ],
               ),
@@ -93,7 +100,7 @@ class NotificationFilterRow extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black, // Changed to black
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(width: 8),
@@ -114,7 +121,7 @@ class NotificationFilterRow extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Colors.black, // Changed to black
+              color: Colors.black,
             ),
           ),
         ],
@@ -146,7 +153,7 @@ class NotificationItem extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 230, 244, 255), // Light blue background
+        color: const Color.fromARGB(255, 230, 244, 255),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Column(
@@ -201,24 +208,24 @@ class NotificationItem extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {},
-                child: const Text('Accept',style:TextStyle(color:Colors.white)),
+                child: const Text('Accept', style: TextStyle(color: Colors.white)),
               ),
               const SizedBox(width: 10),
-            OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                backgroundColor: Colors.white, 
-                side: const BorderSide(color: Colors.grey), 
-                minimumSize: const Size(80, 36),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.grey),
+                  minimumSize: const Size(80, 36),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                onPressed: () {},
+                child: const Text(
+                  'Decline',
+                  style: TextStyle(color: appButtonColor),
                 ),
               ),
-              onPressed: () {},
-              child: const Text(
-                'Decline',
-                style: TextStyle(color: appButtonColor), 
-              ),
-            ),
             ],
           ),
         ],

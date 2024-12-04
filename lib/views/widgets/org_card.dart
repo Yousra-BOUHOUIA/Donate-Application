@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import 'package:donate_application/themes/colors.dart';
 Widget createCard(String title, String description, String image,
       int volunteers, int totalVolunteers) {
     return Card(

@@ -3,11 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'build3DTextField.dart';
-import 'build3DDropdown.dart';
-import 'colors.dart';
+import 'package:project_link/views/widgets/build3DTextField.dart';
+import 'package:project_link/views/widgets/build3DDropdown.dart';
+import 'package:project_link/themes/colors.dart';
+import 'package:project_link/views/widgets/footer.dart';
 
 class CreateCampaignScreen extends StatefulWidget {
+  const CreateCampaignScreen({super.key});
+
   @override
   _CreateCampaignScreenState createState() => _CreateCampaignScreenState();
 }
@@ -67,144 +70,148 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
           onPressed: () {},
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            GestureDetector(
-              onTap: _pickImage,
-              child: Container(
-                height: 200,
-                width: 80,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: _selectedImage != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.file(
-                          _selectedImage!,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(Icons.image, size: 50, color: Colors.grey),
-                          SizedBox(height: 10),
-                          Text(
-                            'Upload pictures',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              GestureDetector(
+                onTap: _pickImage,
+                child: Container(
+                  height: 200,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
                       ),
+                    ],
+                  ),
+                  child: _selectedImage != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.file(
+                            _selectedImage!,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.image, size: 50, color: Colors.grey),
+                            SizedBox(height: 10),
+                            Text(
+                              'Upload pictures',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                ),
               ),
-            ),
-            const SizedBox(height: 25),
-            Row(
-              children: [
-                Expanded(
-                  child: build3DDropdown(
-                    'Type',
-                    campaignTypes,
-                    (value) {
-                      setState(() {
-                        _selectedType = value!;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: build3DTextField(
-                    'Due Date',
-                    controller: _dueDateController,
-                    validator: _validateDate,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 25),
-            build3DTextField(
-              'Title',
-              controller: _titleController,
-            ),
-            const SizedBox(height: 25),
-            build3DTextField(
-              'Location',
-              controller: _locationController,
-            ),
-            const SizedBox(height: 25),
-            build3DTextField(
-              'Resources Needed',
-              controller: _resourcesController,
-            ),
-            const SizedBox(height: 25),
-            build3DTextField(
-              'Description',
-              controller: _descriptionController,
-            ),
-            const SizedBox(height: 35),
-            Center(
-              child: SizedBox(
-                width: 150,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: appButtonColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35),
+              const SizedBox(height: 25),
+              Row(
+                children: [
+                  Expanded(
+                    child: build3DDropdown(
+                      'Type',
+                      campaignTypes,
+                      (value) {
+                        setState(() {
+                          _selectedType = value!;
+                        });
+                      },
                     ),
                   ),
-                  onPressed: () {
-                    if (_dueDateController.text.isEmpty ||
-                        _selectedType == null) {
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: build3DTextField(
+                      'Due Date',
+                      controller: _dueDateController,
+                      validator: _validateDate,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 25),
+              build3DTextField(
+                'Title',
+                controller: _titleController,
+              ),
+              const SizedBox(height: 25),
+              build3DTextField(
+                'Location',
+                controller: _locationController,
+              ),
+              const SizedBox(height: 25),
+              build3DTextField(
+                'Resources Needed',
+                controller: _resourcesController,
+              ),
+              const SizedBox(height: 25),
+              build3DTextField(
+                'Description',
+                controller: _descriptionController,
+              ),
+              const SizedBox(height: 35),
+              Center(
+                child: SizedBox(
+                  width: 150,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: appButtonColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(35),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (_dueDateController.text.isEmpty ||
+                          _selectedType == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please complete the form'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      // Reset the form
+                      _dueDateController.clear();
+                      _titleController.clear();
+                      _locationController.clear();
+                      _resourcesController.clear();
+                      _descriptionController.clear();
+                      setState(() {
+                        _selectedImage = null;
+                        _selectedType = null;
+                      });
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Please complete the form'),
+                          content: Text('Campaign Created!'),
                         ),
                       );
-                      return;
-                    }
-
-                    // Reset the form
-                    _dueDateController.clear();
-                    _titleController.clear();
-                    _locationController.clear();
-                    _resourcesController.clear();
-                    _descriptionController.clear();
-                    setState(() {
-                      _selectedImage = null;
-                      _selectedType = null;
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Campaign Created!'),
+                    },
+                    child: const Text(
+                      'Create',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
-                    );
-                  },
-                  child: const Text(
-                    'Create',
-                    style: TextStyle(
-                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }
+

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:project/colors.dart';
-import 'org_card.dart';
-import 'event_card.dart';
-
+import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/widgets/org_card.dart';
+import 'package:donate_application/views/widgets/event_card.dart';
+import 'package:donate_application/views/widgets/footer.dart';
+import 'package:donate_application/views/widgets/custom_drawer.dart';
 
 class OrgHomePage extends StatelessWidget {
-  const OrgHomePage({Key? key}) : super(key: key);
+  const OrgHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            // Sidebar logic
-          },
-          icon: const Icon(Icons.menu),
+        leading: Builder(
+          builder: (context) => IconButton(
+            onPressed: () {
+              Scaffold.of(context).openDrawer(); // Open sidebar
+            },
+            icon: const Icon(Icons.menu),
+          ),
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -33,6 +36,12 @@ class OrgHomePage extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
+      drawer: CustomDrawer(
+        profilePicture: 'assets/images/org_profile.jpg', // Replace with actual URL or asset
+        name: 'Organization Name',
+        email: 'email@example.com',
+        isOrganization: true,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -45,15 +54,15 @@ class OrgHomePage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               SizedBox(
-                height: cardHeight,
+                height: 200, // Adjusted for event card
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    eventCard('Event 1 Description', 'lib/assets/images/event_picture.jpg', '10'),
+                    eventCard('Event 1 Description', 'assets/images/event_picture.jpg', '10'),
                     const SizedBox(width: 16),
-                    eventCard('Event 2 Description', 'lib/assets/images/event_picture.jpg', '20'),
+                    eventCard('Event 2 Description', 'assets/images/event_picture.jpg', '20'),
                     const SizedBox(width: 16),
-                    eventCard('Event 3 Description', 'lib/assets/images/event_picture.jpg', '30'),
+                    eventCard('Event 3 Description', 'assets/images/event_picture.jpg', '30'),
                   ],
                 ),
               ),
@@ -72,19 +81,19 @@ class OrgHomePage extends StatelessWidget {
                       backgroundColor: appButtonColor,
                       shape: StadiumBorder(),
                     ),
-                    SizedBox(width: chipSpacing),
+                    SizedBox(width: 16),
                     Chip(
                       label: Text("Donations", style: TextStyle(color: Colors.white)),
                       backgroundColor: appButtonColor,
                       shape: StadiumBorder(),
                     ),
-                    SizedBox(width: chipSpacing),
+                    SizedBox(width: 16),
                     Chip(
                       label: Text("Events", style: TextStyle(color: Colors.white)),
                       backgroundColor: appButtonColor,
                       shape: StadiumBorder(),
                     ),
-                    SizedBox(width: chipSpacing),
+                    SizedBox(width: 16),
                     Chip(
                       label: Text("Get Donation", style: TextStyle(color: Colors.white)),
                       backgroundColor: appButtonColor,
@@ -102,7 +111,7 @@ class OrgHomePage extends StatelessWidget {
               createCard(
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
-                'lib/assets/images/org_image.jpg',
+                'assets/images/org_image.jpg',
                 120,
                 200,
               ),
@@ -117,7 +126,8 @@ class OrgHomePage extends StatelessWidget {
         backgroundColor: appButtonColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: const Footer(),
     );
   }
 }

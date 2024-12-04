@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/footer.dart';  
+import '/themes/colors.dart';
+import '/views/widgets/footer.dart';  
 
 class UsersDonationsScreen extends StatelessWidget {
   static const pageRoute = '/user_donations';

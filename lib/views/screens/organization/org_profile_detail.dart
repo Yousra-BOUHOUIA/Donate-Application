@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/input_field.dart';
-import 'package:donate_application/views/screens/organization/org_edit_profile.dart'; // Make sure to import the EditOrgProfileScreen
+import '/themes/colors.dart';
+import '/views/widgets/input_field.dart';
+import '/views/screens/organization/org_edit_profile.dart'; 
 
 class OrgProfileDetailsScreen extends StatelessWidget {
   const OrgProfileDetailsScreen({super.key});

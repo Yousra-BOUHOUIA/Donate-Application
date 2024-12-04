@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/views/widgets/build3DSection.dart';
-import 'package:donate_application/views/widgets/footer.dart';
+import '/views/widgets/build3DSection.dart';
+import '/views/widgets/footer.dart';
+
+
+
 class OrgProfilePage extends StatelessWidget {
   const OrgProfilePage({super.key});
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges_lib; // Alias the badges package
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/footer.dart';
+import '/themes/colors.dart';
+import '/views/widgets/footer.dart';
 
-// Main notifications page
+
+
+
 class UserNotification extends StatelessWidget {
   const UserNotification({super.key});
   static const pageRoute = '/user_notifications';

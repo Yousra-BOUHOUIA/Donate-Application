@@ -1,12 +1,10 @@
-// in pubspec.yaml add image_picker: ^0.8.7+3 in dependencies 
-// in pubspec.yaml add image_picker: ^0.8.7+3 in dependencies 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:donate_application/views/widgets/build3DDropdown.dart';
-import 'package:donate_application/views/widgets/build3DTextField.dart';
+import '/views/widgets/build3DDropdown.dart';
+import '/views/widgets/build3DTextField.dart';
 import 'dart:io';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/footer.dart';
+import '/themes/colors.dart';
+import '/views/widgets/footer.dart';
 
 class AddDonationScreen extends StatefulWidget {
   const AddDonationScreen({super.key});

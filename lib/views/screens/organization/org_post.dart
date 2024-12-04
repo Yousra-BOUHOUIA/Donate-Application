@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
+import '/themes/colors.dart';
 
 class OrgPostsScreen extends StatelessWidget {
   const OrgPostsScreen({super.key});

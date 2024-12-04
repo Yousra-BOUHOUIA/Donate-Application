@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/screens/organization/org_notifications.dart';
-import 'package:donate_application/views/screens/user/user_notification.dart';
+import '/themes/colors.dart';
+import '/views/screens/organization/org_notifications.dart';
+
+
 class Footer extends StatefulWidget {
   const Footer({super.key});
 

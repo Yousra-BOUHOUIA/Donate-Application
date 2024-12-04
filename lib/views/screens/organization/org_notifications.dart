@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges_lib; 
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/footer.dart'; // Make sure to import your footer widget
+import '/themes/colors.dart';
+import '/views/widgets/footer.dart'; 
 
 class NotificationsPage extends StatelessWidget {
   static const pageRoute = '/org_notifications';

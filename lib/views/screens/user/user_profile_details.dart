@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/input_field.dart';
-import 'package:donate_application/views/screens/user/user_edit_profile.dart';
+import '/themes/colors.dart';
+import '/views/widgets/input_field.dart';
+import '/views/screens/user/user_edit_profile.dart';
 
 
 class UserProfileDetailsScreen extends StatelessWidget {

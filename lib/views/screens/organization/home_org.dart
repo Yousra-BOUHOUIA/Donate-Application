@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/org_card.dart';
-import 'package:donate_application/views/widgets/event_card.dart';
-import 'package:donate_application/views/widgets/footer.dart';
-import 'package:donate_application/views/widgets/custom_drawer.dart';
+import '/themes/colors.dart';
+import '/views/widgets/org_card.dart';
+import '/views/widgets/event_card.dart';
+import '/views/widgets/footer.dart';
+import '/views/widgets/custom_drawer.dart';
 
 class OrgHomePage extends StatelessWidget {
   const OrgHomePage({super.key});

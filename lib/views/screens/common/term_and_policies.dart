@@ -1,4 +1,4 @@
-import 'package:donate_application/themes/colors.dart';
+import '/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 

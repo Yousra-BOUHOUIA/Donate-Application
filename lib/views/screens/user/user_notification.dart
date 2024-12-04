@@ -3,8 +3,9 @@ import 'package:badges/badges.dart' as badges_lib; // Alias the badges package
 import 'package:donate_application/themes/colors.dart';
 
 // Main notifications page
-class NotificationsPage extends StatelessWidget {
-  const NotificationsPage({super.key});
+class UserNotification extends StatelessWidget {
+  const UserNotification({super.key});
+  static const pageRoute = '/user_notifications';
 
   @override
   Widget build(BuildContext context) {

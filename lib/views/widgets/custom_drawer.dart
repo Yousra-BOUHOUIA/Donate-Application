@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:donate_application/views/screens/organization/org_notifications.dart';
+import 'package:donate_application/views/screens/user/user_notification.dart';
 
 class CustomDrawer extends StatelessWidget {
   final String profilePicture; 
@@ -7,12 +9,12 @@ class CustomDrawer extends StatelessWidget {
   final bool isOrganization;   
 
   const CustomDrawer({
-    Key? key,
+    super.key,
     required this.profilePicture,
     required this.name,
     required this.email,
     this.isOrganization = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +66,12 @@ class CustomDrawer extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  _buildMenuItem(Icons.home, "Home"),
-                  _buildMenuItem(Icons.volunteer_activism, "Donations"),
-                  _buildMenuItem(Icons.event, "Events"),
-                  _buildMenuItem(Icons.notifications, "Notifications"),
-                  _buildMenuItem(Icons.person, "Profile"),
-                  _buildMenuItem(Icons.settings, "Settings"),
+                  _buildMenuItem(context,Icons.home, "Home"),
+                  _buildMenuItem(context,Icons.volunteer_activism, "Donations"),
+                  _buildMenuItem(context,Icons.event, "Events"),
+                  _buildMenuItem(context,Icons.notifications, "Notifications"),
+                  _buildMenuItem(context,Icons.person, "Profile"),
+                  _buildMenuItem(context,Icons.settings, "Settings"),
                 ],
               ),
             ),
@@ -79,7 +81,7 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String title) {
+  Widget _buildMenuItem(BuildContext context , icon, String title) {
     return ListTile(
       leading: Icon(icon, color: Colors.black),
       title: Text(
@@ -88,6 +90,10 @@ class CustomDrawer extends StatelessWidget {
       ),
       onTap: () {
         // Add navigation or action here
+        if(title == 'Notifications' && isOrganization==true)
+          {Navigator.pushNamed(context, OrgNotification.pageRoute); }
+        else if(title == 'Notifications' && isOrganization==false)
+            {Navigator.pushNamed(context, UserNotification.pageRoute); }
       },
     );
   }

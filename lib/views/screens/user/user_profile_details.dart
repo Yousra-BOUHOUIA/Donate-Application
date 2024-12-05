@@ -6,7 +6,7 @@ import '/views/screens/user/user_edit_profile.dart';
 
 class UserProfileDetailsScreen extends StatelessWidget {
   const UserProfileDetailsScreen({super.key});
-  static const pageRoute = '/user_profile';
+  static const String pageRoute = '/user_profile';
 
   @override
   Widget build(BuildContext context) {

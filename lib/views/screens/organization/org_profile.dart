@@ -2,23 +2,28 @@ import 'package:flutter/material.dart';
 import '/views/widgets/build3DSection.dart';
 import '/views/widgets/footer.dart';
 
+import 'package:donate_application/views/screens/common/change_password.dart';
+import 'package:donate_application/views/screens/common/term_and_policies.dart';
+import 'package:donate_application/views/screens/common/contact_us.dart';
+import 'package:donate_application/views/screens/common/language.dart';
+import 'package:donate_application/views/screens/common/login.dart';
 
+import '/views/screens/organization/org_edit_profile.dart';
+import '/views/screens/organization/org_post.dart';
+import '/views/screens/organization/org_profile_detail.dart';
 
 class OrgProfilePage extends StatelessWidget {
   const OrgProfilePage({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: GradientHeader(
-          gradientStartColor: Color(0xFF0E1B48), // Start color
-          gradientEndColor: Color(0xFF87A7D0),   // End color
-          child: OrgProfileContent(),
-        ),
-        bottomNavigationBar: Footer(), // Added Footer here
+    return const Scaffold(
+      body: GradientHeader(
+        gradientStartColor: Color(0xFF0E1B48), // Start color
+        gradientEndColor: Color(0xFF87A7D0),   // End color
+        child: OrgProfileContent(),
       ),
+      bottomNavigationBar: Footer(),
     );
   }
 }
@@ -30,7 +35,6 @@ class OrgProfileContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Spacing to align content below the profile picture
         const SizedBox(height: 10),
         const Text(
           "Full Name",
@@ -41,125 +45,141 @@ class OrgProfileContent extends StatelessWidget {
           style: TextStyle(fontSize: 14, color: Colors.grey),
         ),
         const SizedBox(height: 20),
-        // Action Buttons Section
         Expanded(
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  // Section for Information details, Edit profile information, My posts
                   build3DSection(
                     children: [
-                      const ProfileActionButton(
+                      ProfileActionButton(
                         icon: Icons.info,
                         text: "Information details",
+                        onTap: () {
+                          Navigator.pushNamed(context, OrgProfileDetailsScreen.pageRoute);
+                        },
                       ),
-                      const ProfileActionButton(
+                      ProfileActionButton(
                         icon: Icons.edit,
                         text: "Edit profile information",
+                        onTap: () {
+                          Navigator.pushNamed(context, EditOrgProfileScreen.pageRoute);
+                        },
                       ),
-                      const ProfileActionButton(
+                      ProfileActionButton(
                         icon: Icons.post_add,
                         text: "My posts",
+                        onTap: () {
+                          Navigator.pushNamed(context, OrgPostsScreen.pageRoute);
+                        },
                       ),
                     ],
                   ),
-                  //const Divider(height: 30),
-                  const SizedBox(height: 30,),
-                  // Section for Language, Contact us, Terms and Policies
+                  const SizedBox(height: 30),
                   build3DSection(
                     children: [
-                      const ProfileActionButton(
+                      ProfileActionButton(
                         icon: Icons.language,
                         text: "Language",
-                        // ignore: prefer_const_constructors
-                        trailing: Text(
+                        trailing: const Text(
                           "English",
-                          style: TextStyle(color: Colors.blue),),
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(context, LanguageSelectionScreen.pageRoute);
+                        },
                       ),
-                      const ProfileActionButton(
+                      ProfileActionButton(
                         icon: Icons.contact_support,
                         text: "Contact us",
+                        onTap: () {
+                          Navigator.pushNamed(context, ContactUsScreen.pageRoute);
+                        },
                       ),
-                      const ProfileActionButton(
+                      ProfileActionButton(
                         icon: Icons.policy,
                         text: "Terms and Policies",
+                        onTap: () {
+                          Navigator.pushNamed(context, TermsAndPoliciesScreen.pageRoute);
+                        },
                       ),
                     ],
                   ),
-                  //const Divider(height: 30),
-                  const SizedBox(height: 30,),
-                  // Section for Change password and Log out
+                  const SizedBox(height: 30),
                   build3DSection(
                     children: [
-                      const ProfileActionButton(
+                      ProfileActionButton(
                         icon: Icons.password,
                         text: "Change password",
+                        onTap: () {
+                          Navigator.pushNamed(context, ChangePasswordApp.pageRoute);
+                        },
                       ),
-                      const ProfileActionButton(
+                      ProfileActionButton(
                         icon: Icons.logout,
                         text: "Log out",
+                        onTap: () {
+                          Navigator.pushNamed(context, LoginPage.pageRoute); // Example for logging out
+                        },
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            
           ),
-          
         ),
       ],
-      
     );
-  
   }
-
-  
 }
 
 class ProfileActionButton extends StatelessWidget {
   final IconData icon;
   final String text;
   final Widget? trailing;
+  final VoidCallback onTap;
 
-  const ProfileActionButton({super.key, 
+  const ProfileActionButton({
+    super.key,
     required this.icon,
     required this.text,
     this.trailing,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.black),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 16),
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.black),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(fontSize: 16),
+              ),
             ),
-          ),
-          if (trailing != null) trailing!,
-        ],
+            if (trailing != null) trailing!,
+          ],
+        ),
       ),
     );
   }
 }
-
-
-
 
 class GradientHeader extends StatelessWidget {
   final Color gradientStartColor;
   final Color gradientEndColor;
   final Widget child;
 
-  const GradientHeader({super.key, 
+  const GradientHeader({
+    super.key,
     required this.gradientStartColor,
     required this.gradientEndColor,
     required this.child,
@@ -171,7 +191,6 @@ class GradientHeader extends StatelessWidget {
       children: [
         Column(
           children: [
-            // The custom gradient header
             CustomPaint(
               size: const Size(double.infinity, 250),
               painter: GradientHeaderPainter(
@@ -179,22 +198,19 @@ class GradientHeader extends StatelessWidget {
                 gradientEndColor: gradientEndColor,
               ),
             ),
-            // White background below gradient
             Expanded(
               child: Container(color: Colors.white),
             ),
           ],
         ),
-        // Profile Picture Circle Positioned at the intersection
         Positioned(
-          top: 180, // Adjust to fine-tune position
-          left: MediaQuery.of(context).size.width / 2 - 50, // Center horizontally
+          top: 180,
+          left: MediaQuery.of(context).size.width / 2 - 50,
           child: const CircleAvatar(
             radius: 50,
-            backgroundImage: AssetImage('assets/images/org_profile.jpg'), // Replace with your image
+            backgroundImage: AssetImage('assets/images/org_profile.jpg'),
           ),
         ),
-        // Content Below Gradient and Profile Picture
         Positioned.fill(
           top: 280,
           child: child,
@@ -218,7 +234,7 @@ class GradientHeaderPainter extends CustomPainter {
     Paint paint = Paint()
       ..shader = LinearGradient(
         colors: [gradientStartColor, gradientEndColor],
-        stops: const [0.0, 0.8], // First color takes 30%, second color takes 70%
+        stops: const [0.0, 0.8],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));

@@ -4,7 +4,7 @@ import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/views/widgets/footer.dart'; 
 class UserDonations extends StatelessWidget {
   const UserDonations ({super.key});
-  static const pageRoute = '/user_donations';
+  static const String pageRoute = '/user_donations';
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class UserDonations extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const Footer(), // Added Footer widget here
+      bottomNavigationBar: const Footer(isOrganization: false,), // Added Footer widget here
     );
   }
 }

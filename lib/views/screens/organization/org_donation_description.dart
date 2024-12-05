@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/views/widgets/main_background.dart';
-import 'package:donate_application/themes/colors.dart';
+import '/views/widgets/main_background.dart';
+import '/themes/colors.dart';
 
 class OrgDonationDescriptionScreen extends StatelessWidget {
   const OrgDonationDescriptionScreen({super.key});
@@ -107,9 +107,9 @@ class OrgDonationDescriptionScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children: [
                               Text(
                                 "Collected \$150,000",
                                 style: TextStyle(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/main_background.dart';
+import '/themes/colors.dart';
+import '/views/widgets/main_background.dart';
 
 class OrgEventDescriptionScreen extends StatelessWidget {
   static const pageRoute = '/org_event_description';
@@ -109,9 +109,9 @@ class OrgEventDescriptionScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children: [
                               Text(
                                 "Recruited Volunteers:150/200",
                                 style: TextStyle(

@@ -1,26 +1,9 @@
-import 'package:donate_application/themes/colors.dart';
 import 'package:flutter/material.dart';
 
-import '/views/screens/user/user_edit_profile.dart';
-import '/views/screens/user/user_post.dart';
-import '/views/screens/user/user_profile_details.dart';
-import '/views/screens/organization/org_notifications.dart';
-import '/views/screens/organization/users_donations.dart';
+import '/imports/common_barrel.dart';
+import '/imports/organization_barrel.dart';
+import '/imports/user_barrel.dart';
 
-import 'package:donate_application/views/screens/organization/org_donation_description.dart';
-import 'package:donate_application/views/screens/organization/org_event_description.dart';
-import 'package:donate_application/views/screens/user/user_donation_description.dart';
-import 'package:donate_application/views/screens/user/user_event_description.dart';
-
-
-import '/views/screens/user/user_notification.dart';
-
-
-import 'views/screens/organization/org_edit_profile.dart';
-import '/views/screens/organization/org_post.dart';
-import '/views/screens/organization/org_edit_profile.dart';
-import '/views/screens/organization/org_profile_detail.dart';
-import '/views/screens/organization/org_profile.dart';
 
 
 void main() {
@@ -35,21 +18,55 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      routes: {
+   routes: {
   
+        LanguageSelectionScreen.pageRoute:(ctx) => const LanguageSelectionScreen(),         
+        ContactUsScreen.pageRoute:(ctx) => const ContactUsScreen(),         
+        TermsAndPoliciesScreen.pageRoute:(ctx) => const TermsAndPoliciesScreen(),         
+        ChangePasswordApp.pageRoute:(ctx) => const ChangePasswordApp(),  
+        ProductDescriptionPage.pageRoute:(ctx) => const ProductDescriptionPage(),
+        LoginPage.pageRoute:(ctx) => const LoginPage(), 
+
+
+
+        //organization profile routes
+      
+        OrgProfilePage.pageRoute:(ctx) => const OrgProfilePage(),
+        OrgProfileDetailsScreen.pageRoute:(ctx) => const OrgProfileDetailsScreen(),   
+        OrgPostsScreen.pageRoute:(ctx) => const OrgPostsScreen(),         
+      
+        EditOrgProfileScreen.pageRoute:(ctx) => const EditOrgProfileScreen(),         
         OrgNotification.pageRoute: (ctx) => const OrgNotification(),
+
+        
+        OrgHomePage.pageRoute: (ctx) => const OrgHomePage (),
+        EventsPage.pageRoute: (ctx) => const EventsPage (),
+        DonationsPage.pageRoute: (ctx) => const DonationsPage (),
+        CardContentPage.pageRoute: (ctx) => const CardContentPage (),
+               
+
+      
+        // User profile routes
+        UserProfilePage.pageRoute:(ctx) => const UserProfilePage(),
+        UserProfileDetailsScreen.pageRoute:(ctx) => const UserProfileDetailsScreen(),         
+        EditUserProfileScreen.pageRoute:(ctx) => const EditUserProfileScreen(),         
+        UserPostsScreen.pageRoute:(ctx) => const UserPostsScreen(), 
+        OrgDonationDescriptionScreen.pageRoute:(ctx) => const OrgDonationDescriptionScreen(),
+        OrgEventDescriptionScreen.pageRoute:(ctx) => const OrgEventDescriptionScreen(),  
         UserNotification.pageRoute: (ctx) => const UserNotification(),
         UsersDonationsScreen.pageRoute: (ctx) =>  UsersDonationsScreen (),  
-        
         UserDonationDescriptionScreen.pageRoute:(ctx) => const UserDonationDescriptionScreen(),
         UserEventDescriptionScreen.pageRoute:(ctx) => const UserEventDescriptionScreen(),
-        OrgDonationDescriptionScreen.pageRoute:(ctx) => const OrgDonationDescriptionScreen(),
-        OrgEventDescriptionScreen.pageRoute:(ctx) => const OrgEventDescriptionScreen(),         
+
+        UserHomePage.pageRoute: (ctx) => const UserHomePage (),
+        UserDonations.pageRoute: (ctx) => const UserDonations (),
+        UserAll.pageRoute: (ctx) => const UserAll (),
+        UserEvents.pageRoute: (ctx) =>  const UserEvents (),
       },
 
 
 
-      home: OrgProfilePage(),
+      home: const OrgHomePage(),
 
     );
   }

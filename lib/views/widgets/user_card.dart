@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/screens/user/user_event_description.dart';
-import 'package:donate_application/views/screens/user/user_donation_description.dart';
+import '/imports/user_barrel.dart';
+
+
+
 String btntext = ' ';
-Widget createCard(BuildContext context,bool is_Donation,String title, String description, String image, int volunteers, int totalVolunteers) {
-   if(is_Donation)
+Widget createCard(BuildContext context,bool isDonation,String title, String description, String image, int volunteers, int totalVolunteers) {
+   if(isDonation)
           {
             btntext = 'Donate Now';
           }
@@ -75,7 +77,7 @@ Widget createCard(BuildContext context,bool is_Donation,String title, String des
             children: [
               OutlinedButton(
                 onPressed: () {
-                  if(is_Donation)
+                  if(isDonation)
                   {
 
                         Navigator.pushNamed(context, UserDonationDescriptionScreen.pageRoute); 
@@ -106,7 +108,7 @@ Widget createCard(BuildContext context,bool is_Donation,String title, String des
                 ),
                 child:  Text(
                   btntext,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white, 
                   ),
                 ),

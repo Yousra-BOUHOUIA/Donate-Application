@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/views/screens/common/product_des.dart';
-import 'package:donate_application/views/widgets/footer.dart';
-import 'package:donate_application/views/widgets/main_background.dart';
-import 'package:donate_application/themes/Colors.dart'; // Ensure this import path is correct
+import '/imports/common_barrel.dart';
+import '/views/widgets/footer.dart';
+import '/views/widgets/main_background.dart';
+import '/themes/Colors.dart'; // Ensure this import path is correct
 
 class UsersDonationsScreen extends StatelessWidget {
   static const String pageRoute = '/users_donations';

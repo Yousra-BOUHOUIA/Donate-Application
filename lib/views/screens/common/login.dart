@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/screens/user/signup_as_user.dart';
-void main() {
-  runApp(LoginPage());
-}
+import 'package:donate_application/imports/user_barrel.dart';
+
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+      static const String pageRoute = '/login';
+
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -156,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
   onPressed: () {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SignUpAsUserPage()), 
+      MaterialPageRoute(builder: (context) => const SignUpAsUserPage()), 
     );
   },
   child: const Text(

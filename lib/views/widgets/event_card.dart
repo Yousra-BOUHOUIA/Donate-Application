@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/screens/organization/org_event_description.dart';
-import 'package:donate_application/views/screens/user/user_event_description.dart';
+import '/themes/colors.dart';
+import '/imports/user_barrel.dart';
+import '/imports/organization_barrel.dart';
+
+
 
 const double cardWidth = 250;
 const double cardHeight = 150;
@@ -9,7 +11,7 @@ const double chipSpacing = 10.0;
 const EdgeInsets cardPadding = EdgeInsets.all(8.0);
 
 // Reusable event card widget
-Widget eventCard(BuildContext context,bool is_Organization,String description, String image, String statistics) {
+Widget eventCard(BuildContext context,bool isOrganization,String description, String image, String statistics) {
     return Container(
       width: cardWidth,
       decoration: BoxDecoration(
@@ -42,7 +44,7 @@ Widget eventCard(BuildContext context,bool is_Organization,String description, S
               children: [
                  ElevatedButton(
                     onPressed: () {
-                      if(is_Organization)
+                      if(isOrganization)
                       {
                             Navigator.pushNamed(context, OrgEventDescriptionScreen.pageRoute); 
                       }

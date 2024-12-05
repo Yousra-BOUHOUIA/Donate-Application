@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/screens/organization/signup_as_organization.dart';
-import 'package:donate_application/views/screens/common/login.dart'; 
+import 'package:donate_application/imports/organization_barrel.dart';
+import 'package:donate_application/imports/common_barrel.dart';
+
+
 
 void main() {
-  runApp(SignUpAsUserPage());
+  runApp(const SignUpAsUserPage());
 }
 
 class SignUpAsUserPage extends StatefulWidget {
+  const SignUpAsUserPage({super.key});
+
   @override
   _SignUpAsUserPageState createState() => _SignUpAsUserPageState();
 }
@@ -68,7 +72,7 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SignUpAsOrganizationPage(),
+                                builder: (context) => const SignUpAsOrganizationPage(),
                               ),
                             );
                           }
@@ -160,7 +164,7 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                       onPressed: () {
                       Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()), 
+                      MaterialPageRoute(builder: (context) => const LoginPage()), 
                       );
                       },
                       child: const Text(
@@ -188,11 +192,11 @@ class CustomTextField extends StatelessWidget {
   final bool isPassword;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.icon,
     required this.label,
     this.isPassword = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

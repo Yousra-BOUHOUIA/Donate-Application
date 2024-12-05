@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/screens/user/signup_as_user.dart';
-import 'package:donate_application/views/screens/common/login.dart'; 
+import '/themes/colors.dart';
+import '/imports/user_barrel.dart';
+import '/imports/common_barrel.dart';
+
+
 void main() {
-  runApp(SignUpAsOrganizationPage());
+  runApp(const SignUpAsOrganizationPage());
 }
 
 class SignUpAsOrganizationPage extends StatefulWidget {
+  const SignUpAsOrganizationPage({super.key});
+
   @override
   _SignUpAsOrganizationPageState createState() => _SignUpAsOrganizationPageState();
 }
@@ -66,7 +70,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SignUpAsUserPage(),
+                                builder: (context) => const SignUpAsUserPage(),
                               ),
                             );
                           }
@@ -167,7 +171,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                       onPressed: () {
                       Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()), 
+                      MaterialPageRoute(builder: (context) => const LoginPage()), 
                       );
                       },
                       child: const Text(
@@ -215,7 +219,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       decoration: InputDecoration(
         prefixIcon: Icon(widget.icon, color: appButtonColor),
         labelText: widget.label,
-        labelStyle: TextStyle(color: appButtonColor),
+        labelStyle: const TextStyle(color: appButtonColor),
         border: const UnderlineInputBorder(),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: appButtonColor),

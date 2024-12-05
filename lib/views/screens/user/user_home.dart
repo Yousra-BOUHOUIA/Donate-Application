@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/user_card.dart';
-import 'package:donate_application/views/widgets/event_card.dart';
-import 'package:donate_application/views/widgets/footer.dart';
-import 'package:donate_application/views/widgets/custom_drawer.dart';
+import '/themes/colors.dart';
+import '/views/widgets/user_card.dart';
+import '/views/widgets/event_card.dart';
+import '/views/widgets/footer.dart';
+import '/views/widgets/custom_drawer.dart';
 
-import 'package:donate_application/views/screens/user/user_all.dart';
-import 'package:donate_application/views/screens/user/user_donations.dart';
-import 'package:donate_application/views/screens/user/user_events.dart';
+import '/imports/user_barrel.dart';
+
 
 class UserHomePage extends StatelessWidget {
   const UserHomePage({super.key});
@@ -96,7 +95,7 @@ class UserHomePage extends StatelessWidget {
                               shape: StadiumBorder(),
                             ),
                           ),
-                    SizedBox(width: chipSpacing),
+                    const SizedBox(width: chipSpacing),
                     InkWell(
                             onTap: () {
                               Navigator.pushNamed(context, UserDonations.pageRoute);
@@ -110,7 +109,7 @@ class UserHomePage extends StatelessWidget {
                               shape: StadiumBorder(),
                             ),
                           ),
-                    SizedBox(width: chipSpacing),
+                    const SizedBox(width: chipSpacing),
                    InkWell(
                             onTap: () {
                               Navigator.pushNamed(context, UserEvents.pageRoute);
@@ -124,7 +123,7 @@ class UserHomePage extends StatelessWidget {
                               shape: StadiumBorder(),
                             ),
                           ),
-                    SizedBox(width: chipSpacing),
+                    const SizedBox(width: chipSpacing),
                   ],
                 ),
               ),

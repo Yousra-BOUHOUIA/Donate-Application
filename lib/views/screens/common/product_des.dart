@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '/views/screens/organization/users_donations.dart';
 
 class ProductDescriptionPage extends StatelessWidget {
   const ProductDescriptionPage({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '/themes/colors.dart';
 import '/views/widgets/input_field.dart';
-import '/views/screens/organization/org_edit_profile.dart'; 
+import '/imports/organization_barrel.dart';
 
 class OrgProfileDetailsScreen extends StatelessWidget {
   const OrgProfileDetailsScreen({super.key});
@@ -37,7 +37,7 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage('assets/org_logo.jpg'), // Replace with organization image asset path
+                            backgroundImage: const AssetImage('assets/org_logo.jpg'), // Replace with organization image asset path
                             backgroundColor: Colors.grey[200],
                           ),
                           Positioned(
@@ -71,17 +71,17 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      Text(
+                      const Text(
                         "Hilal Ahmar", // Replace with dynamic organization name if needed
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
+                      const Text(
                         "contact@hilal-ahmer-algeria.org", // Replace with dynamic email if needed
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),

@@ -210,7 +210,7 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const Footer(),
+      bottomNavigationBar: const Footer(isOrganization: true),
     );
   }
 }

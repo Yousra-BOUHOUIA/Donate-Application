@@ -6,6 +6,8 @@ import '/themes/colors.dart';
 
 class EditUserProfileScreen extends StatelessWidget {
   const EditUserProfileScreen({super.key});
+    static const String pageRoute = '/user_edit_profile';
+
 
   @override
   Widget build(BuildContext context) {

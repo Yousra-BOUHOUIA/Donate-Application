@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges_lib;
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/footer.dart'; // Make sure to import your footer widget
-import 'package:donate_application/views/widgets/main_background.dart'; // Add this import
+import '/themes/colors.dart';
+import '/views/widgets/footer.dart'; 
+import '/views/widgets/main_background.dart'; 
 
 class OrgNotification extends StatelessWidget {
   static const String pageRoute = '/org_notifications';
@@ -11,18 +11,18 @@ class OrgNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GradientPage(
-      gradientStartColor: topGradientStart, // Replace with your gradient start color
-      gradientEndColor: topGradientEnd,    // Replace with your gradient end color
+      gradientStartColor: topGradientStart, 
+      gradientEndColor: topGradientEnd,    
       pageTitle: "Notifications",
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
             
             decoration: const BoxDecoration(
-              color: appBackgroundColor, // White background
+              color: appBackgroundColor, 
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), // Top left radius
-                topRight: Radius.circular(30), // Top right radius
+                topLeft: Radius.circular(30), 
+                topRight: Radius.circular(30),
               ),
               ),
             child: Column(
@@ -33,8 +33,8 @@ class OrgNotification extends StatelessWidget {
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(5),
-                    child: Column(
-                      children: const [
+                    child: const Column(
+                      children: [
                         NotificationFilterRow(),
                         Expanded(child: NotificationList()),
                       ],
@@ -86,12 +86,12 @@ class NotificationFilterRow extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 8),
-              badges_lib.Badge(
-                badgeContent: const Text(
+              const badges_lib.Badge(
+                badgeContent: Text(
                   '2',
                   style: TextStyle(color: Colors.black),
                 ),
-                badgeStyle: const badges_lib.BadgeStyle(
+                badgeStyle: badges_lib.BadgeStyle(
                   badgeColor: Color(0xFFF2F4F6),
                   elevation: 0,
                 ),
@@ -99,9 +99,9 @@ class NotificationFilterRow extends StatelessWidget {
 
             ],
               ),
-          Row(
+          const Row(
             children: [
-              const Text(
+              Text(
                 'Unread',
                 style: TextStyle(
                   fontSize: 14,
@@ -109,13 +109,13 @@ class NotificationFilterRow extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               badges_lib.Badge(
-                badgeContent: const Text(
+                badgeContent: Text(
                   '2',
                   style: TextStyle(color: Colors.black),
                 ),
-                 badgeStyle: const badges_lib.BadgeStyle(
+                 badgeStyle: badges_lib.BadgeStyle(
                   badgeColor: Color(0xFFF2F4F6),
                   elevation: 0,
                 ),
@@ -163,9 +163,9 @@ class NotificationItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 20,
                 backgroundColor: Color(0xFFE0E0E0),
                 child: Text(
@@ -173,11 +173,11 @@ class NotificationItem extends StatelessWidget {
                   style: TextStyle(color: Colors.black),
                 ),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'Ashwin Bose',
                       style: TextStyle(
@@ -192,12 +192,12 @@ class NotificationItem extends StatelessWidget {
                   ],
                 ),
               ),
-              const Text(
+              Text(
                 '2m',
                 style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
-              const SizedBox(width: 8),
-              const Icon(Icons.more_vert, size: 18, color: Colors.grey),
+              SizedBox(width: 8),
+              Icon(Icons.more_vert, size: 18, color: Colors.grey),
             ],
           ),
           const SizedBox(height: 10),

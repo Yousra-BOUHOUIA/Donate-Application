@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges_lib;
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/footer.dart';
-import 'package:donate_application/views/widgets/main_background.dart';
+import '/themes/colors.dart';
+import '/views/widgets/footer.dart';
+import '/views/widgets/main_background.dart';
 
 
 class UserNotification extends StatelessWidget {
@@ -34,8 +34,8 @@ class UserNotification extends StatelessWidget {
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(5),
-                    child: Column(
-                      children: const [
+                    child: const Column(
+                      children: [
                         NotificationFilterRow(),
                         Expanded(child: NotificationList()),
                       ],
@@ -86,12 +86,12 @@ class NotificationFilterRow extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 8),
-              badges_lib.Badge(
-                badgeContent: const Text(
+              const badges_lib.Badge(
+                badgeContent: Text(
                   '2',
                   style: TextStyle(color: Colors.black),
                 ),
-                badgeStyle: const badges_lib.BadgeStyle(
+                badgeStyle: badges_lib.BadgeStyle(
                   badgeColor: Color(0xFFF2F4F6),
                   elevation: 0,
                 ),
@@ -99,9 +99,9 @@ class NotificationFilterRow extends StatelessWidget {
 
             ],
               ),
-          Row(
+          const Row(
             children: [
-              const Text(
+              Text(
                 'Unread',
                 style: TextStyle(
                   fontSize: 14,
@@ -109,13 +109,13 @@ class NotificationFilterRow extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               badges_lib.Badge(
-                badgeContent: const Text(
+                badgeContent: Text(
                   '2',
                   style: TextStyle(color: Colors.black),
                 ),
-                 badgeStyle: const badges_lib.BadgeStyle(
+                 badgeStyle: badges_lib.BadgeStyle(
                   badgeColor: Color(0xFFF2F4F6),
                   elevation: 0,
                 ),
@@ -184,7 +184,7 @@ class NotificationItem extends StatelessWidget {
                 child: Container(
                   height: 8,
                   width: 8,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.blue,
                     shape: BoxShape.circle,
                   ),
@@ -198,9 +198,9 @@ class NotificationItem extends StatelessWidget {
               ? 'has accepted your request to participate on event x'
               : 'has accepted your request to participate on event y',
         ),
-        trailing: Row(
+        trailing: const Row(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             Text('2m ago'),
             SizedBox(width: 8.0),
             Icon(Icons.more_vert),

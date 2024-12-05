@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/views/widgets/user_card.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/footer.dart'; 
+import '/views/widgets/user_card.dart';
+import '/themes/colors.dart';
+import '/views/widgets/footer.dart'; 
+
+
+
 class UserDonations extends StatelessWidget {
   const UserDonations ({super.key});
   static const String pageRoute = '/user_donations';

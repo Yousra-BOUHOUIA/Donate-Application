@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:donate_application/themes/colors.dart';
+import '/themes/colors.dart';
 
-import 'package:donate_application/views/screens/organization/org_profile_detail.dart';
-import 'package:donate_application/views/screens/user/user_profile_details.dart';
-
-import 'package:donate_application/views/screens/organization/organization_donations.dart';
-import 'package:donate_application/views/screens/user/user_donations.dart';
-import '/views/screens/organization/org_notifications.dart';
-import '/views/screens/user/user_notification.dart';
-
-import 'package:donate_application/views/screens/user/user_home.dart';
-import 'package:donate_application/views/screens/organization/home_org.dart';
+import '/imports/user_barrel.dart';
+import '/imports/organization_barrel.dart';
 
 
-import 'package:donate_application/views/screens/organization/org_profile.dart';
-import 'package:donate_application/views/screens/user/user_profile.dart';
+
 
 class Footer extends StatefulWidget {
   final bool isOrganization;
@@ -123,7 +114,7 @@ class _FooterState extends State<Footer> {
           tabBackgroundColor: footerbtncolor,
           padding: const EdgeInsets.all(16),
           gap: 8,
-          selectedIndex: _selectedIndex, // Highlights the active tab
+          selectedIndex: _selectedIndex,
           onTabChange: _onTabChange,
           tabs: const [
             GButton(

@@ -35,7 +35,7 @@ class UserProfileDetailsScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('assets/profile_picture.jpg'), // Replace with your image asset path
+                      backgroundImage: const AssetImage('assets/profile_picture.jpg'), // Replace with your image asset path
                       backgroundColor: Colors.grey[200],
                     ),
                     Positioned(
@@ -69,17 +69,17 @@ class UserProfileDetailsScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                Text(
+                const Text(
                   'Full name', // Replace with dynamic name if needed
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
+                const Text(
                   'youremail@domain.com', // Replace with dynamic email if needed
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
                   ),

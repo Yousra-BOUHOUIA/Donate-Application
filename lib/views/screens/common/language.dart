@@ -2,7 +2,11 @@ import '/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class LanguageSelectionScreen extends StatelessWidget {
-  final String selectedLanguage = "Arabic"; // Example of selected language
+  final String selectedLanguage = "Arabic";
+
+  const LanguageSelectionScreen({super.key});
+    static const String pageRoute = '/language';
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/screens/organization/org_event_description.dart';
-import 'package:donate_application/views/screens/organization/org_donation_description.dart';
+import '/imports/organization_barrel.dart';
 
 
 
-Widget createCard(BuildContext context,bool is_Donation,String title, String description, String image,
+
+
+Widget createCard(BuildContext context,bool isDonation,String title, String description, String image,
       int volunteers, int totalVolunteers) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -69,7 +70,7 @@ Widget createCard(BuildContext context,bool is_Donation,String title, String des
               children: [
                 OutlinedButton(
                 onPressed: () {
-                  if(is_Donation == true)
+                  if(isDonation == true)
                   {
                         Navigator.pushNamed(context, OrgDonationDescriptionScreen.pageRoute); 
                   }

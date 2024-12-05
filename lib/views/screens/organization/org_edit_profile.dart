@@ -4,6 +4,8 @@ import '/views/widgets/input_field.dart';
 
 class EditOrgProfileScreen extends StatelessWidget {
   const EditOrgProfileScreen({super.key});
+    static const String pageRoute = '/org_edit_profile';
+
 
   @override
   Widget build(BuildContext context) {

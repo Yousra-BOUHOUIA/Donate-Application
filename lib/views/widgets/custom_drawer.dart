@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/views/screens/organization/org_notifications.dart';
-import 'package:donate_application/views/screens/user/user_notification.dart';
 
-import 'package:donate_application/views/screens/organization/org_profile.dart';
-import 'package:donate_application/views/screens/user/user_profile.dart';
+import '/imports/user_barrel.dart';
+import '/imports/organization_barrel.dart';
 
-import 'package:donate_application/views/screens/user/user_home.dart';
-import 'package:donate_application/views/screens/organization/home_org.dart';
 
-import 'package:donate_application/views/screens/organization/org_profile_detail.dart';
-import 'package:donate_application/views/screens/user/user_profile_details.dart';
-
-import 'package:donate_application/views/screens/organization/organization_donations.dart';
-import 'package:donate_application/views/screens/organization/organization_events.dart';
-
-import 'package:donate_application/views/screens/user/user_donations.dart';
-import 'package:donate_application/views/screens/user/user_events.dart';
 
 
 class CustomDrawer extends StatelessWidget {

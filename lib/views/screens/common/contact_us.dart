@@ -3,6 +3,9 @@ import '/themes/colors.dart';
 
 class ContactUsScreen extends StatelessWidget {
   const ContactUsScreen({super.key});
+    static const String pageRoute = '/contact_us';
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +59,8 @@ class ContactUsScreen extends StatelessWidget {
                 height: 200,
               ),
               const SizedBox(height: 16),
-              TextField(
-                decoration: const InputDecoration(
+              const TextField(
+                decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(color: Colors.black),
                   enabledBorder: UnderlineInputBorder(
@@ -69,8 +72,8 @@ class ContactUsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              TextField(
-                decoration: const InputDecoration(
+              const TextField(
+                decoration: InputDecoration(
                   labelText: 'Name',
                   labelStyle: TextStyle(color: Colors.black),
                   enabledBorder: UnderlineInputBorder(
@@ -82,9 +85,9 @@ class ContactUsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              TextField(
+              const TextField(
                 maxLines: 3,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Content',
                   alignLabelWithHint: true,
                   labelStyle: TextStyle(color: Colors.black, height: 0.7),

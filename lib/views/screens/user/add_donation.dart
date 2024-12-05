@@ -6,6 +6,9 @@ import 'dart:io';
 import '/themes/colors.dart';
 import '/views/widgets/footer.dart';
 
+
+
+
 class AddDonationScreen extends StatefulWidget {
   const AddDonationScreen({super.key});
 
@@ -195,7 +198,7 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
           ),
         ),
       ),
-       bottomNavigationBar: const Footer()
+      bottomNavigationBar: const Footer(isOrganization: false),
     );
   }
 }

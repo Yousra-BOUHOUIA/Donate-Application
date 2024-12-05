@@ -2,13 +2,14 @@ import '/views/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 import '/themes/colors.dart';
 
-void main() => runApp(ChangePasswordApp());
 
 class ChangePasswordApp extends StatelessWidget {
+  const ChangePasswordApp({super.key});
+  static const String pageRoute = '/change_password';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: ChangePasswordScreen(),
     );
   }
@@ -19,16 +20,24 @@ class ChangePasswordScreen extends StatelessWidget {
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
+  ChangePasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appBackgroundColor,
       appBar: AppBar(
-        title: Text("Change Password", style: TextStyle(color: Description_Text)),
+        title: const Text("Change Password", style: TextStyle(color: Description_Text)),
         centerTitle: true,
         backgroundColor: appBarColor,
         elevation: 0,
         foregroundColor: Description_Text,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Description_Text),
+          onPressed: () {
+            Navigator.pop(context); 
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
@@ -36,7 +45,7 @@ class ChangePasswordScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 50), // Add space between AppBar and input field
+            const SizedBox(height: 50), // Add space between AppBar and input field
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               child: InputField(
@@ -45,7 +54,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 backgroundColor: Colors.grey[200]!,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               child: InputField(
@@ -54,7 +63,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 backgroundColor: Colors.grey[200]!,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.95,
               child: InputField(
@@ -63,7 +72,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 backgroundColor: Colors.grey[200]!,
               ),
             ),
-            SizedBox(height: 60),
+            const SizedBox(height: 60),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.95,
               child: ElevatedButton(
@@ -75,14 +84,14 @@ class ChangePasswordScreen extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: appButtonColor,
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  textStyle: TextStyle(fontSize: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  textStyle: const TextStyle(fontSize: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
-                    side: BorderSide(color: Colors.white, width: 1.5),
+                    side: const BorderSide(color: Colors.white, width: 1.5),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   "Save changes",
                   style: TextStyle(color: Colors.white),
                 ),

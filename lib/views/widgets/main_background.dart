@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
+import '/themes/colors.dart';
 
 
 
 class SimpleGradientApp extends StatelessWidget {
+  const SimpleGradientApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -27,7 +29,7 @@ class GradientPage extends StatelessWidget {
   final String pageTitle;
   final Widget child;
 
-  const GradientPage({
+  const GradientPage({super.key, 
     required this.gradientStartColor,
     required this.gradientEndColor,
     required this.pageTitle,

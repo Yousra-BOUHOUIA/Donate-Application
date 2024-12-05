@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
-
+import '/themes/colors.dart';
 
 void main() {
-  runApp(GradientHeaderApp());
+  runApp(const GradientHeaderApp());
 }
 
 class GradientHeaderApp extends StatelessWidget {
+  const GradientHeaderApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -27,7 +28,7 @@ class GradientHeader extends StatelessWidget {
   final Color gradientEndColor;
   final Widget child;
 
-  const GradientHeader({
+  const GradientHeader({super.key, 
     required this.gradientStartColor,
     required this.gradientEndColor,
     required this.child,

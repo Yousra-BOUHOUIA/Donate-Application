@@ -3,6 +3,8 @@ import '/themes/colors.dart';
 
 class UserPostsScreen extends StatelessWidget {
   const UserPostsScreen({super.key});
+    static const String pageRoute = '/user_post';
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +20,10 @@ class UserPostsScreen extends StatelessWidget {
         centerTitle: true,
       ),
       backgroundColor: appBackgroundColor, 
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(Icons.note_alt_outlined, size: 80, color: Colors.grey),
             SizedBox(height: 10),
             Text(

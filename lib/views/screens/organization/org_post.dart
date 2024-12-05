@@ -3,6 +3,8 @@ import '/themes/colors.dart';
 
 class OrgPostsScreen extends StatelessWidget {
   const OrgPostsScreen({super.key});
+    static const String pageRoute = '/org_post';
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +20,10 @@ class OrgPostsScreen extends StatelessWidget {
         centerTitle: true,
       ),
       backgroundColor: appBackgroundColor, 
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(Icons.note_alt_outlined, size: 80, color: Colors.grey),
             SizedBox(height: 10),
             Text(

@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 
 
 class TermsAndPoliciesScreen extends StatelessWidget {
+  const TermsAndPoliciesScreen({super.key});
+    static const String pageRoute = '/term_and_policies';
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

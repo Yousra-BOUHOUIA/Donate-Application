@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '/themes/colors.dart';
+import 'package:donate_application/themes/colors.dart';
 
-import '/imports/user_barrel.dart';
 import '/imports/organization_barrel.dart';
-
-
+import '/imports/user_barrel.dart';
 
 
 class Footer extends StatefulWidget {
   final bool isOrganization;
 
-  const Footer({super.key, required this.isOrganization});
+  const Footer({Key? key, required this.isOrganization}) : super(key: key);
 
   @override
   State<Footer> createState() => _FooterState();
 }
 
 class _FooterState extends State<Footer> {
-  int _selectedIndex = 0; // Keeps track of the selected tab index
+  int? _selectedIndex; // Keeps track of the selected tab index (null means no tab selected)
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Get the current route and update the selected index
+    _updateSelectedIndex();
+  }
+
+  void _updateSelectedIndex() {
     final ModalRoute? currentRoute = ModalRoute.of(context);
     if (currentRoute != null) {
-      setState(() {
-        _selectedIndex = _getIndexFromRoute(currentRoute.settings.name);
-      });
+      final newIndex = _getIndexFromRoute(currentRoute.settings.name);
+      if (newIndex != _selectedIndex) {
+        setState(() {
+          _selectedIndex = newIndex;
+        });
+      }
     }
   }
 
-  // Determine the index based on the current route
-  int _getIndexFromRoute(String? route) {
+  int? _getIndexFromRoute(String? route) {
     if (widget.isOrganization) {
       switch (route) {
         case OrgHomePage.pageRoute:
@@ -45,7 +48,7 @@ class _FooterState extends State<Footer> {
         case OrgProfilePage.pageRoute:
           return 3;
         default:
-          return 0; // Default to home
+          return null; // No tab selected for undefined routes
       }
     } else {
       switch (route) {
@@ -58,7 +61,7 @@ class _FooterState extends State<Footer> {
         case UserProfilePage.pageRoute:
           return 3;
         default:
-          return 0; // Default to home
+          return null; // No tab selected for undefined routes
       }
     }
   }
@@ -114,7 +117,7 @@ class _FooterState extends State<Footer> {
           tabBackgroundColor: footerbtncolor,
           padding: const EdgeInsets.all(16),
           gap: 8,
-          selectedIndex: _selectedIndex,
+          selectedIndex: _selectedIndex ?? -1, // Highlights the active tab or none if null
           onTabChange: _onTabChange,
           tabs: const [
             GButton(

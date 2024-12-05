@@ -17,7 +17,7 @@ class UserProfilePage extends StatelessWidget {
           gradientEndColor: Color(0xFF87A7D0),   // End color
           child: UserProfileContent(),
         ),
-        bottomNavigationBar: Footer(), // Added Footer here
+        bottomNavigationBar: Footer(isOrganization: false,), // Added Footer here
       ),
     );
   }

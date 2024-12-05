@@ -65,11 +65,11 @@ class UserHomePage extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    eventCard(context,'Event 1 Description', 'assets/images/event_picture.jpg', '10'),
+                    eventCard(context,false,'Event 1 Description', 'assets/images/event_picture.jpg', '10'),
                     const SizedBox(width: 16),
-                    eventCard(context,'Event 2 Description', 'assets/images/event_picture.jpg', '20'),
+                    eventCard(context,false,'Event 2 Description', 'assets/images/event_picture.jpg', '20'),
                     const SizedBox(width: 16),
-                    eventCard(context,'Event 3 Description', 'assets/images/event_picture.jpg', '30'),
+                    eventCard(context,false,'Event 3 Description', 'assets/images/event_picture.jpg', '30'),
                   ],
                 ),
               ),
@@ -134,7 +134,7 @@ class UserHomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              createCard(context,
+              createCard(context,false,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/user_image.jpg',

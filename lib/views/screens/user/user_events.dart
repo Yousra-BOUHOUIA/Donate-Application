@@ -5,7 +5,7 @@ import 'package:donate_application/views/widgets/footer.dart';
 
 class UserEvents extends StatelessWidget {
   const UserEvents({super.key});
-  static const String pageRoute = '/user_events';
+  static const String  pageRoute = '/user_events';
 
   @override
   Widget build(BuildContext context) {
@@ -29,28 +29,28 @@ class UserEvents extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Event 1
-              createCard(context,
+              createCard(context,false,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/donation_image.webp',
                 120,
                 200,
               ),
-              createCard(context,
+              createCard(context,false,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/event_image.webp',
                 120,
                 200,
               ),
-              createCard(context,
+              createCard(context,false,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/helping_image.jpg',
                 120,
                 200,
               ),
-              createCard(context,
+              createCard(context,false,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/volenteering_image.webp',

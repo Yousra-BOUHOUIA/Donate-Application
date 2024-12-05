@@ -14,6 +14,7 @@ import '/views/screens/organization/org_profile_detail.dart';
 
 class OrgProfilePage extends StatelessWidget {
   const OrgProfilePage({super.key});
+  static const pageRoute = '/org_settings';
   
   @override
   Widget build(BuildContext context) {

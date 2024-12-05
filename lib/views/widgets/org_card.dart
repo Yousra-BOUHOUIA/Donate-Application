@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
+import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/screens/organization/org_event_description.dart';
 
 
-Widget createCard(String title, String description, String image,
+Widget createCard(BuildContext context,String title, String description, String image,
       int volunteers, int totalVolunteers) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -67,6 +68,7 @@ Widget createCard(String title, String description, String image,
                 OutlinedButton(
                 onPressed: () {
                   // Details button logic
+                   Navigator.pushNamed(context, OrgEventDescriptionScreen.pageRoute); 
                 },
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Color(0xFF0E1F2F)), // Blue border

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
+import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/screens/user/user_event_description.dart';
 
-Widget createCard(String title, String description, String image, int volunteers, int totalVolunteers) {
+Widget createCard(BuildContext context,String title, String description, String image, int volunteers, int totalVolunteers) {
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
@@ -65,6 +66,7 @@ Widget createCard(String title, String description, String image, int volunteers
               OutlinedButton(
                 onPressed: () {
                   // Details button logic
+                  Navigator.pushNamed(context, UserEventDescriptionScreen.pageRoute); 
                 },
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Color(0xFF0E1F2F)), // Blue border
@@ -81,7 +83,7 @@ Widget createCard(String title, String description, String image, int volunteers
                   // Participate Now button logic
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF27425D),
+                  backgroundColor: const Color(0xFF27425D),
                 ),
                 child: const Text(
                   'Participate Now',

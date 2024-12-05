@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import '/views/screens/organization/users_donations.dart';
 
 class ProductDescriptionPage extends StatelessWidget {
   const ProductDescriptionPage({super.key});
+  static const pageRoute = '/product_description';
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class ProductDescriptionPage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () { Navigator.pop(context); },
         ),
       ),
       body: SingleChildScrollView(
@@ -27,28 +29,28 @@ class ProductDescriptionPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Image.asset(
-                      "lib/assets/images/prod_des.jpg",
+                      "assets/images/prod_des.jpg",
                       fit: BoxFit.contain,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Image.asset(
-                      "lib/assets/images/prod_des.jpg",
+                      "assets/images/prod_des.jpg",
                       fit: BoxFit.contain,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Image.asset(
-                      "lib/assets/images/prod_des.jpg",
+                      "assets/images/prod_des.jpg",
                       fit: BoxFit.contain,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Image.asset(
-                      "lib/assets/images/prod_des.jpg",
+                      "assets/images/prod_des.jpg",
                       fit: BoxFit.contain,
                     ),
                   ),

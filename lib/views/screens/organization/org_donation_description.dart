@@ -4,7 +4,7 @@ import 'package:donate_application/themes/colors.dart';
 
 class OrgDonationDescriptionScreen extends StatelessWidget {
   const OrgDonationDescriptionScreen({super.key});
-  static const pageRoute = '/org_donation_description';
+  static const String pageRoute = '/org_donation_description';
 
   @override
   Widget build(BuildContext context) {

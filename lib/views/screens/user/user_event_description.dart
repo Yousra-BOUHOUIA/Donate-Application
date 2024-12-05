@@ -3,7 +3,7 @@ import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/views/widgets/main_background.dart';
 
 class UserEventDescriptionScreen extends StatelessWidget {
-  static const pageRoute = '/user_event_description';
+  static const String pageRoute = '/user_event_description';
   const UserEventDescriptionScreen({super.key});
 
   @override

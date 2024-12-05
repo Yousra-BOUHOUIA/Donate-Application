@@ -5,6 +5,7 @@ import 'package:donate_application/views/widgets/footer.dart';
 
 class DonationsPage extends StatelessWidget {
   const DonationsPage({super.key});
+  static const pageRoute = '/org_donations';
 
   @override
   Widget build(BuildContext context) {

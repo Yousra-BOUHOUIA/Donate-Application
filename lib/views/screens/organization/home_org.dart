@@ -6,8 +6,13 @@ import 'package:donate_application/views/widgets/footer.dart';
 import 'package:donate_application/views/widgets/custom_drawer.dart';
 import 'package:donate_application/views/screens/organization/users_donations.dart';
 
+import 'package:donate_application/views/screens/organization/organization_all.dart';
+import 'package:donate_application/views/screens/organization/organization_donations.dart';
+import 'package:donate_application/views/screens/organization/organization_events.dart';
+
 class OrgHomePage extends StatelessWidget {
-     OrgHomePage({super.key});
+     const OrgHomePage({super.key});
+     static const pageRoute = '/org_home';
 
   @override
   Widget build(BuildContext context) {
@@ -77,30 +82,54 @@ class OrgHomePage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    Chip(
-                      label: Text("All", style: TextStyle(color: Colors.white)),
-                      backgroundColor: appButtonColor,
-                      shape: StadiumBorder(),
-                    ),
-                    SizedBox(width: 16),
-                    Chip(
-                      label: Text("Donations", style: TextStyle(color: Colors.white)),
-                      backgroundColor: appButtonColor,
-                      shape: StadiumBorder(),
-                    ),
-                    SizedBox(width: 16),
-                    Chip(
-                      label: Text("Events", style: TextStyle(color: Colors.white)),
-                      backgroundColor: appButtonColor,
-                      shape: StadiumBorder(),
-                    ),
-                    SizedBox(width: 16),
+                     InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, CardContentPage.pageRoute);
+                            },
+                            child: const Chip(
+                              label: Text(
+                                "All",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: appButtonColor,
+                              shape: StadiumBorder(),
+                            ),
+                          ),
+                    const SizedBox(width: 16),
+                    InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, DonationsPage.pageRoute);
+                            },
+                            child: const Chip(
+                              label: Text(
+                                "Donations",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: appButtonColor,
+                              shape: StadiumBorder(),
+                            ),
+                          ),
+                    const SizedBox(width: 16),
+                     InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, EventsPage.pageRoute);
+                            },
+                            child: const Chip(
+                              label: Text(
+                                "Events",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: appButtonColor,
+                              shape: StadiumBorder(),
+                            ),
+                          ),
+                    const SizedBox(width: 16),
                     // linking the users donation button to the corresponding page
                     InkWell(
                             onTap: () {
                               Navigator.pushNamed(context, UsersDonationsScreen.pageRoute);
                             },
-                            child: Chip(
+                            child: const Chip(
                               label: Text(
                                 "User Donation",
                                 style: TextStyle(color: Colors.white),

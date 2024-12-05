@@ -7,7 +7,7 @@ import 'package:donate_application/views/widgets/main_background.dart';
 
 class UserNotification extends StatelessWidget {
   const UserNotification({super.key});
-  static const pageRoute = '/user_notifications';
+  static const String pageRoute = '/user_notifications';
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class UserNotification extends StatelessWidget {
                   ),
                 ),
                 // Footer
-                const Footer(),
+                const Footer(isOrganization: false,),
               ],
             ),
           );

@@ -6,7 +6,7 @@ import 'package:donate_application/views/widgets/footer.dart';
 
 class UserAll extends StatelessWidget {
   const UserAll({super.key});
-  static const pageRoute = '/user_all';
+  static const String pageRoute = '/user_all';
   @override
   Widget build(BuildContext context) {
     return GradientPage(
@@ -72,7 +72,7 @@ class UserAll extends StatelessWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: const Footer(), // Added Footer widget here
+            bottomNavigationBar: const Footer(isOrganization: false,), // Added Footer widget here
           );
         },
       ),

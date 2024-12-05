@@ -6,7 +6,7 @@ import 'package:donate_application/views/widgets/footer.dart';
 
 class CardContentPage extends StatelessWidget {
   const CardContentPage({super.key});
-  static const pageRoute = '/org_all';
+  static const String pageRoute = '/org_all';
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class CardContentPage extends StatelessWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: const Footer(), // Added Footer widget here
+            bottomNavigationBar: const Footer(isOrganization: true,), // Added Footer widget here
           );
         },
       ),

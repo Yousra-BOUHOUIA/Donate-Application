@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/views/screens/user/user_event_description.dart';
-
-Widget createCard(BuildContext context,String title, String description, String image, int volunteers, int totalVolunteers) {
+import 'package:donate_application/views/screens/user/user_donation_description.dart';
+String btntext = ' ';
+Widget createCard(BuildContext context,bool is_Donation,String title, String description, String image, int volunteers, int totalVolunteers) {
+   if(is_Donation)
+          {
+            btntext = 'Donate Now';
+          }
+          else{
+             btntext = 'Participate Now';
+          }
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
@@ -48,6 +56,8 @@ Widget createCard(BuildContext context,String title, String description, String 
               ),
             ],
           ),
+
+         
           const SizedBox(height: 16),
           Text(
             'Recruited Volunteers: $volunteers / $totalVolunteers',
@@ -65,8 +75,17 @@ Widget createCard(BuildContext context,String title, String description, String 
             children: [
               OutlinedButton(
                 onPressed: () {
+                  if(is_Donation)
+                  {
+
+                        Navigator.pushNamed(context, UserDonationDescriptionScreen.pageRoute); 
+                        
+                  }
+                  else{
+                    Navigator.pushNamed(context,UserEventDescriptionScreen.pageRoute); 
+                  }
                   // Details button logic
-                  Navigator.pushNamed(context, UserEventDescriptionScreen.pageRoute); 
+                  
                 },
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Color(0xFF0E1F2F)), // Blue border
@@ -85,8 +104,8 @@ Widget createCard(BuildContext context,String title, String description, String 
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF27425D),
                 ),
-                child: const Text(
-                  'Participate Now',
+                child:  Text(
+                  btntext,
                   style: TextStyle(
                     color: Colors.white, 
                   ),

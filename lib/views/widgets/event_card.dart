@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/views/screens/organization/org_event_description.dart';
+import 'package:donate_application/views/screens/user/user_event_description.dart';
 
 const double cardWidth = 250;
 const double cardHeight = 150;
@@ -8,7 +9,7 @@ const double chipSpacing = 10.0;
 const EdgeInsets cardPadding = EdgeInsets.all(8.0);
 
 // Reusable event card widget
-Widget eventCard(BuildContext context,String description, String image, String statistics) {
+Widget eventCard(BuildContext context,bool is_Organization,String description, String image, String statistics) {
     return Container(
       width: cardWidth,
       decoration: BoxDecoration(
@@ -41,8 +42,15 @@ Widget eventCard(BuildContext context,String description, String image, String s
               children: [
                  ElevatedButton(
                     onPressed: () {
-                             // Button event logic
-                             Navigator.pushNamed(context, OrgEventDescriptionScreen.pageRoute); 
+                      if(is_Organization)
+                      {
+                            Navigator.pushNamed(context, OrgEventDescriptionScreen.pageRoute); 
+                      }
+                      else{
+                         Navigator.pushNamed(context, UserEventDescriptionScreen.pageRoute); 
+                      }
+                             
+                             
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: appButtonColor, // Set the button background color to blue

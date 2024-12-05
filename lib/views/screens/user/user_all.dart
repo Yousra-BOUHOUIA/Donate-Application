@@ -4,9 +4,9 @@ import 'package:donate_application/views/widgets/user_card.dart';
 import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/views/widgets/footer.dart'; 
 
-class CardContentPage extends StatelessWidget {
-  const CardContentPage({super.key});
-
+class UserAll extends StatelessWidget {
+  const UserAll({super.key});
+  static const pageRoute = '/user_all';
   @override
   Widget build(BuildContext context) {
     return GradientPage(

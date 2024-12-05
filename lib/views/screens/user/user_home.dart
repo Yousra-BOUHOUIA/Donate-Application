@@ -5,8 +5,13 @@ import 'package:donate_application/views/widgets/event_card.dart';
 import 'package:donate_application/views/widgets/footer.dart';
 import 'package:donate_application/views/widgets/custom_drawer.dart';
 
+import 'package:donate_application/views/screens/user/user_all.dart';
+import 'package:donate_application/views/screens/user/user_donations.dart';
+import 'package:donate_application/views/screens/user/user_events.dart';
+
 class UserHomePage extends StatelessWidget {
   const UserHomePage({super.key});
+  static const pageRoute = '/user_home';
 
   @override
   Widget build(BuildContext context) {
@@ -74,27 +79,51 @@ class UserHomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const SingleChildScrollView(
+              SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    Chip(
-                      label: Text("All", style: TextStyle(color: Colors.white)),
-                      backgroundColor: appButtonColor,
-                      shape: StadiumBorder(),
-                    ),
+                    InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, UserAll.pageRoute);
+                            },
+                            child: const Chip(
+                              label: Text(
+                                "All",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: appButtonColor,
+                              shape: StadiumBorder(),
+                            ),
+                          ),
                     SizedBox(width: chipSpacing),
-                    Chip(
-                      label: Text("Donations", style: TextStyle(color: Colors.white)),
-                      backgroundColor: appButtonColor,
-                      shape: StadiumBorder(),
-                    ),
+                    InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, UserDonations.pageRoute);
+                            },
+                            child: const Chip(
+                              label: Text(
+                                "Donations",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: appButtonColor,
+                              shape: StadiumBorder(),
+                            ),
+                          ),
                     SizedBox(width: chipSpacing),
-                    Chip(
-                      label: Text("Events", style: TextStyle(color: Colors.white)),
-                      backgroundColor: appButtonColor,
-                      shape: StadiumBorder(),
-                    ),
+                   InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, UserEvents.pageRoute);
+                            },
+                            child: const Chip(
+                              label: Text(
+                                "Events",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: appButtonColor,
+                              shape: StadiumBorder(),
+                            ),
+                          ),
                     SizedBox(width: chipSpacing),
                   ],
                 ),

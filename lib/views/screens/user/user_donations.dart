@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:donate_application/views/widgets/user_card.dart';
 import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/views/widgets/footer.dart'; 
-class DonationsPage extends StatelessWidget {
-  const DonationsPage({super.key});
+class UserDonations extends StatelessWidget {
+  const UserDonations ({super.key});
+  static const pageRoute = '/user_donations';
 
   @override
   Widget build(BuildContext context) {

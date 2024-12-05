@@ -3,8 +3,9 @@ import 'package:donate_application/views/widgets/user_card.dart';
 import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/views/widgets/footer.dart'; 
 
-class EventsPage extends StatelessWidget {
-  const EventsPage({super.key});
+class UserEvents extends StatelessWidget {
+  const UserEvents({super.key});
+  static const pageRoute = '/user_events';
 
   @override
   Widget build(BuildContext context) {

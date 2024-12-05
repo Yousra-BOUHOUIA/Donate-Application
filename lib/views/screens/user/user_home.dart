@@ -11,7 +11,7 @@ import 'package:donate_application/views/screens/user/user_events.dart';
 
 class UserHomePage extends StatelessWidget {
   const UserHomePage({super.key});
-  static const pageRoute = '/user_home';
+  static const String pageRoute = '/user_home';
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +145,7 @@ class UserHomePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const Footer(),
+      bottomNavigationBar: const Footer(isOrganization: false,),
     );
   }
 }

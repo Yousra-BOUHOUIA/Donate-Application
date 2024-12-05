@@ -12,7 +12,7 @@ import 'package:donate_application/views/screens/organization/organization_event
 
 class OrgHomePage extends StatelessWidget {
      const OrgHomePage({super.key});
-     static const pageRoute = '/org_home';
+     static const String pageRoute = '/org_home';
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +166,7 @@ class OrgHomePage extends StatelessWidget {
         child: const Icon(Icons.add, color: Colors.white),
       ),
       //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: const Footer(),
+      bottomNavigationBar: const Footer(isOrganization: true,),
     );
   }
 }

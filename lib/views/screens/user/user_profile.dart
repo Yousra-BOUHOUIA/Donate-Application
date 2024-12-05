@@ -5,7 +5,7 @@ import '/views/widgets/footer.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});
-  static const pageRoute = '/user_settings';
+  static const String  pageRoute = '/user_settings';
 
   @override
   Widget build(BuildContext context) {

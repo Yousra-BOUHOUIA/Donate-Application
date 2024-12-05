@@ -5,7 +5,7 @@ import 'package:donate_application/views/widgets/footer.dart';
 
 class UserEvents extends StatelessWidget {
   const UserEvents({super.key});
-  static const pageRoute = '/user_events';
+  static const String pageRoute = '/user_events';
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class UserEvents extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const Footer(), // Added Footer widget here
+      bottomNavigationBar: const Footer(isOrganization: false,), // Added Footer widget here
     );
   }
 }

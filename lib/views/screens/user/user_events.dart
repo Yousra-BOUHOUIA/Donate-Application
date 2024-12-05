@@ -4,6 +4,8 @@ import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/views/widgets/footer.dart'; 
 
 class EventsPage extends StatelessWidget {
+  const EventsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,28 +28,28 @@ class EventsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Event 1
-              createCard(
+              createCard(context,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/donation_image.webp',
                 120,
                 200,
               ),
-              createCard(
+              createCard(context,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/event_image.webp',
                 120,
                 200,
               ),
-              createCard(
+              createCard(context,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/helping_image.jpg',
                 120,
                 200,
               ),
-              createCard(
+              createCard(context,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/volenteering_image.webp',

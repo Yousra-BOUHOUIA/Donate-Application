@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/views/screens/organization/product_des.dart';
+import 'package:donate_application/views/screens/common/product_des.dart';
 import 'package:donate_application/views/widgets/footer.dart';
 import 'package:donate_application/views/widgets/main_background.dart';
 import 'package:donate_application/themes/Colors.dart'; // Ensure this import path is correct

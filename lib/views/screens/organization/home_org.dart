@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
-import '/views/widgets/org_card.dart';
-import '/views/widgets/event_card.dart';
-import '/views/widgets/footer.dart';
-import '/views/widgets/custom_drawer.dart';
+import 'package:donate_application/themes/colors.dart';
+import 'package:donate_application/views/widgets/org_card.dart';
+import 'package:donate_application/views/widgets/event_card.dart';
+import 'package:donate_application/views/widgets/footer.dart';
+import 'package:donate_application/views/widgets/custom_drawer.dart';
+import 'package:donate_application/views/screens/organization/users_donations.dart';
 
 class OrgHomePage extends StatelessWidget {
-  const OrgHomePage({super.key});
+     OrgHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class OrgHomePage extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      drawer: CustomDrawer(
+      drawer: const CustomDrawer(
         profilePicture: 'assets/images/org_profile.jpg', // Replace with actual URL or asset
         name: 'Organization Name',
         email: 'email@example.com',
@@ -58,11 +59,11 @@ class OrgHomePage extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    eventCard('Event 1 Description', 'assets/images/event_picture.jpg', '10'),
+                    eventCard(context,'Event 1 Description', 'assets/images/event_picture.jpg', '10'),
                     const SizedBox(width: 16),
-                    eventCard('Event 2 Description', 'assets/images/event_picture.jpg', '20'),
+                    eventCard(context,'Event 2 Description', 'assets/images/event_picture.jpg', '20'),
                     const SizedBox(width: 16),
-                    eventCard('Event 3 Description', 'assets/images/event_picture.jpg', '30'),
+                    eventCard(context,'Event 3 Description', 'assets/images/event_picture.jpg', '30'),
                   ],
                 ),
               ),
@@ -75,7 +76,7 @@ class OrgHomePage extends StatelessWidget {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: const [
+                  children: [
                     Chip(
                       label: Text("All", style: TextStyle(color: Colors.white)),
                       backgroundColor: appButtonColor,
@@ -94,11 +95,20 @@ class OrgHomePage extends StatelessWidget {
                       shape: StadiumBorder(),
                     ),
                     SizedBox(width: 16),
-                    Chip(
-                      label: Text("Get Donation", style: TextStyle(color: Colors.white)),
-                      backgroundColor: appButtonColor,
-                      shape: StadiumBorder(),
-                    ),
+                    // linking the users donation button to the corresponding page
+                    InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, UsersDonationsScreen.pageRoute);
+                            },
+                            child: Chip(
+                              label: Text(
+                                "User Donation",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: appButtonColor,
+                              shape: StadiumBorder(),
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -108,7 +118,7 @@ class OrgHomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              createCard(
+              createCard(context,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/org_image.jpg',

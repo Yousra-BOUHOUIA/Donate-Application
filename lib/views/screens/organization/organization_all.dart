@@ -5,6 +5,8 @@ import 'package:donate_application/views/widgets/org_card.dart';
 import 'package:donate_application/views/widgets/footer.dart'; 
 
 class CardContentPage extends StatelessWidget {
+  const CardContentPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GradientPage(
@@ -35,28 +37,28 @@ class CardContentPage extends StatelessWidget {
                       child: ListView(
                         physics: const BouncingScrollPhysics(),
                         children: [
-                          createCard(
+                          createCard(context,
                             "Day of Compassion",
                             "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                             'assets/images/donation_image.webp',
                             120,
                             200,
                           ),
-                          createCard(
+                          createCard(context,
                             "Day of Joy",
                             "Spread happiness by participating in community events and activities.",
                             'assets/images/event_image.webp',
                             80,
                             150,
                           ),
-                          createCard(
+                          createCard(context,
                             "Community Cleanup",
                             "Join us in making our neighborhoods cleaner and greener.",
                             'assets/images/helping_image.jpg',
                             50,
                             100,
                           ),
-                          createCard(
+                          createCard(context,
                             "Community Cleanup",
                             "Join us in making our neighborhoods cleaner and greener.",
                             'assets/images/volenteering_image.webp',

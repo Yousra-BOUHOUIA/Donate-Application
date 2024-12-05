@@ -5,7 +5,7 @@ import 'package:donate_application/views/widgets/main_background.dart';
 import 'package:donate_application/themes/Colors.dart'; // Ensure this import path is correct
 
 class UsersDonationsScreen extends StatelessWidget {
-  static const pageRoute = '/users_donations';
+  static const String pageRoute = '/users_donations';
 
   UsersDonationsScreen({super.key});
 
@@ -78,7 +78,7 @@ class UsersDonationsScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Footer(), // Footer widget at the bottom
+          const Footer(isOrganization: true,), // Footer widget at the bottom
         ],
       ),
     );

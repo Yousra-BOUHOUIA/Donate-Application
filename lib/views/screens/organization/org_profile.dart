@@ -14,7 +14,7 @@ import '/views/screens/organization/org_profile_detail.dart';
 
 class OrgProfilePage extends StatelessWidget {
   const OrgProfilePage({super.key});
-  static const pageRoute = '/org_settings';
+  static const String pageRoute = '/org_settings';
   
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class OrgProfilePage extends StatelessWidget {
         gradientEndColor: Color(0xFF87A7D0),   // End color
         child: OrgProfileContent(),
       ),
-      bottomNavigationBar: Footer(),
+      bottomNavigationBar: Footer(isOrganization: true,),
     );
   }
 }

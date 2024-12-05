@@ -6,7 +6,7 @@ import 'package:donate_application/views/widgets/footer.dart';
 
 class EventsPage extends StatelessWidget {
   const EventsPage({super.key});
-  static const pageRoute = '/org_event';
+  static const String pageRoute = '/org_event';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +66,7 @@ class EventsPage extends StatelessWidget {
           ),
         ),
       ),
-    bottomNavigationBar: const Footer(),
+    bottomNavigationBar: const Footer(isOrganization: true,),
     );
   }
 }

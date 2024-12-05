@@ -5,7 +5,7 @@ import 'package:donate_application/views/widgets/footer.dart'; // Make sure to i
 import 'package:donate_application/views/widgets/main_background.dart'; // Add this import
 
 class OrgNotification extends StatelessWidget {
-  static const pageRoute = '/org_notifications';
+  static const String pageRoute = '/org_notifications';
   const OrgNotification({super.key});
 
   @override
@@ -42,7 +42,7 @@ class OrgNotification extends StatelessWidget {
                   ),
                 ),
                 // Footer
-                const Footer(),
+                const Footer(isOrganization: true,),
               ],
             ),
           );

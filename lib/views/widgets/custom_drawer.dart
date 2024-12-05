@@ -2,6 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:donate_application/views/screens/organization/org_notifications.dart';
 import 'package:donate_application/views/screens/user/user_notification.dart';
 
+import 'package:donate_application/views/screens/organization/org_profile.dart';
+import 'package:donate_application/views/screens/user/user_profile.dart';
+
+import 'package:donate_application/views/screens/user/user_home.dart';
+import 'package:donate_application/views/screens/organization/home_org.dart';
+
+import 'package:donate_application/views/screens/organization/org_profile_detail.dart';
+import 'package:donate_application/views/screens/user/user_profile_details.dart';
+
+import 'package:donate_application/views/screens/organization/organization_donations.dart';
+import 'package:donate_application/views/screens/organization/organization_events.dart';
+
+import 'package:donate_application/views/screens/user/user_donations.dart';
+import 'package:donate_application/views/screens/user/user_events.dart';
+
+
 class CustomDrawer extends StatelessWidget {
   final String profilePicture; 
   final String name;          
@@ -90,11 +106,69 @@ class CustomDrawer extends StatelessWidget {
       ),
       onTap: () {
         // Add navigation or action here
-        if(title == 'Notifications' && isOrganization==true)
-          {Navigator.pushNamed(context, OrgNotification.pageRoute); }
-        else if(title == 'Notifications' && isOrganization==false)
-            {Navigator.pushNamed(context, UserNotification.pageRoute); }
-      },
+        if(title == 'Home')
+        {
+          if(isOrganization==true)
+          {
+            Navigator.pushNamed(context, OrgHomePage.pageRoute);
+          }
+          else{
+            Navigator.pushNamed(context, UserHomePage.pageRoute);
+          }
+        }
+        else if(title == 'Donations')
+        {
+          if(isOrganization==true)
+          {
+            Navigator.pushNamed(context, DonationsPage.pageRoute);
+          }
+          else{
+            Navigator.pushNamed(context, UserDonations.pageRoute);
+          }
+        }
+         else if(title == 'Events')
+        {
+          if(isOrganization==true)
+          {
+            Navigator.pushNamed(context, EventsPage.pageRoute);
+          }
+          else{
+            Navigator.pushNamed(context, UserEvents.pageRoute);
+          }
+        }
+         else if(title == 'Notifications')
+        {
+          if(isOrganization==true)
+          {
+            Navigator.pushNamed(context, OrgNotification.pageRoute);
+          }
+          else{
+            Navigator.pushNamed(context, UserNotification.pageRoute);
+          }
+        }
+         else if(title == 'Settings')
+        {
+          if(isOrganization==true)
+          {
+            Navigator.pushNamed(context, OrgProfilePage.pageRoute);
+          }
+          else{
+            Navigator.pushNamed(context, UserProfilePage.pageRoute);
+          }
+        }
+         else if(title == 'Profile')
+        {
+          if(isOrganization==true)
+          {
+            Navigator.pushNamed(context, UserProfileDetailsScreen.pageRoute);
+          }
+          else{
+            Navigator.pushNamed(context, OrgProfileDetailsScreen.pageRoute);
+          }
+        }
+        
+        
+      }, 
     );
   }
 }

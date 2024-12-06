@@ -26,7 +26,10 @@ class MyApp extends StatelessWidget {
         ChangePasswordApp.pageRoute:(ctx) => const ChangePasswordApp(),  
         ProductDescriptionPage.pageRoute:(ctx) => const ProductDescriptionPage(),
         LoginPage.pageRoute:(ctx) => const LoginPage(), 
-
+        SignUpAsUserPage.pageRoute:(ctx) => const SignUpAsUserPage(), 
+        SignUpAsOrganizationPage.pageRoute:(ctx) => const SignUpAsOrganizationPage(), 
+        
+        
 
 
         //organization profile routes
@@ -62,14 +65,17 @@ class MyApp extends StatelessWidget {
         UserDonations.pageRoute: (ctx) => const UserDonations (),
         UserAll.pageRoute: (ctx) => const UserAll (),
         UserEvents.pageRoute: (ctx) =>  const UserEvents (),
+
+
+
+        
       },
 
 
 
-      home: const OrgHomePage(),
+      home: const LoginPage(),
 
     );
   }
 }
-
 

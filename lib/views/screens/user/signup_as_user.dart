@@ -3,14 +3,9 @@ import 'package:donate_application/themes/colors.dart';
 import 'package:donate_application/imports/organization_barrel.dart';
 import 'package:donate_application/imports/common_barrel.dart';
 
-
-
-void main() {
-  runApp(const SignUpAsUserPage());
-}
-
 class SignUpAsUserPage extends StatefulWidget {
   const SignUpAsUserPage({super.key});
+  static const String pageRoute = '/signup_as_user';
 
   @override
   _SignUpAsUserPageState createState() => _SignUpAsUserPageState();
@@ -18,38 +13,44 @@ class SignUpAsUserPage extends StatefulWidget {
 
 class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
   bool isUser = true; // To track the switch state
+  bool _isPasswordVisible = false; // To toggle password visibility
+  bool _isConfirmPasswordVisible = false; // To toggle confirm password visibility
+
+  final _formKey = GlobalKey<FormState>();
+  final Map<String, String> _formData = {};
+  String? _password; // Temporary variable for password validation
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Stack(
-          children: [
-            // Gradient background
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    formGradientStart, 
-                    formGradientEnd,   
-                  ],
-                ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Gradient background
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  formGradientStart,
+                  formGradientEnd,
+                ],
               ),
             ),
-            // Background wave
-            ClipPath(
-              clipper: WaveClipper(),
-              child: Container(
-                height: 300,
-                color: backgroundColor,
-              ),
+          ),
+          // Background wave
+          ClipPath(
+            clipper: WaveClipper(),
+            child: Container(
+              height: 300,
+              color: backgroundColor,
             ),
-            // Content
-            SingleChildScrollView(
+          ),
+          // Content
+          SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
-             
+            child: Form(
+              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -62,17 +63,18 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: Colors.white,
                         ),
                       ),
                       Switch(
                         value: isUser,
                         onChanged: (value) {
-                          if (!value) { // Trigger navigation only when switching to organization
+                          if (!value) {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SignUpAsOrganizationPage(),
+                                builder: (context) =>
+                                    const SignUpAsOrganizationPage(),
                               ),
                             );
                           }
@@ -94,60 +96,141 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                   ),
                   const SizedBox(height: 30),
                   // Input fields
-                  const CustomTextField(
+                  CustomTextField(
                     icon: Icons.person,
                     label: "Name",
+                    validator: (value) =>
+                        value!.isEmpty ? "Name is required" : null,
+                    onSaved: (value) => _formData['name'] = value!,
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
+                  CustomTextField(
                     icon: Icons.email,
                     label: "Email",
+                    validator: (value) {
+                      if (value!.isEmpty) return "Email is required";
+                      final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                      if (!emailRegex.hasMatch(value)) {
+                        return "Enter a valid email address";
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _formData['email'] = value!,
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
+                  CustomTextField(
                     icon: Icons.transgender,
                     label: "Gender",
+                    validator: (value) =>
+                        value!.isEmpty ? "Gender is required" : null,
+                    onSaved: (value) => _formData['gender'] = value!,
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
+                  CustomTextField(
                     icon: Icons.work,
                     label: "Profession",
+                    validator: (value) =>
+                        value!.isEmpty ? "Profession is required" : null,
+                    onSaved: (value) => _formData['profession'] = value!,
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
+                  CustomTextField(
                     icon: Icons.calendar_today,
                     label: "Date of Birth",
-                    
+                    validator: (value) =>
+                        value!.isEmpty ? "Date of Birth is required" : null,
+                    onSaved: (value) => _formData['dob'] = value!,
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
+                  CustomTextField(
                     icon: Icons.phone,
                     label: "Phone",
+                    validator: (value) {
+                      if (value!.isEmpty) return "Phone is required";
+                      final phoneRegex = RegExp(r'^\d{10}$');
+                      if (!phoneRegex.hasMatch(value)) {
+                        return "Enter a valid phone number";
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _formData['phone'] = value!,
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
+                  CustomTextField(
                     icon: Icons.location_on,
                     label: "Address",
+                    validator: (value) =>
+                        value!.isEmpty ? "Address is required" : null,
+                    onSaved: (value) => _formData['address'] = value!,
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
+                  // Password Field with Eye Icon Toggle
+                  CustomTextField(
                     icon: Icons.lock,
                     label: "Password",
-                    isPassword: true,
+                    isPassword: !_isPasswordVisible,
+                    validator: (value) {
+                      if (value == null || value.length < 6) {
+                        return "Password must be at least 6 characters";
+                      }
+                      _password = value; // Store password temporarily
+                      return null;
+                    },
+                    onSaved: (value) => _formData['password'] = value!,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: appButtonColor,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
+                  // Confirm Password Field with Eye Icon Toggle
+                  CustomTextField(
                     icon: Icons.lock_outline,
                     label: "Confirm Password",
-                    isPassword: true,
+                    isPassword: !_isConfirmPasswordVisible,
+                    validator: (value) {
+                      if (value == null || value != _password) {
+                        return "Passwords do not match";
+                      }
+                      return null;
+                    },
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isConfirmPasswordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: appButtonColor,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                        });
+                      },
+                    ),
                   ),
                   const SizedBox(height: 40),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          // Navigate to the home screen
+                          Navigator.pushReplacementNamed(context, '/user_home');
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: appButtonColor,
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -162,10 +245,11 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                   Center(
                     child: TextButton(
                       onPressed: () {
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginPage()), 
-                      );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                        );
                       },
                       child: const Text(
                         "Already have an account? Login In",
@@ -179,8 +263,8 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -190,22 +274,30 @@ class CustomTextField extends StatelessWidget {
   final IconData icon;
   final String label;
   final bool isPassword;
+  final String? Function(String?) validator;
+  final void Function(String?)? onSaved;
+  final Widget? suffixIcon;
 
   const CustomTextField({
     super.key,
     required this.icon,
     required this.label,
     this.isPassword = false,
+    required this.validator,
+    this.onSaved,
+    this.suffixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       obscureText: isPassword,
+      validator: validator,
+      onSaved: onSaved,
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: appButtonColor),
         labelText: label,
-        labelStyle: const TextStyle(color: appButtonColor), 
+        labelStyle: const TextStyle(color: appButtonColor),
         border: const UnderlineInputBorder(),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: appButtonColor),
@@ -213,9 +305,7 @@ class CustomTextField extends StatelessWidget {
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: appButtonColor),
         ),
-        suffixIcon: isPassword
-            ? const Icon(Icons.visibility, color: appButtonColor)
-            : null,
+        suffixIcon: suffixIcon,
       ),
     );
   }
@@ -224,26 +314,22 @@ class CustomTextField extends StatelessWidget {
 class WaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height * 0.6);
-
-    var firstControlPoint = Offset(size.width * 0.2, size.height * 0.2);
-    var firstEndPoint = Offset(size.width * 0.5, size.height * 0.3);
+    final path = Path();
+    path.lineTo(0, size.height);
+    final firstControlPoint = Offset(size.width / 4, size.height - 50);
+    final firstEndPoint = Offset(size.width / 2, size.height - 30);
     path.quadraticBezierTo(
         firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
-
-    var secondControlPoint = Offset(size.width * 0.8, size.height * 0.4);
-    var secondEndPoint = Offset(size.width, 0);
+    final secondControlPoint =
+        Offset(size.width - (size.width / 4), size.height);
+    final secondEndPoint = Offset(size.width, size.height - 50);
     path.quadraticBezierTo(
         secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
-
     path.lineTo(size.width, 0);
-    path.lineTo(0, 0);
     path.close();
-
     return path;
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }

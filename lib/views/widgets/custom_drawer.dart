@@ -148,10 +148,10 @@ class CustomDrawer extends StatelessWidget {
         {
           if(isOrganization==true)
           {
-            Navigator.pushNamed(context, UserProfileDetailsScreen.pageRoute);
+            Navigator.pushNamed(context, OrgProfileDetailsScreen.pageRoute);
           }
           else{
-            Navigator.pushNamed(context, OrgProfileDetailsScreen.pageRoute);
+            Navigator.pushNamed(context, UserProfileDetailsScreen.pageRoute);
           }
         }
         

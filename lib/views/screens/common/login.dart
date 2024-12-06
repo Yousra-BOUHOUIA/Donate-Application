@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/imports/user_barrel.dart';
-
+//import 'package:donate_application/imports/user_barrel.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-      static const String pageRoute = '/login';
-
+  static const String pageRoute = '/login';
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -18,166 +16,161 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: appBackgroundColor, // Set the background color of the Scaffold
-        body: Stack(
-          children: [
-            // Gradient background
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    formGradientStart, // Gradient start color
-                    formGradientEnd,   // Gradient end color
-                  ],
-                  stops: [
-                    0.29, // 29% stop
-                    0.98, // 98% stop
-                  ],
-                ),
+    return Scaffold(
+      backgroundColor: appBackgroundColor, // Set the background color of the Scaffold
+      body: Stack(
+        children: [
+          // Gradient background
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  formGradientStart, // Gradient start color
+                  formGradientEnd,   // Gradient end color
+                ],
+                stops: [
+                  0.29, // 29% stop
+                  0.98, // 98% stop
+                ],
               ),
             ),
-            // Wave clipper section
-            ClipPath(
-              clipper: WaveClipper(),
-              child: Container(
-                height: 300, // Adjust the height to fit your design
-                color: backgroundColor, // Background color of the wave
-              ),
+          ),
+          // Wave clipper section
+          ClipPath(
+            clipper: WaveClipper(),
+            child: Container(
+              height: 300, // Adjust the height to fit your design
+              color: backgroundColor, // Background color of the wave
             ),
-            // Main login form with padding
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0), // 20px padding on both left and right
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0), // Padding inside the form
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Login Title
-                      const Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: textColor, // Text color from the color file
+          ),
+          // Main login form with padding
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0), // 20px padding on both left and right
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0), // Padding inside the form
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Login Title
+                    const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: textColor, // Text color from the color file
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    // Email input field
+                    const TextField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.email, color: primaryColor), // Primary color
+                        labelText: 'Email',
+                        labelStyle: TextStyle(color: labelColor), // Label color
+                        border: UnderlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Password input field
+                    TextField(
+                      obscureText: obscurePassword,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock, color: primaryColor),
+                        labelText: 'Password',
+                        labelStyle: const TextStyle(color: labelColor),
+                        border: const UnderlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            color: primaryColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              obscurePassword = !obscurePassword;
+                            });
+                          },
                         ),
                       ),
-                      const SizedBox(height: 40),
-                      // Email input field
-                      const TextField(
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email, color: primaryColor), // Primary color
-                          labelText: 'Email',
-                          labelStyle: TextStyle(color: labelColor), // Label color
-                          border: UnderlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      // Password input field
-                      TextField(
-                        obscureText: obscurePassword,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.lock, color: primaryColor),
-                          labelText: 'Password',
-                          labelStyle: const TextStyle(color: labelColor),
-                          border: const UnderlineInputBorder(),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              obscurePassword ? Icons.visibility_off : Icons.visibility,
-                              color: primaryColor,
+                    ),
+                    const SizedBox(height: 10),
+                    // Remember me and forgot password row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: rememberMe,
+                              onChanged: (value) {
+                                setState(() {
+                                  rememberMe = value!;
+                                });
+                              },
+                              activeColor: primaryColor,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                obscurePassword = !obscurePassword;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      // Remember me and forgot password row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Checkbox(
-                                value: rememberMe,
-                                onChanged: (value) {
-                                  setState(() {
-                                    rememberMe = value!;
-                                  });
-                                },
-                                activeColor: primaryColor,
-                              ),
-                              const Text(
-                                'Remember me',
-                                style: TextStyle(color: labelColor),
-                              ),
-                            ],
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Forgot password?',
+                            const Text(
+                              'Remember me',
                               style: TextStyle(color: labelColor),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      // Login button
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: buttonColor, // Button color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                          ],
                         ),
-                        child: const Text(
-                          'LOGIN',
-                          style: TextStyle(color: buttonTextColor, fontSize: 16), // Button text color
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      // Signup link
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Don't have an account ?",
-                            style: TextStyle(color: textColor),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Forgot password?',
+                            style: TextStyle(color: labelColor),
                           ),
-                          TextButton(
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SignUpAsUserPage()), 
-    );
-  },
-  child: const Text(
-    'Sign Up',
-    style: TextStyle(
-      color: primaryColor,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-),
-                        ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    // Login button
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: buttonColor, // Button color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
                       ),
-                    ],
-                  ),
+                      child: const Text(
+                        'LOGIN',
+                        style: TextStyle(color: buttonTextColor, fontSize: 16), // Button text color
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    // Signup link
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Don't have an account ?",
+                          style: TextStyle(color: textColor),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, '/signup_as_user');
+                          },
+                          child: const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

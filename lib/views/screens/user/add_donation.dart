@@ -6,9 +6,6 @@ import 'dart:io';
 import '/themes/colors.dart';
 import '/views/widgets/footer.dart';
 
-
-
-
 class AddDonationScreen extends StatefulWidget {
   const AddDonationScreen({super.key});
 
@@ -51,7 +48,6 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
   }
 
   bool _validateContact(String value) {
-    // Regular expressions for email and phone validation
     final emailRegex = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     final phoneRegex = RegExp(r"^\d{10,15}$");
 
@@ -63,7 +59,7 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
     return Scaffold(
       backgroundColor: appBackgroundColor,
       appBar: AppBar(
-        backgroundColor:appBarColor,
+        backgroundColor: appBarColor,
         elevation: 0,
         title: const Text(
           'Add Donation',
@@ -72,7 +68,9 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context); // Navigate back to the previous page
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -128,7 +126,7 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
                   Expanded(
                     child: build3DDropdown(
                       'Color',
-                      ['black', 'white', 'grey','brown'],
+                      ['black', 'white', 'grey', 'brown'],
                       (value) => _selectedColor = value,
                     ),
                   ),
@@ -178,20 +176,18 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Logic to save data goes here (e.g., send to a database).
-                      _resetForm(); // Reset form for now
+                      _resetForm();
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Form submitted')),
                       );
                     }
                   },
                   child: const Text(
-                       'ADD',
-                        style: TextStyle(
-                            color: Colors.white, // Use Colors.white for white color
-                         ),
+                    'ADD',
+                    style: TextStyle(
+                      color: Colors.white,
                     ),
-
+                  ),
                 ),
               ),
             ],

@@ -5,7 +5,7 @@ import '/imports/organization_barrel.dart';
 
 class OrgProfileDetailsScreen extends StatelessWidget {
   const OrgProfileDetailsScreen({super.key});
-  static const String pageRoute = '/org_settings';
+  static const String pageRoute = '/org_profile_details';
 
   @override
   Widget build(BuildContext context) {

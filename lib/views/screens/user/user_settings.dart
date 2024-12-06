@@ -54,21 +54,37 @@ class UserProfileContent extends StatelessWidget {
                         icon: Icons.info,
                         text: "Information details",
                         onTap: () {
-                          Navigator.pushNamed(context, UserProfileDetailsScreen.pageRoute);
+                          //Navigator.pushNamed(context, UserProfileDetailsScreen.pageRoute);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                    builder: (ctx) => const UserProfileDetailsScreen(),
+                               ),
+                            );
+
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.edit,
                         text: "Edit profile information",
                         onTap: () {
-                          Navigator.pushNamed(context, EditUserProfileScreen.pageRoute);
+                          //Navigator.pushNamed(context, EditUserProfileScreen.pageRoute);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                    builder: (ctx) => const EditUserProfileScreen(),
+                               ),
+                            );
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.post_add,
                         text: "My posts",
                         onTap: () {
-                          Navigator.pushNamed(context, UserPostsScreen.pageRoute);
+                          //Navigator.pushNamed(context, UserPostsScreen.pageRoute);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                    builder: (ctx) => const UserPostsScreen(),
+                               ),
+                            );
                         },
                       ),
                     ],
@@ -84,21 +100,36 @@ class UserProfileContent extends StatelessWidget {
                           style: TextStyle(color: Colors.blue),
                         ),
                         onTap: () {
-                          Navigator.pushNamed(context, LanguageSelectionScreen.pageRoute);
+                          //Navigator.pushNamed(context, LanguageSelectionScreen.pageRoute);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                    builder: (ctx) => const LanguageSelectionScreen(),
+                               ),
+                            );
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.contact_support,
                         text: "Contact us",
                         onTap: () {
-                          Navigator.pushNamed(context, ContactUsScreen.pageRoute);
+                          //Navigator.pushNamed(context, ContactUsScreen.pageRoute);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                    builder: (ctx) => const ContactUsScreen(),
+                               ),
+                            );
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.policy,
                         text: "Terms and Policies",
                         onTap: () {
-                          Navigator.pushNamed(context, TermsAndPoliciesScreen.pageRoute);
+                          //Navigator.pushNamed(context, TermsAndPoliciesScreen.pageRoute);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                    builder: (ctx) => const TermsAndPoliciesScreen(),
+                               ),
+                            );
                         },
                       ),
                     ],
@@ -110,14 +141,24 @@ class UserProfileContent extends StatelessWidget {
                         icon: Icons.password,
                         text: "Change password",
                         onTap: () {
-                          Navigator.pushNamed(context, ChangePasswordApp.pageRoute);
+                          //Navigator.pushNamed(context, ChangePasswordApp.pageRoute);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                    builder: (ctx) => const ChangePasswordApp(),
+                               ),
+                            );
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.logout,
                         text: "Log out",
                         onTap: () {
-                          Navigator.pushNamed(context, LoginPage.pageRoute); // Example for logging out
+                          //Navigator.pushNamed(context, LoginPage.pageRoute); // Example for logging out
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                    builder: (ctx) => const LoginPage(),
+                               ),
+                            );
                         },
                       ),
                     ],

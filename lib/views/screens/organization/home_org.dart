@@ -159,68 +159,14 @@ class OrgHomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showPostOptions(context);
-        },
+            Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateCampaignScreen()),
+          );        },
         backgroundColor: appButtonColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
       bottomNavigationBar: const Footer(isOrganization: true),
-    );
-  }
-
-  // Function to show options for "Event" or "Donate"
-  static void _showPostOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-          height: 200,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "Create Post",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                     // Navigator.pushNamed(context, 'add the form page');
-                    },
-                    icon: const Icon(Icons.event, color: Colors.white),
-                    label: const Text("Event", style: TextStyle(color: Colors.white)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: appButtonColor,
-                      minimumSize: const Size(120, 50), 
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      //Navigator.pushNamed(context, 'add the form page');
-                    },
-                    icon: const Icon(Icons.volunteer_activism, color: Colors.white),
-                    label: const Text("Donate", style: TextStyle(color: Colors.white)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: appButtonColor,
-                      minimumSize: const Size(120, 50), 
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-            ],
-          ),
-        );
-      },
     );
   }
 }

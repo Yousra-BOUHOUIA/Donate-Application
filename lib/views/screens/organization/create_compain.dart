@@ -1,5 +1,3 @@
-// in pubspec.yaml add image_picker: ^0.8.7+3 in dependencies 
-// correct the overflow of the type text field 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -67,7 +65,9 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context); 
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -214,4 +214,3 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
     );
   }
 }
-

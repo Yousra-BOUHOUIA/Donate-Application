@@ -3,51 +3,56 @@ import '/themes/colors.dart';
 import '/imports/user_barrel.dart';
 import '/imports/common_barrel.dart';
 
-
-void main() {
-  runApp(const SignUpAsOrganizationPage());
-}
-
 class SignUpAsOrganizationPage extends StatefulWidget {
   const SignUpAsOrganizationPage({super.key});
+  static const String pageRoute = '/signup_as_organization';
 
   @override
-  _SignUpAsOrganizationPageState createState() => _SignUpAsOrganizationPageState();
+  _SignUpAsOrganizationPageState createState() =>
+      _SignUpAsOrganizationPageState();
 }
 
 class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
   bool isUser = false; // To track the switch state
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
+  String? uploadedFilePath;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Stack(
-          children: [
-            // Gradient background
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    formGradientStart, 
-                    formGradientEnd,   
-                  ],
-                ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Gradient background
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  formGradientStart,
+                  formGradientEnd,
+                ],
               ),
             ),
-            // Background wave
-            ClipPath(
-              clipper: WaveClipper(),
-              child: Container(
-                height: 300,
-                color: backgroundColor,
-              ),
+          ),
+          // Background wave
+          ClipPath(
+            clipper: WaveClipper(),
+            child: Container(
+              height: 300,
+              color: backgroundColor,
             ),
-            // Content
-            SingleChildScrollView(
+          ),
+          // Content
+          SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
+            child: Form(
+              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -60,17 +65,18 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: Colors.white,
                         ),
                       ),
                       Switch(
                         value: isUser,
                         onChanged: (value) {
-                          if (value) { 
+                          if (value) {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SignUpAsUserPage(),
+                                builder: (context) =>
+                                    SignUpAsUserPage(), // Replace with actual widget
                               ),
                             );
                           }
@@ -92,69 +98,85 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                   ),
                   const SizedBox(height: 30),
                   // Input fields
-                  const CustomTextField(
-                    icon: Icons.business,
-                    label: "Organization Name",
+                  buildCustomTextField(Icons.business, "Organization Name"),
+                  const SizedBox(height: 20),
+                  buildCustomTextField(Icons.phone, "Phone"),
+                  const SizedBox(height: 20),
+                  buildCustomTextField(Icons.location_on, "Address"),
+                  const SizedBox(height: 20),
+                  buildCustomTextField(Icons.payment, "Do you support money transaction?"),
+                  const SizedBox(height: 20),
+                  buildCustomTextField(Icons.account_balance, "Bank Account"),
+                  const SizedBox(height: 20),
+                  buildCustomTextField(Icons.business_center, "Type"),
+                  const SizedBox(height: 20),
+                  buildCustomTextField(Icons.share, "Social Media"),
+                  const SizedBox(height: 20),
+                  buildCustomTextField(Icons.email, "Email"),
+                  const SizedBox(height: 20),
+                  // File upload field
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Document Upload",
+                        style: TextStyle(color: appButtonColor, fontSize: 16),
+                      ),
+                      const SizedBox(height: 8),
+                      IconButton(
+                        onPressed: () async {
+                          // Implement file picker logic here
+                          setState(() {
+                            uploadedFilePath = "example_document.pdf"; // Mock file name
+                          });
+                        },
+                        icon: const Icon(Icons.upload_file, size: 32),
+                        color: appButtonColor,
+                      ),
+                      if (uploadedFilePath != null)
+                        Text(
+                          "Uploaded: $uploadedFilePath",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                    ],
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.phone,
-                    label: "Phone",
+                  // Password field with toggle visibility
+                  buildPasswordTextField(
+                    _passwordController,
+                    "Password",
+                    _isPasswordVisible,
+                    (value) {
+                      setState(() {
+                        _isPasswordVisible = value;
+                      });
+                    },
                   ),
                   const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.location_on,
-                    label: "Address",
-                  ),
-                  const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.payment,
-                    label: "Do you support money transaction?",
-                  ),
-                  const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.account_balance,
-                    label: "Bank Account",
-                  ),
-                  const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.business_center,
-                    label: "Type",
-                  ),
-                  const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.share,
-                    label: "Social Media",
-                  ),
-                  const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.email,
-                    label: "Email",
-                  ),
-                  const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.upload_file,
-                    label: "Document Upload",
-                  ),
-                  const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.lock,
-                    label: "Password",
-                    isPassword: true,
-                  ),
-                  const SizedBox(height: 20),
-                  const CustomTextField(
-                    icon: Icons.lock_outline,
-                    label: "Confirm Password",
-                    isPassword: true,
+                  // Confirm Password field with toggle visibility
+                  buildPasswordTextField(
+                    _confirmPasswordController,
+                    "Confirm Password",
+                    _isConfirmPasswordVisible,
+                    (value) {
+                      setState(() {
+                        _isConfirmPasswordVisible = value;
+                      });
+                    },
                   ),
                   const SizedBox(height: 40),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          // Navigate to org_home route
+                          Navigator.pushNamed(context, '/org_home');
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: appButtonColor,
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -169,10 +191,12 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                   Center(
                     child: TextButton(
                       onPressed: () {
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginPage()), 
-                      );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const LoginPage()),
+                        );
                       },
                       child: const Text(
                         "Already have an account? Login In",
@@ -186,60 +210,69 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
-}
 
-class CustomTextField extends StatefulWidget {
-  final IconData icon;
-  final String label;
-  final bool isPassword;
-
-  const CustomTextField({
-    super.key,
-    required this.icon,
-    required this.label,
-    this.isPassword = false,
-  });
-
-  @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
-}
-
-class _CustomTextFieldState extends State<CustomTextField> {
-  bool _obscureText = true; 
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      obscureText: widget.isPassword ? _obscureText : false,
+  Widget buildCustomTextField(IconData icon, String label) {
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter $label';
+        }
+        return null;
+      },
       decoration: InputDecoration(
-        prefixIcon: Icon(widget.icon, color: appButtonColor),
-        labelText: widget.label,
+        prefixIcon: Icon(icon, color: appButtonColor),
+        labelText: label,
         labelStyle: const TextStyle(color: appButtonColor),
-        border: const UnderlineInputBorder(),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: appButtonColor),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: appButtonColor),
         ),
-        suffixIcon: widget.isPassword
-            ? IconButton(
-                icon: Icon(
-                  _obscureText ? Icons.visibility : Icons.visibility_off,
-                  color: appButtonColor,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _obscureText = !_obscureText;
-                  });
-                },
-              )
-            : null,
+      ),
+    );
+  }
+
+  Widget buildPasswordTextField(TextEditingController controller, String label,
+      bool isPasswordVisible, Function(bool) onToggleVisibility) {
+    return TextFormField(
+      controller: controller,
+      obscureText: !isPasswordVisible,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your $label';
+        }
+        if (label == "Password" && value.length < 6) {
+          return 'Password must be at least 6 characters';
+        }
+        if (label == "Confirm Password" &&
+            value != _passwordController.text) {
+          return 'Passwords do not match';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.lock, color: appButtonColor),
+        labelText: label,
+        labelStyle: const TextStyle(color: appButtonColor),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: appButtonColor),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: appButtonColor),
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            color: appButtonColor,
+          ),
+          onPressed: () => onToggleVisibility(!isPasswordVisible),
+        ),
       ),
     );
   }
@@ -253,13 +286,13 @@ class WaveClipper extends CustomClipper<Path> {
 
     var firstControlPoint = Offset(size.width * 0.2, size.height * 0.2);
     var firstEndPoint = Offset(size.width * 0.5, size.height * 0.3);
-    path.quadraticBezierTo(
-        firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
 
     var secondControlPoint = Offset(size.width * 0.8, size.height * 0.4);
     var secondEndPoint = Offset(size.width, 0);
-    path.quadraticBezierTo(
-        secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
 
     path.lineTo(size.width, 0);
     path.lineTo(0, 0);

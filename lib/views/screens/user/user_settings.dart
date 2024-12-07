@@ -11,16 +11,13 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: GradientHeader(
-          gradientStartColor: Color(0xFF0E1B48), // Start color
-          gradientEndColor: Color(0xFF87A7D0),   // End color
-          child: UserProfileContent(),
-        ),
-        bottomNavigationBar: Footer(isOrganization: false), // Added Footer here
+    return const Scaffold(
+      body: GradientHeader(
+        gradientStartColor: Color(0xFF0E1B48), // Start color
+        gradientEndColor: Color(0xFF87A7D0),   // End color
+        child: UserProfileContent(),
       ),
+      bottomNavigationBar: Footer(isOrganization: false),
     );
   }
 }
@@ -54,37 +51,33 @@ class UserProfileContent extends StatelessWidget {
                         icon: Icons.info,
                         text: "Information details",
                         onTap: () {
-                          //Navigator.pushNamed(context, UserProfileDetailsScreen.pageRoute);
                           Navigator.of(context).push(
-                              MaterialPageRoute(
-                                    builder: (ctx) => const UserProfileDetailsScreen(),
-                               ),
-                            );
-
+                            MaterialPageRoute(
+                              builder: (ctx) => const UserProfileDetailsScreen(),
+                            ),
+                          );
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.edit,
                         text: "Edit profile information",
                         onTap: () {
-                          //Navigator.pushNamed(context, EditUserProfileScreen.pageRoute);
                           Navigator.of(context).push(
-                              MaterialPageRoute(
-                                    builder: (ctx) => const EditUserProfileScreen(),
-                               ),
-                            );
+                            MaterialPageRoute(
+                              builder: (ctx) => const EditUserProfileScreen(),
+                            ),
+                          );
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.post_add,
                         text: "My posts",
                         onTap: () {
-                          //Navigator.pushNamed(context, UserPostsScreen.pageRoute);
                           Navigator.of(context).push(
-                              MaterialPageRoute(
-                                    builder: (ctx) => const UserPostsScreen(),
-                               ),
-                            );
+                            MaterialPageRoute(
+                              builder: (ctx) => const UserPostsScreen(),
+                            ),
+                          );
                         },
                       ),
                     ],
@@ -100,36 +93,33 @@ class UserProfileContent extends StatelessWidget {
                           style: TextStyle(color: Colors.blue),
                         ),
                         onTap: () {
-                          //Navigator.pushNamed(context, LanguageSelectionScreen.pageRoute);
                           Navigator.of(context).push(
-                              MaterialPageRoute(
-                                    builder: (ctx) => const LanguageSelectionScreen(),
-                               ),
-                            );
+                            MaterialPageRoute(
+                              builder: (ctx) => const LanguageSelectionScreen(),
+                            ),
+                          );
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.contact_support,
                         text: "Contact us",
                         onTap: () {
-                          //Navigator.pushNamed(context, ContactUsScreen.pageRoute);
                           Navigator.of(context).push(
-                              MaterialPageRoute(
-                                    builder: (ctx) => const ContactUsScreen(),
-                               ),
-                            );
+                            MaterialPageRoute(
+                              builder: (ctx) => const ContactUsScreen(),
+                            ),
+                          );
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.policy,
                         text: "Terms and Policies",
                         onTap: () {
-                          //Navigator.pushNamed(context, TermsAndPoliciesScreen.pageRoute);
                           Navigator.of(context).push(
-                              MaterialPageRoute(
-                                    builder: (ctx) => const TermsAndPoliciesScreen(),
-                               ),
-                            );
+                            MaterialPageRoute(
+                              builder: (ctx) => const TermsAndPoliciesScreen(),
+                            ),
+                          );
                         },
                       ),
                     ],
@@ -141,24 +131,22 @@ class UserProfileContent extends StatelessWidget {
                         icon: Icons.password,
                         text: "Change password",
                         onTap: () {
-                          //Navigator.pushNamed(context, ChangePasswordApp.pageRoute);
                           Navigator.of(context).push(
-                              MaterialPageRoute(
-                                    builder: (ctx) => const ChangePasswordApp(),
-                               ),
-                            );
+                            MaterialPageRoute(
+                              builder: (ctx) => const ChangePasswordApp(),
+                            ),
+                          );
                         },
                       ),
                       ProfileActionButton(
                         icon: Icons.logout,
                         text: "Log out",
                         onTap: () {
-                          //Navigator.pushNamed(context, LoginPage.pageRoute); // Example for logging out
                           Navigator.of(context).push(
-                              MaterialPageRoute(
-                                    builder: (ctx) => const LoginPage(),
-                               ),
-                            );
+                            MaterialPageRoute(
+                              builder: (ctx) => const LoginPage(),
+                            ),
+                          );
                         },
                       ),
                     ],
@@ -272,7 +260,7 @@ class GradientHeaderPainter extends CustomPainter {
     Paint paint = Paint()
       ..shader = LinearGradient(
         colors: [gradientStartColor, gradientEndColor],
-        stops: const [0.0, 0.8], 
+        stops: const [0.0, 0.8],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));

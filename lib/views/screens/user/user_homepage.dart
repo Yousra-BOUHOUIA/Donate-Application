@@ -42,7 +42,7 @@ class UserHomePage extends StatelessWidget {
         elevation: 0,
       ),
       drawer: const CustomDrawer(
-        profilePicture: 'assets/images/user_profile.jpg', // Replace with actual URL or asset
+        profilePicture: 'assets/images/user_profile.png',
         name: 'User Name',
         email: 'email@example.com',
         isOrganization: false,

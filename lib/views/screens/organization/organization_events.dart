@@ -29,7 +29,7 @@ class EventsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Event 1
-              createCard(context,false,
+              createOrgCard(context,false,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/donation_image.webp',
@@ -37,7 +37,7 @@ class EventsPage extends StatelessWidget {
                 200,
                 
               ),
-               createCard(context,false,
+               createOrgCard(context,false,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/event_image.webp',
@@ -45,7 +45,7 @@ class EventsPage extends StatelessWidget {
                 200,
                 
               ),
-               createCard(context,false,
+               createOrgCard(context,false,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/helping_image.jpg',
@@ -53,7 +53,7 @@ class EventsPage extends StatelessWidget {
                 200,
                 
               ),
-               createCard(context,false,
+               createOrgCard(context,false,
                 "Day of Compassion",
                 "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
                 'assets/images/volenteering_image.webp',

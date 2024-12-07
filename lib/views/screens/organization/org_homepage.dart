@@ -157,7 +157,16 @@ class OrgHomePage extends StatelessWidget {
           ),
         ),
       ),
-
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateCampaignScreen()), 
+          );
+        },
+        backgroundColor: appButtonColor,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
       bottomNavigationBar: const Footer(isOrganization: true),
     );
   }

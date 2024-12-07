@@ -6,7 +6,7 @@ export '../views/screens/user/user_donations.dart';
 export '../views/screens/user/user_edit_profile.dart';
 export '../views/screens/user/user_event_description.dart';
 export '../views/screens/user/user_events.dart';
-export '../views/screens/user/user_home.dart';
+export '../views/screens/user/user_homepage.dart';
 export '../views/screens/user/user_notification.dart';
 export '../views/screens/user/user_post.dart';
 export '../views/screens/user/user_profile_details.dart';

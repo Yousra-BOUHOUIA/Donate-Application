@@ -54,7 +54,7 @@ class _FooterState extends State<Footer> {
           Navigator.pushNamed(context, UserNotification.pageRoute);
           break;
         case 3:
-          Navigator.pushNamed(context, UserProfileDetailsScreen.pageRoute);
+          Navigator.pushNamed(context, UserProfilePage.pageRoute);
           break;
       }
     }
@@ -73,7 +73,7 @@ class _FooterState extends State<Footer> {
           
           padding: const EdgeInsets.all(16),
           gap: 8,
-          selectedIndex: _selectedIndex ?? -1, // Highlights the active tab or none if null
+          selectedIndex: _selectedIndex ?? -1, 
           onTabChange: _onTabChange,
           tabs: const [
             GButton(

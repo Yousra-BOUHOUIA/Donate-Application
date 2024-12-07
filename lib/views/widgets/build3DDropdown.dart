@@ -21,6 +21,7 @@ Widget build3DDropdown(
         ],
       ),
       child: DropdownButtonFormField<String>(
+        isExpanded: true, 
         decoration: InputDecoration(
           labelText: label,
           labelStyle: const TextStyle(color: Colors.grey),
@@ -31,5 +32,11 @@ Widget build3DDropdown(
             .toList(),
         onChanged: onChanged,
       ),
+
+
+
+
+
+      
     );
   }

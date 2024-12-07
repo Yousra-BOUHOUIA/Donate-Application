@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '/views/widgets/build3DDropdown.dart';
-import '/views/widgets/build3DTextField.dart';
+import '../../widgets/build3DDropdown.dart';
+import '../../widgets/build3DTextField.dart';
 import 'dart:io';
-import '/themes/colors.dart';
-import '/views/widgets/footer.dart';
+import '../../../themes/colors.dart';
+import '../../widgets/footer.dart';
 
 class AddDonationScreen extends StatefulWidget {
   const AddDonationScreen({super.key});
+    static const String pageRoute = 'add_donation';
+
 
   @override
   State<AddDonationScreen> createState() => _AddDonationScreenState();

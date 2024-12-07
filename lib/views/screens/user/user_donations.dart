@@ -32,7 +32,7 @@ class UserDonations extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Event 1
-              createCard(context,true,
+              createUserCard(context,true,
                 "Clothing Drive",
                 "Join us for a clothing drive to provide winter clothes to those in ...",
                 'assets/images/donation_image.webp',
@@ -40,7 +40,7 @@ class UserDonations extends StatelessWidget {
                 250,
               ),
               // Event 2
-              createCard(context,true,
+              createUserCard(context,true,
                 "Food Donation Campaign",
                 "We are collecting non-perishable food items to help families... ",
                 'assets/images/event_image.webp',
@@ -48,7 +48,7 @@ class UserDonations extends StatelessWidget {
                 280,
               ),
               // Event 3
-              createCard(context,true,
+              createUserCard(context,true,
                 "Book Donation Initiative",
                 "Help us donate books to schools in underprivileged areas...",
                 'assets/images/helping_image.jpg',
@@ -56,7 +56,7 @@ class UserDonations extends StatelessWidget {
                 270,
               ),
               // Event 4
-              createCard(context,true,
+              createUserCard(context,true,
                 "Toy Drive for Children",
                 "This holiday season, let's bring joy to children by donating toys. Every donation matters!",
                 'assets/images/volenteering_image.webp',

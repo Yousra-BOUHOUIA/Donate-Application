@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '/imports/common_barrel.dart';
-import '/imports/organization_barrel.dart';
-import '/imports/user_barrel.dart';
+import 'imports/common_barrel.dart';
+import 'imports/organization_barrel.dart';
+import 'imports/user_barrel.dart';
 
 
 
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         UsersDonationsScreen.pageRoute: (ctx) =>  UsersDonationsScreen (),  
         UserDonationDescriptionScreen.pageRoute:(ctx) => const UserDonationDescriptionScreen(),
         UserEventDescriptionScreen.pageRoute:(ctx) => const UserEventDescriptionScreen(),
-
+        AddDonationScreen.pageRoute:(ctx) => const AddDonationScreen(),
         UserHomePage.pageRoute: (ctx) => const UserHomePage (),
         UserDonations.pageRoute: (ctx) => const UserDonations (),
         UserAll.pageRoute: (ctx) => const UserAll (),

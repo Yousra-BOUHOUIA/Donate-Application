@@ -35,7 +35,7 @@ class UserProfileDetailsScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: const AssetImage('assets/profile_picture.jpg'), // Replace with your image asset path
+                      backgroundImage: const AssetImage('assets/user_profile.png'), 
                       backgroundColor: Colors.grey[200],
                     ),
                     Positioned(
@@ -43,7 +43,6 @@ class UserProfileDetailsScreen extends StatelessWidget {
                       right: 0,
                       child: GestureDetector(
                         onTap: () {
-                          // Navigate to the EditUserProfileScreen when the edit icon is clicked
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -70,7 +69,7 @@ class UserProfileDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'Full name', // Replace with dynamic name if needed
+                  'Full name',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -78,7 +77,7 @@ class UserProfileDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 const Text(
-                  'youremail@domain.com', // Replace with dynamic email if needed
+                  'youremail@domain.com', 
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey,

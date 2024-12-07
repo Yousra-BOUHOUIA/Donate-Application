@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import '/imports/user_barrel.dart';
+import '../../themes/colors.dart';
+import '../../imports/user_barrel.dart';
 
 
 
 String btntext = ' ';
-Widget createCard(BuildContext context,bool isDonation,String title, String description, String image, int volunteers, int totalVolunteers) {
+Widget createUserCard(BuildContext context,bool isDonation,String title, String description, String image, int volunteers, int totalVolunteers) {
    if(isDonation)
           {
             btntext = 'Donate Now';
@@ -101,8 +101,8 @@ Widget createCard(BuildContext context,bool isDonation,String title, String desc
               ),
               ElevatedButton(
                 onPressed: () {
-                  // Participate Now button logic
-                },
+                  Navigator.pushNamed(context, AddDonationScreen.pageRoute);
+               },                
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF27425D),
                 ),

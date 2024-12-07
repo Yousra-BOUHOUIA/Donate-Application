@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import '/imports/organization_barrel.dart';
+import '../../themes/colors.dart';
+import '../../imports/organization_barrel.dart';
 
 
 
 
 
-Widget createCard(BuildContext context,bool isDonation,String title, String description, String image,
+Widget createOrgCard(BuildContext context,bool isDonation,String title, String description, String image,
       int volunteers, int totalVolunteers) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -77,7 +77,6 @@ Widget createCard(BuildContext context,bool isDonation,String title, String desc
                   else{
                     Navigator.pushNamed(context, OrgEventDescriptionScreen.pageRoute); 
                   }
-                  // Details button logic
                   
                 },
                 style: OutlinedButton.styleFrom(

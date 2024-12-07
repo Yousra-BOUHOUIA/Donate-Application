@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '/imports/common_barrel.dart';
-import '/views/widgets/footer.dart';
-import '/views/widgets/main_background.dart';
+import '../../../imports/common_barrel.dart';
+import '../../widgets/footer.dart';
+import '../../widgets/main_background.dart';
 import '/themes/Colors.dart'; // Ensure this import path is correct
 
 class UsersDonationsScreen extends StatelessWidget {

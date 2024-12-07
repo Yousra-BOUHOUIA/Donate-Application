@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '/views/widgets/main_background.dart';
-import '/themes/colors.dart';
-import '/views/widgets/org_card.dart';
-import '/views/widgets/footer.dart'; 
+import '../../widgets/main_background.dart';
+import '../../../themes/colors.dart';
+import '../../widgets/org_card.dart';
+import '../../widgets/footer.dart'; 
 
 class CardContentPage extends StatelessWidget {
   const CardContentPage({super.key});

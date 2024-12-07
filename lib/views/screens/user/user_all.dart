@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/views/widgets/main_background.dart';
-import 'package:donate_application/views/widgets/user_card.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/views/widgets/footer.dart'; 
+import '../../widgets/main_background.dart';
+import '../../widgets/user_card.dart';
+import '../../../themes/colors.dart';
+import '../../widgets/footer.dart'; 
 
 class UserAll extends StatelessWidget {
   const UserAll({super.key});

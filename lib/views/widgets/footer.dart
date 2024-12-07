@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 
-import '/imports/organization_barrel.dart';
-import '/imports/user_barrel.dart';
+import '../../imports/organization_barrel.dart';
+import '../../imports/user_barrel.dart';
 
 
 class Footer extends StatefulWidget {
@@ -39,7 +39,7 @@ class _FooterState extends State<Footer> {
           Navigator.pushNamed(context, OrgNotification.pageRoute);
           break;
         case 3:
-          Navigator.pushNamed(context, OrgProfileDetailsScreen.pageRoute);
+          Navigator.pushNamed(context, OrgProfilePage.pageRoute);
           break;
       }
     } else {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
-import '/imports/user_barrel.dart';
-import '/imports/common_barrel.dart';
+import '../../../themes/colors.dart';
+import '../../../imports/user_barrel.dart';
+import '../../../imports/common_barrel.dart';
 
 class SignUpAsOrganizationPage extends StatefulWidget {
   const SignUpAsOrganizationPage({super.key});
@@ -76,7 +76,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    SignUpAsUserPage(), // Replace with actual widget
+                                    const SignUpAsUserPage(), // Replace with actual widget
                               ),
                             );
                           }
@@ -118,7 +118,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Document Upload",
                         style: TextStyle(color: appButtonColor, fontSize: 16),
                       ),
@@ -257,7 +257,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
         return null;
       },
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.lock, color: appButtonColor),
+        prefixIcon: const Icon(Icons.lock, color: appButtonColor),
         labelText: label,
         labelStyle: const TextStyle(color: appButtonColor),
         enabledBorder: const UnderlineInputBorder(

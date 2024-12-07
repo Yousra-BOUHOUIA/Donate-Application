@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
+import '../../../themes/colors.dart';
 
 class ContactUsScreen extends StatelessWidget {
   const ContactUsScreen({super.key});

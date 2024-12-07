@@ -41,7 +41,7 @@ class OrgHomePage extends StatelessWidget {
         elevation: 0,
       ),
       drawer: const CustomDrawer(
-        profilePicture: 'assets/images/org_profile.jpg', // Replace with actual URL or asset
+        profilePicture: 'assets/images/org_profile.jpg', 
         name: 'Organization Name',
         email: 'email@example.com',
         isOrganization: true,

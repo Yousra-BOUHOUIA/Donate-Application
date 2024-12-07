@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '/views/widgets/user_card.dart';
-import '/themes/colors.dart';
-import '/views/widgets/footer.dart'; 
+import '../../widgets/user_card.dart';
+import '../../../themes/colors.dart';
+import '../../widgets/footer.dart'; 
 
 
 

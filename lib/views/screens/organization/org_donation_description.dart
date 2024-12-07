@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/views/widgets/main_background.dart';
-import '/themes/colors.dart';
+import '../../widgets/main_background.dart';
+import '../../../themes/colors.dart';
 
 class OrgDonationDescriptionScreen extends StatelessWidget {
   const OrgDonationDescriptionScreen({super.key});

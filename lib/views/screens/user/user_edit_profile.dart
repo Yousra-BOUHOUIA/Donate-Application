@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/views/widgets/input_field.dart';
-import '/themes/colors.dart';
+import '../../widgets/input_field.dart';
+import '../../../themes/colors.dart';
 
 
 

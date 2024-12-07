@@ -1,4 +1,4 @@
-import '/themes/colors.dart';
+import '../../../themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class LanguageSelectionScreen extends StatelessWidget {

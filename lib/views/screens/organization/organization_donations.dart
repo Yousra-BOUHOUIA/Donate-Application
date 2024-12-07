@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
-import '/views/widgets/org_card.dart';
-import '/views/widgets/footer.dart'; 
+import '../../../themes/colors.dart';
+import '../../widgets/org_card.dart';
+import '../../widgets/footer.dart'; 
 
 class DonationsPage extends StatelessWidget {
   const DonationsPage({super.key});

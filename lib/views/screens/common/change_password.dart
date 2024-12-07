@@ -1,6 +1,6 @@
-import '/views/widgets/input_field.dart';
+import '../../widgets/input_field.dart';
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
+import '../../../themes/colors.dart';
 
 
 class ChangePasswordApp extends StatelessWidget {

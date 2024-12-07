@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
-import '/imports/user_barrel.dart';
-import '/imports/organization_barrel.dart';
+import '../../themes/colors.dart';
+import '../../imports/user_barrel.dart';
+import '../../imports/organization_barrel.dart';
 
 
 

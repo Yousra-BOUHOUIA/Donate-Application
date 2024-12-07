@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
+import '../../../themes/colors.dart';
 //import 'package:donate_application/imports/user_barrel.dart';
 
 class LoginPage extends StatefulWidget {

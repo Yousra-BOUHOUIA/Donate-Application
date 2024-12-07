@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '/views/widgets/build3DSection.dart';
-import '/views/widgets/footer.dart';
+import '../../widgets/build3DSection.dart';
+import '../../widgets/footer.dart';
 
-import '/imports/common_barrel.dart';
-import '/imports/user_barrel.dart';
+import '../../../imports/common_barrel.dart';
+import '../../../imports/user_barrel.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});

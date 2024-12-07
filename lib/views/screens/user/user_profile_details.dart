@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
-import '/views/widgets/input_field.dart';
-import '/views/screens/user/user_edit_profile.dart';
+import '../../../themes/colors.dart';
+import '../../widgets/input_field.dart';
+import 'user_edit_profile.dart';
 
 
 class UserProfileDetailsScreen extends StatelessWidget {
@@ -35,7 +35,7 @@ class UserProfileDetailsScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: const AssetImage('assets/user_profile.png'), 
+                      backgroundImage: const AssetImage('assets/images/user_profile.png'), 
                       backgroundColor: Colors.grey[200],
                     ),
                     Positioned(
@@ -69,7 +69,7 @@ class UserProfileDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'Full name',
+                  'Full name', // Replace with dynamic name if needed
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -77,7 +77,7 @@ class UserProfileDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 const Text(
-                  'youremail@domain.com', 
+                  'youremail@domain.com', // Replace with dynamic email if needed
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey,

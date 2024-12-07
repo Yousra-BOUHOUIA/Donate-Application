@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges_lib;
-import '/themes/colors.dart';
-import '/views/widgets/footer.dart'; 
-import '/views/widgets/main_background.dart'; 
+import '../../../themes/colors.dart';
+import '../../widgets/footer.dart'; 
+import '../../widgets/main_background.dart'; 
 
 class OrgNotification extends StatelessWidget {
   static const String pageRoute = '/org_notifications';

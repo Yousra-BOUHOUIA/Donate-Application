@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
-import '/views/widgets/input_field.dart';
-import '/imports/organization_barrel.dart';
+import '../../../themes/colors.dart';
+import '../../widgets/input_field.dart';
+import '../../../imports/organization_barrel.dart';
 
 class OrgProfileDetailsScreen extends StatelessWidget {
   const OrgProfileDetailsScreen({super.key});
@@ -45,7 +45,6 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                             right: 0,
                             child: GestureDetector(
                               onTap: () {
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -80,7 +79,7 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       const Text(
-                        "contact@hilal-ahmer-algeria.org", 
+                        "contact@hilal-ahmer-algeria.org",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -129,7 +128,7 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                     "Hilal Ahmar is a non-profit organization dedicated to providing humanitarian aid and support to vulnerable communities in Algeria. We offer essential services such as healthcare, emergency relief, and educational programs to empower individuals and help them build a better future.",
                   ),
                   enabled: false,
-                  maxLines: 8,
+                  maxLines: 8, 
                   contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10), 
                 ),
                 const SizedBox(height: 20),
@@ -174,7 +173,7 @@ class OrgProfileDetailsScreen extends StatelessWidget {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: const Offset(0, 2), 
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -182,9 +181,10 @@ class OrgProfileDetailsScreen extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
         title: Row(
           children: [
+       
             Expanded(
               child: TextField(
-                enabled: false, 
+                enabled: false, // Prevent editing
                 style: const TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
                 decoration: InputDecoration(
                   border: InputBorder.none,

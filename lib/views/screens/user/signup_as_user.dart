@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:donate_application/themes/colors.dart';
-import 'package:donate_application/imports/organization_barrel.dart';
-import 'package:donate_application/imports/common_barrel.dart';
+import '../../../themes/colors.dart';
+import '../../../imports/organization_barrel.dart';
+import '../../../imports/common_barrel.dart';
 
 class SignUpAsUserPage extends StatefulWidget {
   const SignUpAsUserPage({super.key});

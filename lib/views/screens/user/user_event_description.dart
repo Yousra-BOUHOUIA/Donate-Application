@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/themes/colors.dart';
-import '/views/widgets/main_background.dart';
+import '../../../themes/colors.dart';
+import '../../widgets/main_background.dart';
 
 class UserEventDescriptionScreen extends StatelessWidget {
   static const String pageRoute = '/user_event_description';

@@ -37,7 +37,7 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 50,
-                            backgroundImage: const AssetImage('assets/org_logo.jpg'), // Replace with organization image asset path
+                            backgroundImage: const AssetImage('assets/images/org_profile.jpg'), 
                             backgroundColor: Colors.grey[200],
                           ),
                           Positioned(
@@ -45,7 +45,7 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                             right: 0,
                             child: GestureDetector(
                               onTap: () {
-                                // Navigate to the EditOrgProfileScreen when the icon is tapped
+
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -72,7 +72,7 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       const Text(
-                        "Hilal Ahmar", // Replace with dynamic organization name if needed
+                        "Hilal Ahmar",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -80,7 +80,7 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       const Text(
-                        "contact@hilal-ahmer-algeria.org", // Replace with dynamic email if needed
+                        "contact@hilal-ahmer-algeria.org", 
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -129,8 +129,8 @@ class OrgProfileDetailsScreen extends StatelessWidget {
                     "Hilal Ahmar is a non-profit organization dedicated to providing humanitarian aid and support to vulnerable communities in Algeria. We offer essential services such as healthcare, emergency relief, and educational programs to empower individuals and help them build a better future.",
                   ),
                   enabled: false,
-                  maxLines: 8, // Increased maxLines for a larger field
-                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10), // Add padding for better spacing
+                  maxLines: 8,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10), 
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -174,7 +174,7 @@ class OrgProfileDetailsScreen extends StatelessWidget {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: const Offset(0, 2), // Shadow position
+            offset: const Offset(0, 2), 
           ),
         ],
       ),
@@ -182,10 +182,9 @@ class OrgProfileDetailsScreen extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
         title: Row(
           children: [
-            // TextField wrapped in Expanded to take available space
             Expanded(
               child: TextField(
-                enabled: false, // Prevent editing
+                enabled: false, 
                 style: const TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
                 decoration: InputDecoration(
                   border: InputBorder.none,

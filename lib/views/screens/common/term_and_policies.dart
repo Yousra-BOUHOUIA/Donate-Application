@@ -1,11 +1,9 @@
-import '/themes/colors.dart';
+import '../../../themes/colors.dart';
 import 'package:flutter/material.dart';
-
 
 class TermsAndPoliciesScreen extends StatelessWidget {
   const TermsAndPoliciesScreen({super.key});
-    static const String pageRoute = '/term_and_policies';
-
+  static const String pageRoute = '/term_and_policies';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,7 @@ class TermsAndPoliciesScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 30),
-            _buildSection("1. Types data we collect"),
+            _buildSection("1. Types of data we collect"),
             const SizedBox(height: 30),
             _buildSection("2. Use of your personal data"),
             const SizedBox(height: 30),
@@ -46,10 +44,25 @@ class TermsAndPoliciesScreen extends StatelessWidget {
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        const Text(
-          "Lorem ipsum dolor sit amet consectetur. Ultricies ut augue amet vel hac. Ut orci adipiscing fusce lacus lectus rhoncus. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, ...Show More",
-          style: TextStyle(color: Colors.grey, fontSize: 14),
-        ),
+        title == "1. Types of data we collect"
+            ? const Text(
+                "We collect personal data such as your name, contact information, donation history, and volunteering preferences. This data is used to facilitate donations and connect you with relevant volunteering opportunities.",
+                style: TextStyle(color: Colors.grey, fontSize: 14),
+              )
+            : title == "2. Use of your personal data"
+                ? const Text(
+                    "Your personal data is used to process donations, manage your volunteering engagements, and send you updates about new opportunities. We may also use your information for statistical purposes to improve the user experience and enhance the app's functionality.",
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                  )
+                : title == "3. Disclosure of your personal data"
+                    ? const Text(
+                        "We do not share your personal data with third parties without your consent, except in cases where it is necessary for processing donations or facilitating volunteering opportunities. We may also share data for legal compliance or to prevent fraud.",
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      )
+                    : const Text(
+                        "Lorem ipsum dolor sit amet consectetur. Ultricies ut augue amet vel hac. Ut orci adipiscing fusce lacus lectus rhoncus.",
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      ),
       ],
     );
   }

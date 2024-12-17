@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import '../../../themes/colors.dart';
 import '../../../imports/user_barrel.dart';
-import '../../../imports/common_barrel.dart';
+//import '../../../imports/common_barrel.dart';
+import 'package:donate_application/databases/tables/organization.dart';
 
 class SignUpAsOrganizationPage extends StatefulWidget {
   const SignUpAsOrganizationPage({super.key});
@@ -20,7 +21,9 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
       TextEditingController();
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+  DBOrganizationTable dbOrganizationTable = DBOrganizationTable();
   String? uploadedFilePath;
+  final Map<String, String> _formData = {};
 
   @override
   Widget build(BuildContext context) {
@@ -167,16 +170,24 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                   const SizedBox(height: 40),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState?.validate() ?? false) {
-                          // Navigate to org_home route
-                          Navigator.pushNamed(context, '/org_home');
+                          _formKey.currentState?.save();
+                          bool isInserted = await dbOrganizationTable.insertRecord(_formData);
+
+                          if (isInserted) {
+                            Navigator.pushReplacementNamed(context, '/org_home');
+                          } else {
+                            // Handle insertion failure (e.g., show an error message)
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Failed to register organization. Please try again.")),
+                            );
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: appButtonColor,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 50),
+                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -191,12 +202,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                   Center(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const LoginPage()),
-                        );
+                        Navigator.pushReplacementNamed(context, '/login');
                       },
                       child: const Text(
                         "Already have an account? Login In",
@@ -223,6 +229,9 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
           return 'Please enter $label';
         }
         return null;
+      },
+      onSaved: (value) {
+        _formData[label] = value ?? '';
       },
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: appButtonColor),
@@ -255,6 +264,9 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
           return 'Passwords do not match';
         }
         return null;
+      },
+      onSaved: (value) {
+        _formData[label] = value ?? '';
       },
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.lock, color: appButtonColor),
@@ -290,17 +302,17 @@ class WaveClipper extends CustomClipper<Path> {
         firstEndPoint.dx, firstEndPoint.dy);
 
     var secondControlPoint = Offset(size.width * 0.8, size.height * 0.4);
-    var secondEndPoint = Offset(size.width, 0);
+    var secondEndPoint = Offset(size.width, size.height * 0.1);
     path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
         secondEndPoint.dx, secondEndPoint.dy);
 
     path.lineTo(size.width, 0);
-    path.lineTo(0, 0);
     path.close();
-
     return path;
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false;
+  }
 }

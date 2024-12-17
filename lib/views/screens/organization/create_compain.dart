@@ -11,6 +11,7 @@ class CreateCampaignScreen extends StatefulWidget {
 
   @override
   _CreateCampaignScreenState createState() => _CreateCampaignScreenState();
+  
 }
 
 class _CreateCampaignScreenState extends State<CreateCampaignScreen> {

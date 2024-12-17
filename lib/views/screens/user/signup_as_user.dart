@@ -1,3 +1,4 @@
+import 'package:donate_application/databases/tables/participant.dart';
 import 'package:flutter/material.dart';
 import '../../../themes/colors.dart';
 import '../../../imports/organization_barrel.dart';
@@ -12,9 +13,10 @@ class SignUpAsUserPage extends StatefulWidget {
 }
 
 class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
-  bool isUser = true; // To track the switch state
-  bool _isPasswordVisible = false; // To toggle password visibility
-  bool _isConfirmPasswordVisible = false; // To toggle confirm password visibility
+  bool isUser = true;
+  bool _isPasswordVisible = false; 
+  bool _isConfirmPasswordVisible = false; 
+  DBParticipantTable dbParticipantTable = DBParticipantTable();
 
   final _formKey = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
@@ -184,11 +186,25 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                             : Icons.visibility,
                         color: appButtonColor,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
-                        });
-                      },
+                  onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            
+                            
+                            bool isInserted = await dbParticipantTable.insertRecord(_formData);
+                            
+                            if (isInserted) {
+                              
+                              Navigator.pushReplacementNamed(context, '/user_home');
+                            } else {
+                             
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Failed to register user. Please try again.")),
+                              );
+                            }
+                          }
+                        },
+
                     ),
                   ),
                   const SizedBox(height: 20),

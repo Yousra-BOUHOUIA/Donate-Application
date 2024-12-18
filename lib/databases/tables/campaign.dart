@@ -90,12 +90,12 @@ class DBCampaignTable {
     return false;
   }
 
-  Future<List<Map<String, dynamic>>> fetchCampaigns() async {
+  Future<List<Map<String, dynamic>>> getAllRecords() async {
     try {
       final database = await DBHelper.getDatabase();
       return await database.query(db_table);
     } catch (e, stacktrace) {
-      print('Error fetching campaigns from $db_table: $e --> $stacktrace');
+      print('Error fetching records from $db_table: $e --> $stacktrace');
       return [];
     }
   }

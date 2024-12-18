@@ -12,9 +12,9 @@ class OrgHomePage extends StatelessWidget {
   OrgHomePage({super.key});
   static const String pageRoute = '/org_home';
 
-  final DBCampaignTable _campaignTable = DBCampaignTable(); 
+  final DBCampaignTable _campaignTable = DBCampaignTable();
   Future<List<Map<String, dynamic>>> fetchCampaigns() {
-    return _campaignTable.fetchCampaigns();
+    return _campaignTable.getAllRecords();
   }
 
   @override
@@ -24,7 +24,7 @@ class OrgHomePage extends StatelessWidget {
         leading: Builder(
           builder: (context) => IconButton(
             onPressed: () {
-              Scaffold.of(context).openDrawer(); // Open sidebar
+              Scaffold.of(context).openDrawer(); 
             },
             icon: const Icon(Icons.menu),
           ),

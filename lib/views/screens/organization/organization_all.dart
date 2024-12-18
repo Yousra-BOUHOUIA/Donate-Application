@@ -1,17 +1,17 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../../widgets/main_background.dart';
 import '../../../themes/colors.dart';
 import '../../widgets/org_card.dart';
 import '../../widgets/footer.dart';
+import 'package:donate_application/databases/tables/campaign.dart';
 
 class CardContentPage extends StatelessWidget {
   const CardContentPage({super.key});
   static const String pageRoute = '/org_all';
 
-  // Fetching data from the `DBCardTable`
   Future<List<Map<String, dynamic>>> fetchCards() async {
-    final DBCampaignTable = DBCampaignTable();
-    return await DBCampaignTable.getAllRecords();
+    final dbCampaignTable = DBCampaignTable();
+    return await dbCampaignTable.getAllRecords();
   }
 
   @override
@@ -91,4 +91,3 @@ class CardContentPage extends StatelessWidget {
     );
   }
 }
-*/

@@ -26,11 +26,8 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
   String? _selectedType;
 
   final List<String> campaignTypes = [
-    "Fundraiser",
-    "Volunteer Recruitment",
-    "Awareness Campaign",
-    "Donation Drive",
-    "Charity Event"
+    "event",
+    "donation"
   ];
 
   Future<void> _pickImage() async {
@@ -48,7 +45,7 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
     if (value == null || value.isEmpty) {
       return "Please enter a due date";
     }
-    final dateRegex = RegExp(r'^\d{4}-\d{2}-\d{2}\$'); // Format: YYYY-MM-DD
+    final dateRegex = RegExp(r'^\d{4}-\d{2}-\d{2}\$'); 
     if (!dateRegex.hasMatch(value)) {
       return "Invalid date format (YYYY-MM-DD)";
     }
@@ -174,6 +171,7 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
                       ),
                     ),
                     onPressed: () async {
+                      // Prepare campaign data
                       Map<String, dynamic> campaignData = {
                         'image': _selectedImage != null
                             ? await _selectedImage!.readAsBytes()
@@ -187,10 +185,19 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
                         'campaign_date': _dueDateController.text,
                       };
 
+                      // Insert record into database
                       final success =
                           await _dbCampaignTable.insertRecord(campaignData);
 
                       if (success) {
+                        final allCampaigns =
+                            await _dbCampaignTable.getAllRecords();
+                        print("All campaigns in the database:");
+                        for (var campaign in allCampaigns) {
+                          print(campaign);
+                        }
+
+                        // Clear input fields and reset state
                         _dueDateController.clear();
                         _titleController.clear();
                         _locationController.clear();
@@ -201,12 +208,14 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
                           _selectedType = null;
                         });
 
+                        // Show success message
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Campaign Created and Saved!'),
                           ),
                         );
                       } else {
+                        // Show failure message
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Failed to create campaign.'),

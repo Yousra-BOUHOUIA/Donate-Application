@@ -1,66 +1,76 @@
 import 'package:donate_application/databases/db_helper.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '../../databases/db_base.dart';
 
 class DBCardTable extends DBBaseTable {
   @override
-  var db_table = 'card';
+  final String db_table = 'card';
 
-  static String sql_code = '''
+  static const String sql_code = '''
     CREATE TABLE card (
-        card_id INTEGER PRIMARY KEY,
         image BLOB,
         location TEXT,
         title TEXT
     );
-  ''';
+    ''';
 
-  // Insert method to add a new record to the 'card' table
   @override
   Future<bool> insertRecord(Map<String, dynamic> data) async {
     try {
       final database = await DBHelper.getDatabase();
-      await database.insert(db_table, data,
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      await database.insert(
+        db_table,
+        data,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
       return true;
     } catch (e, stacktrace) {
-      print('$e --> $stacktrace');
+      print('Error inserting into $db_table: $e --> $stacktrace');
     }
     return false;
   }
 
-  // Delete method to remove a record from the 'card' table based on a column and value
-  Future<bool> deleteRecord(String column, dynamic id) async {
+  @override
+  Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
+      {String? condition, List<dynamic>? conditionArgs}) async {
     try {
       final database = await DBHelper.getDatabase();
-      int deletedCount = await database.delete(
+      String whereClause = "$column = ?";
+      List<dynamic> whereArgs = [id];
+
+      if (condition != null && conditionArgs != null) {
+        whereClause = "$whereClause AND $condition";
+        whereArgs.addAll(conditionArgs);
+      }
+
+      var result = await database.query(
         db_table,
-        where: "$column = ?",
-        whereArgs: [id],
+        where: whereClause,
+        whereArgs: whereArgs,
+        limit: 1,
       );
-      return deletedCount > 0;
+      return result.isNotEmpty ? result.first : null;
     } catch (e, stacktrace) {
-      print('$e --> $stacktrace');
+      print('Error retrieving from $db_table: $e --> $stacktrace');
     }
-    return false;
+    return null;
   }
 
-  // Update method to modify an existing record in the 'card' table
+  @override
   Future<bool> updateRecord(
       Map<String, dynamic> data, String column, dynamic id) async {
     try {
       final database = await DBHelper.getDatabase();
-      int updatedCount = await database.update(
+      await database.update(
         db_table,
         data,
         where: "$column = ?",
         whereArgs: [id],
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
-      return updatedCount > 0;
+      return true;
     } catch (e, stacktrace) {
-      print('$e --> $stacktrace');
+      print('Error updating $db_table: $e --> $stacktrace');
     }
     return false;
   }

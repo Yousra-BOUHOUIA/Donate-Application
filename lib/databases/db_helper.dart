@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:io';
 import 'package:path/path.dart';
 
-import 'package:sqflite/sqflite.dart';
+//import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import '../databases/tables/admin.dart';
 import '../databases/tables/campaign.dart';
-import '../databases/tables/card.dart';
 import '../databases/tables/contact.dart';
 import '../databases/tables/notification.dart';
 import '../databases/tables/organization_apply.dart';
@@ -14,10 +13,8 @@ import '../databases/tables/organization.dart';
 import '../databases/tables/participant.dart';
 import '../databases/tables/social_media.dart';
 import '../databases/tables/user_donation.dart';
-import '../databases/tables/user.dart';
 
 class DBHelper {
-
   static const _database_name = "donate.db";
   static const _database_version = 4;
   static var database;
@@ -25,7 +22,6 @@ class DBHelper {
   static List<String> sql_codes = [
     DBAdminTable.sql_code,
     DBCampaignTable.sql_code,
-    DBCardTable.sql_code,
     DBContactTable.sql_code,
     DBNotificationTable.sql_code,
     DBOrganization_applyTable.sql_code,
@@ -33,7 +29,6 @@ class DBHelper {
     DBParticipantTable.sql_code,
     DBSocial_mediaTable.sql_code,
     DBUser_donationTable.sql_code,
-    DBUserTable.sql_code,
   ];
 
   static Future<Database> getDatabase() async {
@@ -54,9 +49,7 @@ class DBHelper {
         }
       },
       version: _database_version,
-      onUpgrade: (db, oldVersion, newVersion) {
-        //do nothing...
-      },
+      onUpgrade: (db, oldVersion, newVersion) {},
     );
     return database;
   }
@@ -67,7 +60,7 @@ class DBHelper {
   }
 
   static Future<void> closeDatabase() async {
-     if (database != null) {
+    if (database != null) {
       await database.close();
       database = null;
     }
@@ -90,5 +83,4 @@ class DBHelper {
       await File(path).delete();
     }
   }
-
 }

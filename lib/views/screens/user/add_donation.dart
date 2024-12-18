@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../databases/tables/user_donation.dart';
 import '../../widgets/build3DDropdown.dart';
 import '../../widgets/build3DTextField.dart';
 import 'dart:io';
@@ -8,8 +9,7 @@ import '../../widgets/footer.dart';
 
 class AddDonationScreen extends StatefulWidget {
   const AddDonationScreen({super.key});
-    static const String pageRoute = 'add_donation';
-
+  static const String pageRoute = 'add_donation';
 
   @override
   State<AddDonationScreen> createState() => _AddDonationScreenState();
@@ -176,12 +176,45 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      _resetForm();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Form submitted')),
-                      );
+                      final String itemName = _itemNameController.text;
+                      final String contact = _contactController.text;
+                      final String userName = _userNameController.text;
+                      final String location = _locationController.text;
+                      final String? selectedColor = _selectedColor;
+                      final String? selectedCondition = _selectedCondition;
+
+                      final donationData = {
+                        'donation_amount': 0.0,
+                        'donation_date': DateTime.now().toIso8601String(),
+                        'image': _selectedImage != null
+                            ? await _selectedImage!.readAsBytes()
+                            : null,
+                        'location': location,
+                        'title': itemName,
+                        'contact': contact,
+                        'user_name': userName,
+                        'color': selectedColor,
+                        'condition': selectedCondition,
+                      };
+
+                      final dbUserDonationTable = DBUser_donationTable();
+                      bool isInserted =
+                          await dbUserDonationTable.insertRecord(donationData);
+
+                      if (isInserted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Donation added successfully!')),
+                        );
+                        _resetForm();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Failed to add donation')),
+                        );
+                      }
                     }
                   },
                   child: const Text(

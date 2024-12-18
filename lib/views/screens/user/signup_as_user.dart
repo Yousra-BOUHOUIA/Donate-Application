@@ -14,8 +14,8 @@ class SignUpAsUserPage extends StatefulWidget {
 
 class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
   bool isUser = true;
-  bool _isPasswordVisible = false; 
-  bool _isConfirmPasswordVisible = false; 
+  final bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
   DBParticipantTable dbParticipantTable = DBParticipantTable();
 
   final _formKey = GlobalKey<FormState>();
@@ -50,7 +50,8 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
           ),
           // Content
           SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -186,25 +187,25 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                             : Icons.visibility,
                         color: appButtonColor,
                       ),
-                  onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            
-                            
-                            bool isInserted = await dbParticipantTable.insertRecord(_formData);
-                            
-                            if (isInserted) {
-                              
-                              Navigator.pushReplacementNamed(context, '/user_home');
-                            } else {
-                             
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Failed to register user. Please try again.")),
-                              );
-                            }
-                          }
-                        },
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
 
+                          bool isInserted =
+                              await dbParticipantTable.insertRecord(_formData);
+
+                          if (isInserted) {
+                            Navigator.pushReplacementNamed(
+                                context, '/user_home');
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      "Failed to register user. Please try again.")),
+                            );
+                          }
+                        }
+                      },
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -228,7 +229,8 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                       ),
                       onPressed: () {
                         setState(() {
-                          _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                          _isConfirmPasswordVisible =
+                              !_isConfirmPasswordVisible;
                         });
                       },
                     ),
@@ -334,13 +336,13 @@ class WaveClipper extends CustomClipper<Path> {
     path.lineTo(0, size.height);
     final firstControlPoint = Offset(size.width / 4, size.height - 50);
     final firstEndPoint = Offset(size.width / 2, size.height - 30);
-    path.quadraticBezierTo(
-        firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
     final secondControlPoint =
         Offset(size.width - (size.width / 4), size.height);
     final secondEndPoint = Offset(size.width, size.height - 50);
-    path.quadraticBezierTo(
-        secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
     path.lineTo(size.width, 0);
     path.close();
     return path;

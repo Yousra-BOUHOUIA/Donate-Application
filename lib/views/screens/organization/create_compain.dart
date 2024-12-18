@@ -5,16 +5,18 @@ import '../../widgets/build3DTextField.dart';
 import '../../widgets/build3DDropdown.dart';
 import '../../../themes/colors.dart';
 import '../../widgets/footer.dart';
+import 'package:donate_application/databases/tables/campaign.dart';
 
 class CreateCampaignScreen extends StatefulWidget {
   const CreateCampaignScreen({super.key});
 
   @override
   _CreateCampaignScreenState createState() => _CreateCampaignScreenState();
-  
 }
 
 class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
+  final DBCampaignTable _dbCampaignTable = DBCampaignTable();
+
   final TextEditingController _dueDateController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -46,7 +48,7 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
     if (value == null || value.isEmpty) {
       return "Please enter a due date";
     }
-    final dateRegex = RegExp(r'^\d{4}-\d{2}-\d{2}$'); // Format: YYYY-MM-DD
+    final dateRegex = RegExp(r'^\d{4}-\d{2}-\d{2}\$'); // Format: YYYY-MM-DD
     if (!dateRegex.hasMatch(value)) {
       return "Invalid date format (YYYY-MM-DD)";
     }
@@ -67,7 +69,7 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context); 
+            Navigator.pop(context);
           },
         ),
       ),
@@ -171,32 +173,46 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
                         borderRadius: BorderRadius.circular(35),
                       ),
                     ),
-                    onPressed: () {
-                      if (_dueDateController.text.isEmpty ||
-                          _selectedType == null) {
+                    onPressed: () async {
+                      Map<String, dynamic> campaignData = {
+                        'image': _selectedImage != null
+                            ? await _selectedImage!.readAsBytes()
+                            : null,
+                        'location': _locationController.text,
+                        'title': _titleController.text,
+                        'type': _selectedType,
+                        'resource':
+                            int.tryParse(_resourcesController.text) ?? 0,
+                        'description': _descriptionController.text,
+                        'campaign_date': _dueDateController.text,
+                      };
+
+                      final success =
+                          await _dbCampaignTable.insertRecord(campaignData);
+
+                      if (success) {
+                        _dueDateController.clear();
+                        _titleController.clear();
+                        _locationController.clear();
+                        _resourcesController.clear();
+                        _descriptionController.clear();
+                        setState(() {
+                          _selectedImage = null;
+                          _selectedType = null;
+                        });
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Please complete the form'),
+                            content: Text('Campaign Created and Saved!'),
                           ),
                         );
-                        return;
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Failed to create campaign.'),
+                          ),
+                        );
                       }
-
-                      // Reset the form
-                      _dueDateController.clear();
-                      _titleController.clear();
-                      _locationController.clear();
-                      _resourcesController.clear();
-                      _descriptionController.clear();
-                      setState(() {
-                        _selectedImage = null;
-                        _selectedType = null;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Campaign Created!'),
-                        ),
-                      );
                     },
                     child: const Text(
                       'Create',

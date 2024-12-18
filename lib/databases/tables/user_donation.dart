@@ -8,15 +8,19 @@ class DBUser_donationTable extends DBBaseTable {
   final String db_table = 'user_donation';
 
   static const String sql_code = '''
-    CREATE TABLE user_donation (
-        donation_id INTEGER PRIMARY KEY,
-        card_id INTEGER,
-        donation_amount REAL,
-        donation_date DATE,
-        FOREIGN KEY (card_id) REFERENCES Card(card_id)
-    );
-    ''';
+  CREATE TABLE user_donation (
+      donation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      donation_amount REAL,
+      donation_date DATE,
+      FOREIGN KEY (card_id) REFERENCES Card(card_id),
+      image BLOB,
+      location TEXT,
+      title TEXT
+  );
+  ''';
 
+
+/*
   @override
   Future<bool> insertRecord(Map<String, dynamic> data) async {
     try {
@@ -28,7 +32,12 @@ class DBUser_donationTable extends DBBaseTable {
       print('Error inserting into $db_table: $e --> $stacktrace');
     }
     return false;
-  }
+  }*/
+
+
+
+
+  
 
   @override
   Future<Map<String, dynamic>?> getRecord(String column, dynamic id,

@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'db_helper.dart';
 
-
 class DBBaseTable {
   var db_table = 'TABLE_NAME_MUST_OVERRIDE';
 
@@ -17,35 +16,33 @@ class DBBaseTable {
     return false;
   }
 
-  
-Future<Map<String, dynamic>?> getRecord(
-    String column, dynamic id, {String? condition, List<dynamic>? conditionArgs}) async {
-  try {
-    final database = await DBHelper.getDatabase();
-    String whereClause = "$column = ?";
-    List<dynamic> whereArgs = [id];
+  Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
+      {String? condition, List<dynamic>? conditionArgs}) async {
+    try {
+      final database = await DBHelper.getDatabase();
+      String whereClause = "$column = ?";
+      List<dynamic> whereArgs = [id];
 
-   
-    if (condition != null && conditionArgs != null) {
-      whereClause = "$whereClause AND $condition";
-      whereArgs.addAll(conditionArgs);
+      if (condition != null && conditionArgs != null) {
+        whereClause = "$whereClause AND $condition";
+        whereArgs.addAll(conditionArgs);
+      }
+
+      var result = await database.query(
+        db_table,
+        where: whereClause,
+        whereArgs: whereArgs,
+        limit: 1,
+      );
+      return result.isNotEmpty ? result.first : null;
+    } catch (e, stacktrace) {
+      print('$e --> $stacktrace');
     }
-
-    var result = await database.query(
-      db_table,
-      where: whereClause,
-      whereArgs: whereArgs,
-      limit: 1,
-    );
-    return result.isNotEmpty ? result.first : null;
-  } catch (e, stacktrace) {
-    print('$e --> $stacktrace');
+    return null;
   }
-  return null;
-}
 
-  
-  Future<bool> updateRecord(Map<String, dynamic> data, String column, dynamic id) async {
+  Future<bool> updateRecord(
+      Map<String, dynamic> data, String column, dynamic id) async {
     try {
       final database = await DBHelper.getDatabase();
       await database.update(
@@ -62,10 +59,6 @@ Future<Map<String, dynamic>?> getRecord(
     return false;
   }
 
-
-  
-
-  
   Future<bool> deleteRecord(String column, dynamic id) async {
     try {
       final database = await DBHelper.getDatabase();
@@ -80,7 +73,18 @@ Future<Map<String, dynamic>?> getRecord(
     }
     return false;
   }
+
+  void fetchParticipants() async {
+    // Get the database instance
+    final database = await DBHelper.getDatabase();
+
+    // Query the 'participant' table
+    List<Map<String, dynamic>> participants =
+        await database.query('participant');
+
+    // Print the participants data
+    participants.forEach((participant) {
+      print(participant);
+    });
+  }
 }
-
-
-

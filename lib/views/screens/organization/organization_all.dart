@@ -1,12 +1,18 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import '../../widgets/main_background.dart';
 import '../../../themes/colors.dart';
 import '../../widgets/org_card.dart';
-import '../../widgets/footer.dart'; 
+import '../../widgets/footer.dart';
 
 class CardContentPage extends StatelessWidget {
   const CardContentPage({super.key});
   static const String pageRoute = '/org_all';
+
+  // Fetching data from the `DBCardTable`
+  Future<List<Map<String, dynamic>>> fetchCards() async {
+    final DBCampaignTable = DBCampaignTable();
+    return await DBCampaignTable.getAllRecords();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,49 +41,54 @@ class CardContentPage extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          createOrgCard(context,false,
-                            "Day of Compassion",
-                            "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
-                            'assets/images/donation_image.webp',
-                            120,
-                            200,
-                          ),
-                          createOrgCard(context,false,
-                            "Day of Joy",
-                            "Spread happiness by participating in community events and activities.",
-                            'assets/images/event_image.webp',
-                            80,
-                            150,
-                          ),
-                          createOrgCard(context,false,
-                            "Community Cleanup",
-                            "Join us in making our neighborhoods cleaner and greener.",
-                            'assets/images/helping_image.jpg',
-                            50,
-                            100,
-                          ),
-                          createOrgCard(context,false,
-                            "Community Cleanup",
-                            "Join us in making our neighborhoods cleaner and greener.",
-                            'assets/images/volenteering_image.webp',
-                            50,
-                            100,
-                          ),
-                        ],
+                      child: FutureBuilder<List<Map<String, dynamic>>>(
+                        future: fetchCards(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return const Center(
+                                child: Text('Error loading cards.'));
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.isEmpty) {
+                            return const Center(
+                                child: Text('No cards available.'));
+                          } else {
+                            final cards = snapshot.data!;
+                            return ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: cards.length,
+                              itemBuilder: (context, index) {
+                                final card = cards[index];
+                                return createOrgCard(
+                                  context,
+                                  false,
+                                  card['title'] ?? 'Untitled',
+                                  card['location'] ?? 'No location provided',
+                                  card['image'] ??
+                                      'assets/images/default_image.png',
+                                  0, // Placeholder for current amount
+                                  0, // Placeholder for target amount
+                                );
+                              },
+                            );
+                          }
+                        },
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            bottomNavigationBar: const Footer(isOrganization: true,), // Added Footer widget here
+            bottomNavigationBar: const Footer(
+              isOrganization: true,
+            ), // Footer widget
           );
         },
       ),
     );
   }
 }
-
+*/

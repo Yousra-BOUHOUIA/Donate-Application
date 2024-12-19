@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import '../../../themes/colors.dart';
 import '../../../imports/user_barrel.dart';
-//import '../../../imports/common_barrel.dart';
 import 'package:donate_application/databases/tables/organization.dart';
 
+// Widget for signing up as an organization
 class SignUpAsOrganizationPage extends StatefulWidget {
   const SignUpAsOrganizationPage({super.key});
   static const String pageRoute = '/signup_as_organization';
@@ -14,16 +14,24 @@ class SignUpAsOrganizationPage extends StatefulWidget {
 }
 
 class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
-  bool isUser = false; // To track the switch state
+  bool isUser = false;
   final _formKey = GlobalKey<FormState>();
+
+
+  final DBOrganizationTable _dbOrganizationTable = DBOrganizationTable();
+  
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController =TextEditingController();
+  final TextEditingController _organizationNameController =TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _bankAccountController = TextEditingController();
+  final TextEditingController _organizationTypeController =TextEditingController();
+  
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
-  DBOrganizationTable dbOrganizationTable = DBOrganizationTable();
   String? uploadedFilePath;
-  final Map<String, String> _formData = {};
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +61,8 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
           ),
           // Content
           SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -79,7 +88,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const SignUpAsUserPage(), // Replace with actual widget
+                                    const SignUpAsUserPage(),
                               ),
                             );
                           }
@@ -100,51 +109,19 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  // Input fields
                   buildCustomTextField(Icons.business, "Organization Name"),
                   const SizedBox(height: 20),
                   buildCustomTextField(Icons.phone, "Phone"),
                   const SizedBox(height: 20),
                   buildCustomTextField(Icons.location_on, "Address"),
                   const SizedBox(height: 20),
-                  buildCustomTextField(Icons.payment, "Do you support money transaction?"),
-                  const SizedBox(height: 20),
                   buildCustomTextField(Icons.account_balance, "Bank Account"),
                   const SizedBox(height: 20),
                   buildCustomTextField(Icons.business_center, "Type"),
                   const SizedBox(height: 20),
-                  buildCustomTextField(Icons.share, "Social Media"),
-                  const SizedBox(height: 20),
                   buildCustomTextField(Icons.email, "Email"),
                   const SizedBox(height: 20),
-                  // File upload field
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Document Upload",
-                        style: TextStyle(color: appButtonColor, fontSize: 16),
-                      ),
-                      const SizedBox(height: 8),
-                      IconButton(
-                        onPressed: () async {
-                          // Implement file picker logic here
-                          setState(() {
-                            uploadedFilePath = "example_document.pdf"; // Mock file name
-                          });
-                        },
-                        icon: const Icon(Icons.upload_file, size: 32),
-                        color: appButtonColor,
-                      ),
-                      if (uploadedFilePath != null)
-                        Text(
-                          "Uploaded: $uploadedFilePath",
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  // Password field with toggle visibility
+                  // Password field
                   buildPasswordTextField(
                     _passwordController,
                     "Password",
@@ -156,7 +133,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  // Confirm Password field with toggle visibility
+                  // Confirm Password field
                   buildPasswordTextField(
                     _confirmPasswordController,
                     "Confirm Password",
@@ -170,24 +147,56 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                   const SizedBox(height: 40),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          _formKey.currentState?.save();
-                          bool isInserted = await dbOrganizationTable.insertRecord(_formData);
+                      onPressed: () async{
+                        
+                      Map<String, dynamic> OrganizationData = {
+                        'organization_name': _organizationNameController.text,
+                        'Phone': _phoneController.text,
+                        'address': _addressController.text,
+                        'bank_account': _bankAccountController.text,
+                        'organization_type ': _organizationTypeController.text,
+                        'email':_emailController.text,
+                        'password ': _passwordController.text,
+                      };
 
-                          if (isInserted) {
-                            Navigator.pushReplacementNamed(context, '/org_home');
-                          } else {
-                            // Handle insertion failure (e.g., show an error message)
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Failed to register organization. Please try again.")),
-                            );
-                          }
+                      // Insert record into database
+                      final success =
+                          await _dbOrganizationTable.insertRecord(OrganizationData);
+                      if (success) {
+                        final allOrganizations =
+                            await _dbOrganizationTable.getAllRecords();
+                        print("All campaigns in the database:");
+                        for (var organization in allOrganizations) {
+                          print(organization);
                         }
+                        // Clear input fields and reset state
+                        _organizationNameController.clear();
+                        _phoneController.clear();
+                        _addressController.clear();
+                        _bankAccountController.clear();
+                        _organizationTypeController.clear();
+                        _emailController.clear();
+                        _passwordController.clear();
+
+                        // Show success message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('organization registred successufully!'),
+                          ),
+                        );
+                      } else {
+                        // Show failure message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Failed to register organization.'),
+                          ),
+                        );
+                      }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: appButtonColor,
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -195,21 +204,6 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                       child: const Text(
                         'SIGN UP',
                         style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/login');
-                      },
-                      child: const Text(
-                        "Already have an account? Login In",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: appButtonColor,
-                        ),
                       ),
                     ),
                   ),
@@ -222,16 +216,15 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
     );
   }
 
+  // Build text field widget
   Widget buildCustomTextField(IconData icon, String label) {
     return TextFormField(
+      controller: _getController(label),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter $label';
         }
         return null;
-      },
-      onSaved: (value) {
-        _formData[label] = value ?? '';
       },
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: appButtonColor),
@@ -247,6 +240,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
     );
   }
 
+  // Build password field widget
   Widget buildPasswordTextField(TextEditingController controller, String label,
       bool isPasswordVisible, Function(bool) onToggleVisibility) {
     return TextFormField(
@@ -254,7 +248,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
       obscureText: !isPasswordVisible,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter your $label';
+          return 'Please enter $label';
         }
         if (label == "Password" && value.length < 6) {
           return 'Password must be at least 6 characters';
@@ -264,9 +258,6 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
           return 'Passwords do not match';
         }
         return null;
-      },
-      onSaved: (value) {
-        _formData[label] = value ?? '';
       },
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.lock, color: appButtonColor),
@@ -288,8 +279,29 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
       ),
     );
   }
+
+  // Get appropriate controller based on the field label
+  TextEditingController? _getController(String label) {
+    switch (label) {
+      case "Organization Name":
+        return _organizationNameController;
+      case "Phone":
+        return _phoneController;
+      case "Address":
+        return _addressController;
+      case "Bank Account":
+        return _bankAccountController;
+      case "Type":
+        return _organizationTypeController;
+      case "Email":
+        return _emailController;
+      default:
+        return null;
+    }
+  }
 }
 
+// Custom clipper for the wave background
 class WaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {

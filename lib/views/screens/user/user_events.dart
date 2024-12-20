@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../widgets/user_card.dart';
 import '../../../themes/colors.dart';
-import '../../widgets/footer.dart'; 
+import '../../widgets/footer.dart';
+import 'package:donate_application/databases/tables/campaign.dart';
 
 class UserEvents extends StatelessWidget {
-  const UserEvents({super.key});
-  static const String  pageRoute = '/user_events';
+  UserEvents({super.key});
+  static const String pageRoute = '/user_events';
+
+  final DBCampaignTable _campaignTable = DBCampaignTable();
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class UserEvents extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: appBackgroundColor,
         title: const Text("Events"),
-        centerTitle: true, // Center the title in the AppBar
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -22,46 +25,47 @@ class UserEvents extends StatelessWidget {
         ),
       ),
       backgroundColor: appBackgroundColor,
-      body: SingleChildScrollView( // Ensure the entire body is scrollable vertically
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Event 1
-              createUserCard(context,false,
-                "Day of Compassion",
-                "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
-                'assets/images/donation_image.webp',
-                120,
-                200,
-              ),
-              createUserCard(context,false,
-                "Day of Compassion",
-                "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
-                'assets/images/event_image.webp',
-                120,
-                200,
-              ),
-              createUserCard(context,false,
-                "Day of Compassion",
-                "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
-                'assets/images/helping_image.jpg',
-                120,
-                200,
-              ),
-              createUserCard(context,false,
-                "Day of Compassion",
-                "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
-                'assets/images/volenteering_image.webp',
-                120,
-                200,
+              const SizedBox(height: 8),
+              FutureBuilder<List<Map<String, dynamic>>>(
+                future: _campaignTable.getEvents(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Text('No events available.');
+                  }
+
+                  final campaigns = snapshot.data!;
+                  return Column(
+                    children: campaigns.map((campaign) {
+                      return createUserCard(
+                        context,
+                        campaign['type'],
+                        campaign['title'] ?? 'No title',
+                        campaign['description'] ?? 'No description',
+                        'assets/images/org_image.jpg',
+                        campaign['resource'] ?? 0,
+                        campaign['resource'] ?? 0,
+                      );
+                    }).toList(),
+                  );
+                },
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: const Footer(isOrganization: false,), // Added Footer widget here
+      bottomNavigationBar: const Footer(isOrganization: false),
     );
   }
 }

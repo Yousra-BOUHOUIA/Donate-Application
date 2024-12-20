@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import '../../widgets/user_card.dart';
 import '../../../themes/colors.dart';
 import '../../widgets/footer.dart'; 
-
-
+import 'package:donate_application/databases/tables/campaign.dart';
 
 class UserDonations extends StatelessWidget {
-  const UserDonations ({super.key});
+  UserDonations({super.key});
   static const String pageRoute = '/user_donations';
+
+  final DBCampaignTable _campaignTable = DBCampaignTable();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class UserDonations extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: appBackgroundColor,
         title: const Text("Donations"),
-        centerTitle: true, // Center the title in the AppBar
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -25,49 +26,46 @@ class UserDonations extends StatelessWidget {
       ),
       backgroundColor: appBackgroundColor,
       body: SingleChildScrollView(
-        // Ensure the entire body is scrollable vertically
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Event 1
-              createUserCard(context,true,
-                "Clothing Drive",
-                "Join us for a clothing drive to provide winter clothes to those in ...",
-                'assets/images/donation_image.webp',
-                150,
-                250,
-              ),
-              // Event 2
-              createUserCard(context,true,
-                "Food Donation Campaign",
-                "We are collecting non-perishable food items to help families... ",
-                'assets/images/event_image.webp',
-                180,
-                280,
-              ),
-              // Event 3
-              createUserCard(context,true,
-                "Book Donation Initiative",
-                "Help us donate books to schools in underprivileged areas...",
-                'assets/images/helping_image.jpg',
-                160,
-                270,
-              ),
-              // Event 4
-              createUserCard(context,true,
-                "Toy Drive for Children",
-                "This holiday season, let's bring joy to children by donating toys. Every donation matters!",
-                'assets/images/volenteering_image.webp',
-                140,
-                230,
+              const SizedBox(height: 8),
+              FutureBuilder<List<Map<String, dynamic>>>(
+                future: _campaignTable.getDonations(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Text('No campaigns available.');
+                  }
+
+                  final campaigns = snapshot.data!;
+                  return Column(
+                    children: campaigns.map((campaign) {
+                      return createUserCard(
+                        context,
+                        campaign['type'],
+                        campaign['title'] ?? 'No title',
+                        campaign['description'] ?? 'No description',
+                        'assets/images/org_image.jpg',
+                        campaign['resource'] ?? 0,
+                        campaign['resource'] ?? 0,
+                      );
+                    }).toList(),
+                  );
+                },
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: const Footer(isOrganization: false,), // Added Footer widget here
+      bottomNavigationBar: const Footer(isOrganization: false),
     );
   }
 }

@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import '../../widgets/main_background.dart';
 import '../../widgets/user_card.dart';
 import '../../../themes/colors.dart';
-import '../../widgets/footer.dart'; 
+import '../../widgets/footer.dart';
+import 'package:donate_application/databases/tables/campaign.dart';
 
 class UserAll extends StatelessWidget {
-  const UserAll({super.key});
+  UserAll({super.key});
   static const String pageRoute = '/user_all';
+
+  final DBCampaignTable _campaignTable = DBCampaignTable();
+
   @override
   Widget build(BuildContext context) {
     return GradientPage(
@@ -34,45 +38,42 @@ class UserAll extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          createUserCard(context,false,
-                            "Day of Compassion",
-                            "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
-                            'assets/images/donation_image.webp',
-                            120,
-                            200,
-                          ),
-                          createUserCard(context,false,
-                            "Day of Joy",
-                            "Spread happiness by participating in community events and activities.",
-                            'assets/images/event_image.webp',
-                            80,
-                            150,
-                          ),
-                          createUserCard(context,false,
-                            "Community Cleanup",
-                            "Join us in making our neighborhoods cleaner and greener.",
-                            'assets/images/helping_image.jpg',
-                            50,
-                            100,
-                          ),
-                          createUserCard(context,false,
-                            "Community Cleanup",
-                            "Join us in making our neighborhoods cleaner and greener.",
-                            'assets/images/volenteering_image.webp',
-                            50,
-                            100,
-                          ),
-                        ],
+                      child: FutureBuilder<List<Map<String, dynamic>>>(
+                        future: _campaignTable.getAllRecords(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return const Text('No records available.');
+                          }
+
+                          final records = snapshot.data!;
+                          return ListView(
+                            physics: const BouncingScrollPhysics(),
+                            children: records.map((record) {
+                              return createUserCard(
+                                context,
+                                record['type'],
+                                record['title'] ?? 'No title',
+                                record['description'] ?? 'No description',
+                                'assets/images/org_image.jpg',
+                                record['resource'] ?? 0,
+                                record['resource'] ?? 0,
+                              );
+                            }).toList(),
+                          );
+                        },
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            bottomNavigationBar: const Footer(isOrganization: false,), // Added Footer widget here
+            bottomNavigationBar: const Footer(isOrganization: false),
           );
         },
       ),

@@ -6,13 +6,9 @@ import '../../widgets/footer.dart';
 import 'package:donate_application/databases/tables/campaign.dart';
 
 class CardContentPage extends StatelessWidget {
-  const CardContentPage({super.key});
+  CardContentPage({super.key});
   static const String pageRoute = '/org_all';
-
-  Future<List<Map<String, dynamic>>> fetchCards() async {
-    final dbCampaignTable = DBCampaignTable();
-    return await dbCampaignTable.getAllRecords();
-  }
+  final DBCampaignTable _campaignTable = DBCampaignTable();
 
   @override
   Widget build(BuildContext context) {
@@ -42,39 +38,33 @@ class CardContentPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: FutureBuilder<List<Map<String, dynamic>>>(
-                        future: fetchCards(),
+                        future: _campaignTable.getAllRecords(),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          } else if (snapshot.hasError) {
-                            return const Center(
-                                child: Text('Error loading cards.'));
-                          } else if (!snapshot.hasData ||
-                              snapshot.data!.isEmpty) {
-                            return const Center(
-                                child: Text('No cards available.'));
-                          } else {
-                            final cards = snapshot.data!;
-                            return ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: cards.length,
-                              itemBuilder: (context, index) {
-                                final card = cards[index];
-                                return createOrgCard(
-                                  context,
-                                  false,
-                                  card['title'] ?? 'Untitled',
-                                  card['location'] ?? 'No location provided',
-                                  card['image'] ??
-                                      'assets/images/default_image.png',
-                                  0, // Placeholder for current amount
-                                  0, // Placeholder for target amount
-                                );
-                              },
-                            );
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
                           }
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return const Text('No records available.');
+                          }
+
+                          final records = snapshot.data!;
+                          return ListView(
+                            physics: const BouncingScrollPhysics(),
+                            children: records.map((record) {
+                              return createOrgCard(
+                                context,
+                                record['type'],
+                                record['title'] ?? 'No title',
+                                record['description'] ?? 'No description',
+                                'assets/images/org_image.jpg',
+                                record['resource'] ?? 0,
+                                record['resource'] ?? 0,
+                              );
+                            }).toList(),
+                          ); // Fixed: Added closing parenthesis here
                         },
                       ),
                     ),

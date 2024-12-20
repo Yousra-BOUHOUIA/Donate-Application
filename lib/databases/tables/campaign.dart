@@ -1,6 +1,7 @@
 import 'package:donate_application/databases/db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
+
 class DBCampaignTable {
   final String db_table = 'campaign';
 
@@ -96,6 +97,33 @@ class DBCampaignTable {
       return await database.query(db_table);
     } catch (e, stacktrace) {
       print('Error fetching records from $db_table: $e --> $stacktrace');
+      return [];
+    }
+  }
+  Future<List<Map<String, dynamic>>> getDonations() async {
+    try {
+      final database = await DBHelper.getDatabase();
+      return await database.query(
+        db_table,
+        where: "type = ?",
+        whereArgs: ['donation'],
+      );
+    } catch (e, stacktrace) {
+      print('Error fetching donations from $db_table: $e --> $stacktrace');
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getEvents() async {
+    try {
+      final database = await DBHelper.getDatabase();
+      return await database.query(
+        db_table,
+        where: "type = ?",
+        whereArgs: ['event'],
+      );
+    } catch (e, stacktrace) {
+      print('Error fetching events from $db_table: $e --> $stacktrace');
       return [];
     }
   }

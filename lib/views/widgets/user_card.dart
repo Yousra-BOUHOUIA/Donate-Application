@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import '../../themes/colors.dart';
 import '../../imports/user_barrel.dart';
 
-
-
 String btntext = ' ';
-Widget createUserCard(BuildContext context,bool isDonation,String title, String description, String image, int volunteers, int totalVolunteers) {
-   if(isDonation)
-          {
-            btntext = 'Donate Now';
-          }
-          else{
-             btntext = 'Participate Now';
-          }
+
+Widget createUserCard(BuildContext context, String type, String title, String description, String image, int volunteers, int totalVolunteers) {
+  // Set btntext based on the type
+  if (type == 'donate') {
+    btntext = 'Donate Now';
+  } else if (type == 'event') {
+    btntext = 'Participate Now';
+  }
+
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
@@ -58,8 +57,6 @@ Widget createUserCard(BuildContext context,bool isDonation,String title, String 
               ),
             ],
           ),
-
-         
           const SizedBox(height: 16),
           Text(
             'Recruited Volunteers: $volunteers / $totalVolunteers',
@@ -77,39 +74,37 @@ Widget createUserCard(BuildContext context,bool isDonation,String title, String 
             children: [
               OutlinedButton(
                 onPressed: () {
-                  if(isDonation)
-                  {
-
-                        Navigator.pushNamed(context, UserDonationDescriptionScreen.pageRoute); 
-                        
+                  if (type == 'donate') {
+                    Navigator.pushNamed(context, UserDonationDescriptionScreen.pageRoute);
+                  } else if (type == 'event') {
+                    Navigator.pushNamed(context, UserEventDescriptionScreen.pageRoute);
                   }
-                  else{
-                    Navigator.pushNamed(context,UserEventDescriptionScreen.pageRoute); 
-                  }
-                  // Details button logic
-                  
                 },
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFF0E1F2F)), // Blue border
+                  side: const BorderSide(color: Color(0xFF0E1F2F)), 
                 ),
                 child: const Text(
                   'Details',
                   style: TextStyle(
-                    color: Color(0xFF0E1F2F), 
+                    color: Color(0xFF0E1F2F),
                   ),
                 ),
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AddDonationScreen.pageRoute);
-               },                
+                  if (type == 'donate') {
+                    Navigator.pushNamed(context, AddDonationScreen.pageRoute);
+                  } else if (type == 'event') {
+                    // Add action for event if needed
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF27425D),
                 ),
-                child:  Text(
+                child: Text(
                   btntext,
                   style: const TextStyle(
-                    color: Colors.white, 
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -118,5 +113,5 @@ Widget createUserCard(BuildContext context,bool isDonation,String title, String 
         ],
       ),
     ),
-  ); // This closes the Card widget properly
+  );
 }

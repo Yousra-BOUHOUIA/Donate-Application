@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:path/path.dart';
-
-//import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import '../databases/tables/admin.dart';
 import '../databases/tables/campaign.dart';
@@ -41,21 +39,29 @@ class DBHelper {
       return database;
     }
 
-    database = openDatabase(
+    database = await openDatabase(
       join(await getDatabasesPath(), _database_name),
-      onCreate: (database, version) {
+      onCreate: (db, version) async {
         for (var item in sql_codes) {
-          database.execute(item);
+          try {
+            await db.execute(item);
+            print("Table created successfully with SQL: $item");
+          } catch (e) {
+            print("Error creating table with SQL: $item\nError: $e");
+          }
         }
       },
       version: _database_version,
-      onUpgrade: (db, oldVersion, newVersion) {},
+      onUpgrade: (db, oldVersion, newVersion) {
+        // Handle database upgrade logic if needed
+      },
     );
     return database;
   }
 
   static Future<bool> databaseExists() async {
     final path = join(await getDatabasesPath(), _database_name);
+    print("Database path: ${await getDatabasesPath()}");
     return await File(path).exists();
   }
 
@@ -83,4 +89,34 @@ class DBHelper {
       await File(path).delete();
     }
   }
+
+  /// Fetch all table names in the database
+  static Future<List<String>> getTables() async {
+    try {
+      final db = await getDatabase();
+      var result = await db.rawQuery(
+        "SELECT name FROM sqlite_master WHERE type='table';"
+      );
+      return result.map((e) => e['name'] as String).toList();
+    } catch (e) {
+      print("Error fetching table names: $e");
+      return [];
+    }
+  }
+
+  /// Check if a specific table exists
+  static Future<bool> isTableExists(String tableName) async {
+    try {
+      final db = await getDatabase();
+      var result = await db.rawQuery(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name=?;",
+        [tableName]
+      );
+      return result.isNotEmpty;
+    } catch (e) {
+      print("Error checking table $tableName: $e");
+      return false;
+    }
+  }
 }
+ 

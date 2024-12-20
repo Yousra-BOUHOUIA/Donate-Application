@@ -6,16 +6,17 @@ import '/views/widgets/footer.dart';
 import '/views/widgets/custom_drawer.dart';
 import 'package:donate_application/databases/tables/campaign.dart';
 import '/imports/organization_barrel.dart';
-import '/imports/user_barrel.dart';
 
-class OrgHomePage extends StatelessWidget {
+class OrgHomePage extends StatefulWidget {
   OrgHomePage({super.key});
   static const String pageRoute = '/org_home';
 
+  @override
+  _OrgHomePageState createState() => _OrgHomePageState();
+}
+
+class _OrgHomePageState extends State<OrgHomePage> {
   final DBCampaignTable _campaignTable = DBCampaignTable();
-  Future<List<Map<String, dynamic>>> fetchCampaigns() {
-    return _campaignTable.getAllRecords();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class OrgHomePage extends StatelessWidget {
         leading: Builder(
           builder: (context) => IconButton(
             onPressed: () {
-              Scaffold.of(context).openDrawer(); 
+              Scaffold.of(context).openDrawer(); // Open sidebar
             },
             icon: const Icon(Icons.menu),
           ),
@@ -58,7 +59,7 @@ class OrgHomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Events:",
+                "Events: ",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
@@ -67,20 +68,17 @@ class OrgHomePage extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    eventCard(context, true, 'Event 1 Description',
-                        'assets/images/event_picture.jpg', '10'),
+                    eventCard(context, true, 'assets/images/event_picture.jpg'),
                     const SizedBox(width: 16),
-                    eventCard(context, true, 'Event 2 Description',
-                        'assets/images/event_picture.jpg', '20'),
+                    eventCard(context, true, 'assets/images/event_picture.jpg'),
                     const SizedBox(width: 16),
-                    eventCard(context, true, 'Event 3 Description',
-                        'assets/images/event_picture.jpg', '30'),
+                    eventCard(context, true, 'assets/images/event_picture.jpg'),
                   ],
                 ),
               ),
               const SizedBox(height: 16),
               const Text(
-                "Categories:",
+                "Categories: ",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
@@ -90,7 +88,7 @@ class OrgHomePage extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, CardContentPage.pageRoute);
+                        Navigator.pushNamed(context, CardContentPage.pageRoute); 
                       },
                       child: const Chip(
                         label: Text(
@@ -104,21 +102,7 @@ class OrgHomePage extends StatelessWidget {
                     const SizedBox(width: 16),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, DonationsPage.pageRoute);
-                      },
-                      child: const Chip(
-                        label: Text(
-                          "Donations",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        backgroundColor: appButtonColor,
-                        shape: StadiumBorder(),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, EventsPage.pageRoute);
+                        Navigator.pushNamed(context, EventsPage.pageRoute);                     
                       },
                       child: const Chip(
                         label: Text(
@@ -132,12 +116,11 @@ class OrgHomePage extends StatelessWidget {
                     const SizedBox(width: 16),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, UsersDonationsScreen.pageRoute);
+                        Navigator.pushNamed(context, DonationsPage.pageRoute);                     
                       },
                       child: const Chip(
                         label: Text(
-                          "User Donation",
+                          "Donations",
                           style: TextStyle(color: Colors.white),
                         ),
                         backgroundColor: appButtonColor,
@@ -149,12 +132,12 @@ class OrgHomePage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                "Latest Campaigns:",
+                "Latest Campaigns: ",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              FutureBuilder<List<Map<String, dynamic>>>(
-                future: fetchCampaigns(),
+              FutureBuilder<List<Map<String, dynamic>>>( // Fetching all campaigns
+                future: _campaignTable.getAllRecords(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
@@ -169,17 +152,27 @@ class OrgHomePage extends StatelessWidget {
                   final campaigns = snapshot.data!;
                   return Column(
                     children: campaigns.map((campaign) {
-                      return createOrgCard(
-                        context,
-                        campaign['isDonation'] ==
-                            1, // Assuming it's stored as an integer
-                        campaign['title'] ?? 'No Title',
-                        campaign['description'] ?? 'No Description',
-                        campaign['image'] ??
-                            'assets/images/org_image.jpg', // Default image
-                        campaign['volunteers'] ?? 0,
-                        campaign['totalVolunteers'] ?? 1,
-                      );
+                      if (campaign['type'] == 'event') {                                         
+                        return createOrgCard(
+                          context,
+                          campaign['type'],
+                          campaign['title'] ?? 'No title',
+                          campaign['description'] ?? 'No description',
+                          'assets/images/org_image.jpg',
+                          campaign['resource'] ?? 0,
+                          campaign['resource'] ?? 0,
+                        );
+                      } else {
+                        return createOrgCard(
+                          context,
+                          campaign['type'],
+                          campaign['title'] ?? 'No title',
+                          campaign['description'] ?? 'No description',
+                          'assets/images/org_image.jpg',
+                          campaign['resource'] ?? 0,
+                          campaign['resource'] ?? 0,
+                        );
+                      }
                     }).toList(),
                   );
                 },
@@ -192,8 +185,7 @@ class OrgHomePage extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => const CreateCampaignScreen()),
+            MaterialPageRoute(builder: (context) => const CreateCampaignScreen()),
           );
         },
         backgroundColor: appButtonColor,

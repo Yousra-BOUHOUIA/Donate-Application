@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import '../../widgets/user_card.dart';
 import '/themes/colors.dart';
-import '/views/widgets/user_card.dart';
-import '/views/widgets/event_card.dart';
+import '/views/widgets/event_card.dart'; // Ensure this is imported
 import '/views/widgets/footer.dart';
 import '/views/widgets/custom_drawer.dart';
-
+import 'package:donate_application/databases/tables/campaign.dart';
 import '/imports/user_barrel.dart';
 
 class UserHomePage extends StatelessWidget {
-  const UserHomePage({super.key});
+  UserHomePage({super.key});
   static const String pageRoute = '/user_home';
+  final DBCampaignTable _campaignTable = DBCampaignTable();
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +64,12 @@ class UserHomePage extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    eventCard(context, false, 'Event 1 Description', 'assets/images/event_picture.jpg', '10'),
+                    // Updated eventCard function to only show the image
+                    eventCard(context, false, 'assets/images/event_picture.jpg'),
                     const SizedBox(width: 16),
-                    eventCard(context, false, 'Event 2 Description', 'assets/images/event_picture.jpg', '20'),
+                    eventCard(context, false, 'assets/images/event_picture.jpg'),
                     const SizedBox(width: 16),
-                    eventCard(context, false, 'Event 3 Description', 'assets/images/event_picture.jpg', '30'),
+                    eventCard(context, false, 'assets/images/event_picture.jpg'),
                   ],
                 ),
               ),
@@ -131,14 +133,34 @@ class UserHomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              createUserCard(
-                context,
-                false,
-                "Day of Compassion",
-                "On the Day of Compassion, we aim to bring smiles to the children in orphanages. Join us to make a difference.",
-                'assets/images/user_image.jpg',
-                120,
-                200,
+              FutureBuilder<List<Map<String, dynamic>>>(
+                future: _campaignTable.getAllRecords(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Text('No campaigns available.');
+                  }
+
+                  final campaigns = snapshot.data!;
+                  return Column(
+                    children: campaigns.map((campaign) {
+                      return createUserCard(
+                        context,
+                        campaign['type'],
+                        '', // No title needed
+                        campaign['description'] ?? 'No description',
+                        'assets/images/org_image.jpg',
+                        campaign['resource'] ?? 0,
+                        campaign['resource'] ?? 0,
+                      );
+                    }).toList(),
+                  );
+                },
               ),
             ],
           ),
@@ -148,7 +170,7 @@ class UserHomePage extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddDonationScreen()), 
+            MaterialPageRoute(builder: (context) => const AddDonationScreen()),
           );
         },
         backgroundColor: appButtonColor,

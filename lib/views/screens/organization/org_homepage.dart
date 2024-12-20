@@ -154,65 +154,65 @@ class _OrgHomePageState extends State<OrgHomePage> {
                 ),
                 const SizedBox(height: 8),
 
-FutureBuilder<List<Map<String, dynamic>>>( 
-  future: _campaignTable.getAllRecords(), 
-  builder: (context, snapshot) { 
-    if (snapshot.connectionState == ConnectionState.waiting) { 
-      return const CircularProgressIndicator(); 
-    } 
-    if (snapshot.hasError) { 
-      return Text('Error: ${snapshot.error}'); 
-    } 
-    if (!snapshot.hasData || snapshot.data!.isEmpty) { 
-      return const Text('No campaigns available.'); 
-    } 
-
-    final campaigns = snapshot.data!;
-
-    return Column(
-      children: campaigns.map((campaign) {
-        var imageBytes = campaign['image'];
-
-        Widget imageWidget = SizedBox(
-          width: 150,
-          height: 150,
-          child: Image.memory(
-            imageBytes,
-            fit: BoxFit.cover,
-          ),
-        );
-
-        return createOrgCard(
-          context,
-          campaign['type'],
-          campaign['title'] ?? 'No title',
-          campaign['description'] ?? 'No description',
-          imageWidget, 
-          campaign['resource'] ?? 0,
-          campaign['resource'] ?? 0,
-          detailsButton: ElevatedButton(
-            onPressed: () {
-              if (campaign['type'] == 'event') {
-                Navigator.pushNamed(
-                  context,
-                  OrgEventDescriptionScreen.pageRoute,
-                  arguments: campaign,
-                );
-              } else if (campaign['type'] == 'donation') {
-                Navigator.pushNamed(
-                  context,
-                  OrgDonationDescriptionScreen.pageRoute,
-                  arguments: campaign,
-                );
-              }
-            },
-            child: const Text('Details'),
-          ),
-        );
-      }).toList(),
-    );
-  },
-)
+              FutureBuilder<List<Map<String, dynamic>>>( 
+                future: _campaignTable.getAllRecords(), 
+                builder: (context, snapshot) { 
+                  if (snapshot.connectionState == ConnectionState.waiting) { 
+                    return const CircularProgressIndicator(); 
+                  } 
+                  if (snapshot.hasError) { 
+                    return Text('Error: ${snapshot.error}'); 
+                  } 
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) { 
+                    return const Text('No campaigns available.'); 
+                  } 
+              
+                  final campaigns = snapshot.data!;
+              
+                  return Column(
+                    children: campaigns.map((campaign) {
+                      var imageBytes = campaign['image'];
+              
+                      Widget imageWidget = SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: Image.memory(
+                          imageBytes,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+              
+                      return createOrgCard(
+                        context,
+                        campaign['type'],
+                        campaign['title'] ?? 'No title',
+                        campaign['description'] ?? 'No description',
+                        imageWidget, 
+                        campaign['resource'] ?? 0,
+                        campaign['resource'] ?? 0,
+                        detailsButton: ElevatedButton(
+                          onPressed: () {
+                            if (campaign['type'] == 'event') {
+                              Navigator.pushNamed(
+                                context,
+                                OrgEventDescriptionScreen.pageRoute,
+                                arguments: campaign,
+                              );
+                            } else if (campaign['type'] == 'donation') {
+                              Navigator.pushNamed(
+                                context,
+                                OrgDonationDescriptionScreen.pageRoute,
+                                arguments: campaign,
+                              );
+                            }
+                          },
+                          child: const Text('Details'),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                },
+              )
 
               ],
             ),

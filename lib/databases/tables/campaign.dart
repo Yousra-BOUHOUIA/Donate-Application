@@ -127,4 +127,5 @@ class DBCampaignTable {
       return [];
     }
   }
+
 }

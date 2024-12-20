@@ -4,6 +4,8 @@ import '../../../themes/colors.dart';
 import '../../widgets/org_card.dart';
 import '../../widgets/footer.dart';
 import 'package:donate_application/databases/tables/campaign.dart';
+import '/imports/organization_barrel.dart';
+
 
 class CardContentPage extends StatelessWidget {
   CardContentPage({super.key});
@@ -37,7 +39,7 @@ class CardContentPage extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: FutureBuilder<List<Map<String, dynamic>>>(
+                      child: FutureBuilder<List<Map<String, dynamic>>>( 
                         future: _campaignTable.getAllRecords(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -54,17 +56,47 @@ class CardContentPage extends StatelessWidget {
                           return ListView(
                             physics: const BouncingScrollPhysics(),
                             children: records.map((record) {
+                              var imageBytes = record['image'];
+
+                              Widget imageWidget = SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Image.memory(
+                                  imageBytes,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+
+                              // Check the type of campaign (event or donation)
                               return createOrgCard(
                                 context,
                                 record['type'],
                                 record['title'] ?? 'No title',
                                 record['description'] ?? 'No description',
-                                'assets/images/org_image.jpg',
+                                imageWidget,
                                 record['resource'] ?? 0,
                                 record['resource'] ?? 0,
+                                detailsButton: ElevatedButton(
+                                  onPressed: () {
+                                    if (record['type'] == 'event') {
+                                      Navigator.pushNamed(
+                                        context,
+                                        OrgEventDescriptionScreen.pageRoute,
+                                        arguments: record,
+                                      );
+                                    } else if (record['type'] == 'donation') {
+                                      Navigator.pushNamed(
+                                        context,
+                                        OrgDonationDescriptionScreen.pageRoute,
+                                        arguments: record,
+                                      );
+                                    }
+                                  },
+                                  child: const Text('Details'),
+                                ),
                               );
                             }).toList(),
-                          ); // Fixed: Added closing parenthesis here
+                          );
                         },
                       ),
                     ),
@@ -72,9 +104,7 @@ class CardContentPage extends StatelessWidget {
                 ],
               ),
             ),
-            bottomNavigationBar: const Footer(
-              isOrganization: true,
-            ), // Footer widget
+            bottomNavigationBar: const Footer(isOrganization: true),
           );
         },
       ),

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import '../../../themes/colors.dart';
 import '../../widgets/org_card.dart';
 import '../../widgets/footer.dart';
-import 'package:donate_application/databases/tables/campaign.dart'; // Import your events database
+import 'package:donate_application/databases/tables/campaign.dart';
+import '/imports/organization_barrel.dart';
+
 
 class EventsPage extends StatelessWidget {
   EventsPage({super.key});
   static const String pageRoute = '/org_event';
-  final DBCampaignTable _compaignTable = DBCampaignTable(); // Assuming the same table class for events
+  final DBCampaignTable _compaignTable = DBCampaignTable();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class EventsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Events"),
         backgroundColor: appBackgroundColor,
-        centerTitle: true, 
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -24,11 +26,11 @@ class EventsPage extends StatelessWidget {
         ),
       ),
       backgroundColor: appBackgroundColor,
-      body: SingleChildScrollView( 
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: FutureBuilder<List<Map<String, dynamic>>>(
-            future: _compaignTable.getEvents(), // Assuming this method fetches the events
+          child: FutureBuilder<List<Map<String, dynamic>>>( 
+            future: _compaignTable.getEvents(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -44,14 +46,35 @@ class EventsPage extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: compaigns.map((compaign) {
+                  var imageBytes = compaign['image'];
+
+                  Widget imageWidget = SizedBox(
+                    width: 150, 
+                    height: 150, 
+                    child: Image.memory(
+                      imageBytes,
+                      fit: BoxFit.cover,
+                    ),
+                  );
+
                   return createOrgCard(
                     context,
                     'event',
                     compaign['title'] ?? 'No title',
                     compaign['description'] ?? 'No description',
-                    compaign['image'] ?? 'assets/images/default_image.webp',
-                    compaign['participants'] ?? 0,
-                    compaign['goal'] ?? 0,
+                    imageWidget,
+                    compaign['resource'] ?? 0,
+                    compaign['resource'] ?? 0,
+                    detailsButton: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          OrgEventDescriptionScreen.pageRoute,
+                          arguments: compaign,
+                        );
+                      },
+                      child: const Text('Details'),
+                    ),
                   );
                 }).toList(),
               );

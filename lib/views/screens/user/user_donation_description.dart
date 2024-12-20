@@ -8,9 +8,12 @@ class UserDonationDescriptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Map<String, dynamic> campaign = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     return GradientPage(
-      gradientStartColor: topGradientStart, // Add your gradient start color here
-      gradientEndColor: topGradientEnd,   // Add your gradient end color here
+      gradientStartColor: topGradientStart,
+      gradientEndColor: topGradientEnd,
       pageTitle: "Details",
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -30,16 +33,18 @@ class UserDonationDescriptionScreen extends StatelessWidget {
                   top: 10,
                   child: Container(
                     width: screenWidth * 0.97,
-                    height: 250, // Height for the image top section
+                    height: 250,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        'assets/images/details_image.jpg', // Replace with the path of your image
-                        fit: BoxFit.cover, // Ensures the image covers the entire area
-                      ),
+                      child: campaign['image'] != null
+                          ? Image.memory(
+                              campaign['image'],
+                              fit: BoxFit.cover,
+                            )
+                          : const SizedBox(),
                     ),
                   ),
                 ),
@@ -54,9 +59,9 @@ class UserDonationDescriptionScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Share Your Food, Share Your Love",
-                            style: TextStyle(
+                          Text(
+                            campaign['title'] ?? 'No Title',
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
@@ -72,14 +77,14 @@ class UserDonationDescriptionScreen extends StatelessWidget {
                                 ),
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4, horizontal: 8),
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(Icons.location_on,
+                                    const Icon(Icons.location_on,
                                         color: Colors.grey, size: 18),
-                                    SizedBox(width: 4),
+                                    const SizedBox(width: 4),
                                     Text(
-                                      "Algiers",
-                                      style: TextStyle(
+                                      campaign['location'] ?? 'No location',
+                                      style: const TextStyle(
                                           fontSize: 14, color: Colors.grey),
                                     ),
                                   ],
@@ -94,9 +99,9 @@ class UserDonationDescriptionScreen extends StatelessWidget {
                               Expanded(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: const LinearProgressIndicator(
-                                    value: 0.75, // Progress as a percentage
-                                    backgroundColor: Color(0xFFF1EBFF),
+                                  child: LinearProgressIndicator(
+                                    value: campaign['progress'] ?? 0.0,
+                                    backgroundColor: const Color(0xFFF1EBFF),
                                     color: percentIndicator,
                                     minHeight: 10,
                                   ),
@@ -105,33 +110,31 @@ class UserDonationDescriptionScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Collected \$150,000",
-                                style: TextStyle(
+                                "Collected \$${campaign['collected'] ?? 0}",
+                                style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: Description_Text),
                               ),
                               Text(
-                                "20 days to go",
-                                style: TextStyle(
+                                "${campaign['daysLeft'] ?? 0} days to go",
+                                style: const TextStyle(
                                     fontSize: 14, color: Description_Text),
                               ),
                             ],
                           ),
                           const SizedBox(height: 16),
                           RichText(
-                            text: const TextSpan(
-                              text:
-                                  "Lorem ipsum dolor sit amet consectetur. Ultricies ut augue amet vel hac. "
-                                  "Ut orci adipiscing fusce lacus lectus rhoncus. Lorem ipsum dolor sit amet, "
-                                  "consectetur adipiscing elit, sed ... ",
-                              style: TextStyle(
+                            text: TextSpan(
+                              text: campaign['description'] ??
+                                  'No description available.',
+                              style: const TextStyle(
                                   fontSize: 14, color: Description_Text),
-                              children: [
+                              children: const [
                                 TextSpan(
                                   text: "Show More",
                                   style: TextStyle(
@@ -147,7 +150,7 @@ class UserDonationDescriptionScreen extends StatelessWidget {
                           const Row(
                             children: [
                               Text(
-                                "Social Project",
+                                "Verified Account",
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),
@@ -159,21 +162,12 @@ class UserDonationDescriptionScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Text(
-                            "Verified Account",
-                            style:
-                                TextStyle(fontSize: 12, color: Colors.grey),
-                          ),
-                          const SizedBox(height: 20),
-                          // Donate Now Button at the end of the content
                           SizedBox(
-                            width: screenWidth ,  // Button width is 60% of the screen width
+                            width: screenWidth * 0.6,
                             child: ElevatedButton(
-                              onPressed: () {
-                                // Define the action for donation
-                              },
+                              onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: appButtonColor, // Customize button color
+                                backgroundColor: appButtonColor,
                                 padding: const EdgeInsets.symmetric(vertical: 14),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -181,7 +175,10 @@ class UserDonationDescriptionScreen extends StatelessWidget {
                               ),
                               child: const Text(
                                 "Donate Now",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color:Colors.white),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                             ),
                           ),

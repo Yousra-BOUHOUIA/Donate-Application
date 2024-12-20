@@ -39,9 +39,9 @@ class MyApp extends StatelessWidget {
         OrgNotification.pageRoute: (ctx) => const OrgNotification(),
 
         OrgHomePage.pageRoute: (ctx) => OrgHomePage(),
-        EventsPage.pageRoute: (ctx) => const EventsPage(),
-        DonationsPage.pageRoute: (ctx) => const DonationsPage(),
-        CardContentPage.pageRoute: (ctx) => const CardContentPage(),
+        EventsPage.pageRoute: (ctx) => EventsPage(),
+        DonationsPage.pageRoute: (ctx) => DonationsPage(),
+        CardContentPage.pageRoute: (ctx) => CardContentPage(),
 
         // User profile routes
         UserProfilePage.pageRoute: (ctx) => const UserProfilePage(),
@@ -60,10 +60,10 @@ class MyApp extends StatelessWidget {
         UserEventDescriptionScreen.pageRoute: (ctx) =>
             const UserEventDescriptionScreen(),
         AddDonationScreen.pageRoute: (ctx) => const AddDonationScreen(),
-        UserHomePage.pageRoute: (ctx) => const UserHomePage(),
-        UserDonations.pageRoute: (ctx) => const UserDonations(),
-        UserAll.pageRoute: (ctx) => const UserAll(),
-        UserEvents.pageRoute: (ctx) => const UserEvents(),
+        UserHomePage.pageRoute: (ctx) =>  UserHomePage(),
+        UserDonations.pageRoute: (ctx) => UserDonations(),
+        UserAll.pageRoute: (ctx) =>  UserAll(),
+        UserEvents.pageRoute: (ctx) => UserEvents(),
       },
       home: OrgHomePage(),
     );

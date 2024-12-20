@@ -4,13 +4,17 @@ import '../../widgets/main_background.dart';
 
 class OrgEventDescriptionScreen extends StatelessWidget {
   static const pageRoute = '/org_event_description';
+
   const OrgEventDescriptionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    final Map<String, dynamic> campaign = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     return GradientPage(
-      gradientStartColor: topGradientStart, // Add your gradient start color here
-      gradientEndColor: topGradientEnd, // Add your gradient end color here
+      gradientStartColor: topGradientStart,
+      gradientEndColor: topGradientEnd,
       pageTitle: "Details",
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -25,22 +29,24 @@ class OrgEventDescriptionScreen extends StatelessWidget {
             ),
             child: Stack(
               children: [
-                // Header section with image background
+
                 Positioned(
                   left: 0,
                   top: 10,
                   child: Container(
                     width: screenWidth * 0.97,
-                    height: 250, // Height for the image top section
+                    height: 250,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        'assets/images/details_image.jpg', // Replace with the path of your image
-                        fit: BoxFit.cover, // Ensures the image covers the entire area
-                      ),
+                      child: campaign['image'] != null
+                          ? Image.memory(
+                              campaign['image'],
+                              fit: BoxFit.cover,
+                            )
+                          : const SizedBox(), 
                     ),
                   ),
                 ),
@@ -56,10 +62,10 @@ class OrgEventDescriptionScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Title and Location in rounded container
-                          const Text(
-                            "Lend a Hand, Spread the Love",
-                            style: TextStyle(
+
+                          Text(
+                            campaign['title'] ?? 'No Title',
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
@@ -75,14 +81,14 @@ class OrgEventDescriptionScreen extends StatelessWidget {
                                 ),
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4, horizontal: 8),
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(Icons.location_on,
+                                    const Icon(Icons.location_on,
                                         color: Colors.grey, size: 18),
-                                    SizedBox(width: 4),
+                                    const SizedBox(width: 4),
                                     Text(
-                                      "Algiers",
-                                      style: TextStyle(
+                                      campaign['location'] ?? 'No location',
+                                      style: const TextStyle(
                                           fontSize: 14, color: Colors.grey),
                                     ),
                                   ],
@@ -91,16 +97,16 @@ class OrgEventDescriptionScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          // Progress bar and stats
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: const LinearProgressIndicator(
-                                    value: 0.75, // Progress as a percentage
-                                    backgroundColor: Color(0xFFF1EBFF),
+                                  child: LinearProgressIndicator(
+                                    value: campaign['progress'] ?? 0.0,
+                                    backgroundColor: const Color(0xFFF1EBFF),
                                     color: percentIndicator,
                                     minHeight: 10,
                                   ),
@@ -109,34 +115,31 @@ class OrgEventDescriptionScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Recruited Volunteers:150/200",
-                                style: TextStyle(
+                                "Recruited Volunteers:${campaign['resource'] ?? 0}/${campaign['resource'] ?? 0}",
+                                style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: Description_Text),
                               ),
                               Text(
-                                "20 days to go",
-                                style: TextStyle(
+                                "${campaign['daysLeft'] ?? 0} days to go",
+                                style: const TextStyle(
                                     fontSize: 14, color: Description_Text),
                               ),
                             ],
                           ),
                           const SizedBox(height: 16),
-                          // Description with "Show More" button
+
                           RichText(
-                            text: const TextSpan(
-                              text:
-                                  "Lorem ipsum dolor sit amet consectetur. Ultricies ut augue amet vel hac. "
-                                  "Ut orci adipiscing fusce lacus lectus rhoncus. Lorem ipsum dolor sit amet, "
-                                  "consectetur adipiscing elit, sed ... ",
-                              style: TextStyle(
+                            text: TextSpan(
+                              text: campaign['description'] ?? 'No description available.',
+                              style: const TextStyle(
                                   fontSize: 14, color: Description_Text),
-                              children: [
+                              children: const [
                                 TextSpan(
                                   text: "Show More",
                                   style: TextStyle(
@@ -153,7 +156,7 @@ class OrgEventDescriptionScreen extends StatelessWidget {
                           const Row(
                             children: [
                               Text(
-                                "Social Project",
+                                "Verified Account",
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),
@@ -165,11 +168,7 @@ class OrgEventDescriptionScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Text(
-                            "Verified Account",
-                            style:
-                                TextStyle(fontSize: 12, color: Colors.grey),
-                          ),
+
                         ],
                       ),
                     ),

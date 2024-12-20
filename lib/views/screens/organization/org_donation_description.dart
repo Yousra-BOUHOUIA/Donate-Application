@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../widgets/main_background.dart';
 import '../../../themes/colors.dart';
+import '../../widgets/main_background.dart';
 
 class OrgDonationDescriptionScreen extends StatelessWidget {
   const OrgDonationDescriptionScreen({super.key});
@@ -8,9 +8,12 @@ class OrgDonationDescriptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Map<String, dynamic> donation = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     return GradientPage(
-      gradientStartColor: topGradientStart, // Add your gradient start color here
-      gradientEndColor: topGradientEnd,   // Add your gradient end color here
+      gradientStartColor: topGradientStart, 
+      gradientEndColor: topGradientEnd,   
       pageTitle: "Details",
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -25,26 +28,27 @@ class OrgDonationDescriptionScreen extends StatelessWidget {
             ),
             child: Stack(
               children: [
-                // Header section with image background
                 Positioned(
                   left: 0,
                   top: 10,
                   child: Container(
                     width: screenWidth * 0.97,
-                    height: 250, // Height for the image top section
+                    height: 250,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        'assets/images/details_image.jpg', // Replace with the path of your image
-                        fit: BoxFit.cover, // Ensures the image covers the entire area
-                      ),
+                      child: donation['image'] != null
+                          ? Image.memory(
+                              donation['image'],
+                              fit: BoxFit.cover,
+                            )
+                          : const SizedBox(), 
                     ),
                   ),
                 ),
-                // Main content section below image
+
                 Positioned(
                   left: 0,
                   top: 250,
@@ -56,9 +60,9 @@ class OrgDonationDescriptionScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Share Your Food, Share Your Love",
-                            style: TextStyle(
+                          Text(
+                            donation['title'] ?? 'No Title',
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
@@ -74,14 +78,14 @@ class OrgDonationDescriptionScreen extends StatelessWidget {
                                 ),
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4, horizontal: 8),
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(Icons.location_on,
+                                    const Icon(Icons.location_on,
                                         color: Colors.grey, size: 18),
-                                    SizedBox(width: 4),
+                                    const SizedBox(width: 4),
                                     Text(
-                                      "Algiers",
-                                      style: TextStyle(
+                                      donation['location'] ?? 'No location',
+                                      style: const TextStyle(
                                           fontSize: 14, color: Colors.grey),
                                     ),
                                   ],
@@ -96,9 +100,9 @@ class OrgDonationDescriptionScreen extends StatelessWidget {
                               Expanded(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: const LinearProgressIndicator(
-                                    value: 0.75, // Progress as a percentage
-                                    backgroundColor: Color(0xFFF1EBFF),
+                                  child: LinearProgressIndicator(
+                                    value: donation['progress'] ?? 0.0,
+                                    backgroundColor: const Color(0xFFF1EBFF),
                                     color: percentIndicator,
                                     minHeight: 10,
                                   ),
@@ -107,33 +111,30 @@ class OrgDonationDescriptionScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Collected \$150,000",
-                                style: TextStyle(
+                                "Collected \$${donation['collected'] ?? 0}",
+                                style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: Description_Text),
                               ),
                               Text(
-                                "20 days to go",
-                                style: TextStyle(
+                                "${donation['daysLeft'] ?? 0} days to go",
+                                style: const TextStyle(
                                     fontSize: 14, color: Description_Text),
                               ),
                             ],
                           ),
                           const SizedBox(height: 16),
                           RichText(
-                            text: const TextSpan(
-                              text:
-                                  "Lorem ipsum dolor sit amet consectetur. Ultricies ut augue amet vel hac. "
-                                  "Ut orci adipiscing fusce lacus lectus rhoncus. Lorem ipsum dolor sit amet, "
-                                  "consectetur adipiscing elit, sed ... ",
-                              style: TextStyle(
+                            text: TextSpan(
+                              text: donation['description'] ?? 'No description available.',
+                              style: const TextStyle(
                                   fontSize: 14, color: Description_Text),
-                              children: [
+                              children: const [
                                 TextSpan(
                                   text: "Show More",
                                   style: TextStyle(
@@ -149,7 +150,7 @@ class OrgDonationDescriptionScreen extends StatelessWidget {
                           const Row(
                             children: [
                               Text(
-                                "Social Project",
+                                "Verified Account",
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),
@@ -160,11 +161,6 @@ class OrgDonationDescriptionScreen extends StatelessWidget {
                                 size: 18,
                               ),
                             ],
-                          ),
-                          const Text(
-                            "Verified Account",
-                            style:
-                                TextStyle(fontSize: 12, color: Colors.grey),
                           ),
                         ],
                       ),

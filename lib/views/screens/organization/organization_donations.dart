@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import '../../../themes/colors.dart';
 import '../../widgets/org_card.dart';
 import '../../widgets/footer.dart';
-import 'package:donate_application/databases/tables/campaign.dart'; // Import your donations database
+import '/databases/tables/campaign.dart';
+import '/imports/organization_barrel.dart';
+
 
 class DonationsPage extends StatelessWidget {
-   DonationsPage({super.key});
+  DonationsPage({super.key});
   static const String pageRoute = '/org_donations';
-  final DBCampaignTable _donationsTable = DBCampaignTable(); // Assuming the same table class for donations
+  final DBCampaignTable _compaignTable = DBCampaignTable(); 
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class DonationsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Donations"),
         backgroundColor: appBackgroundColor,
-        centerTitle: true, // Center the title in the AppBar
+        centerTitle: true, 
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -25,11 +27,11 @@ class DonationsPage extends StatelessWidget {
       ),
       backgroundColor: appBackgroundColor,
       body: SingleChildScrollView(
-        // Ensure the entire body is scrollable vertically
+
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: FutureBuilder<List<Map<String, dynamic>>>(
-            future: _donationsTable.getDonations(), // Assuming this method fetches the donations
+          child: FutureBuilder<List<Map<String, dynamic>>>( 
+            future: _compaignTable.getDonations(), 
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -41,18 +43,39 @@ class DonationsPage extends StatelessWidget {
                 return const Center(child: Text('No donations available.'));
               }
 
-              final donations = snapshot.data!;
+              final compaigns = snapshot.data!;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: donations.map((donation) {
+                children: compaigns.map((compaigns) {
+                  var imageBytes = compaigns['image'];
+
+                  Widget imageWidget = SizedBox(
+                    width: 150, // Fixed width
+                    height: 150, // Fixed height
+                    child: Image.memory(
+                      imageBytes,
+                      fit: BoxFit.cover, 
+                    ),
+                  );
+
                   return createOrgCard(
                     context,
-                    'donation',
-                    donation['title'] ?? 'No title',
-                    donation['description'] ?? 'No description',
-                    donation['image'] ?? 'assets/images/default_image.webp',
-                    donation['collected'] ?? 0,
-                    donation['goal'] ?? 0,
+                    'donation', 
+                    compaigns['title'] ?? 'No title',
+                    compaigns['description'] ?? 'No description',
+                    imageWidget, 
+                    compaigns['resource'] ?? 0,
+                    compaigns['resource'] ?? 0,
+                    detailsButton: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          OrgDonationDescriptionScreen.pageRoute,
+                          arguments: compaigns, 
+                        );
+                      },
+                      child: const Text('Details'),
+                    ),
                   );
                 }).toList(),
               );

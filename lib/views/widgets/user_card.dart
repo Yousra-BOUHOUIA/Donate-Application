@@ -4,8 +4,16 @@ import '../../imports/user_barrel.dart';
 
 String btntext = ' ';
 
-Widget createUserCard(BuildContext context, String type, String title, String description, String image, int volunteers, int totalVolunteers) {
-  // Set btntext based on the type
+Widget createUserCard(
+  BuildContext context,
+  String type,
+  String title,
+  String description,
+  Widget image,
+  int volunteers,
+  int totalVolunteers, {
+  Widget? detailsButton,
+}) {
   if (type == 'donate') {
     btntext = 'Donate Now';
   } else if (type == 'event') {
@@ -17,6 +25,7 @@ Widget createUserCard(BuildContext context, String type, String title, String de
       borderRadius: BorderRadius.circular(12),
     ),
     elevation: 4,
+    color: appBackgroundColor,
     child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -27,12 +36,7 @@ Widget createUserCard(BuildContext context, String type, String title, String de
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  image, // Use local asset
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
+                child: image,
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -64,7 +68,7 @@ Widget createUserCard(BuildContext context, String type, String title, String de
           ),
           const SizedBox(height: 8),
           LinearProgressIndicator(
-            value: volunteers / totalVolunteers,
+            value: totalVolunteers > 0 ? volunteers / totalVolunteers : 0,
             backgroundColor: Colors.grey[300],
             color: appButtonColor,
           ),
@@ -72,30 +76,31 @@ Widget createUserCard(BuildContext context, String type, String title, String de
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlinedButton(
-                onPressed: () {
-                  if (type == 'donate') {
-                    Navigator.pushNamed(context, UserDonationDescriptionScreen.pageRoute);
-                  } else if (type == 'event') {
-                    Navigator.pushNamed(context, UserEventDescriptionScreen.pageRoute);
-                  }
-                },
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFF0E1F2F)), 
-                ),
-                child: const Text(
-                  'Details',
-                  style: TextStyle(
-                    color: Color(0xFF0E1F2F),
+              detailsButton ??
+                  OutlinedButton(
+                    onPressed: () {
+                      if (type == 'donate') {
+                        Navigator.pushNamed(context, UserDonationDescriptionScreen.pageRoute);
+                      } else if (type == 'event') {
+                        Navigator.pushNamed(context, UserEventDescriptionScreen.pageRoute);
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF0E1F2F)),
+                    ),
+                    child: const Text(
+                      'Details',
+                      style: TextStyle(
+                        color: Color(0xFF0E1F2F),
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                  
               ElevatedButton(
                 onPressed: () {
                   if (type == 'donate') {
                     Navigator.pushNamed(context, AddDonationScreen.pageRoute);
                   } else if (type == 'event') {
-                    // Add action for event if needed
                   }
                 },
                 style: ElevatedButton.styleFrom(

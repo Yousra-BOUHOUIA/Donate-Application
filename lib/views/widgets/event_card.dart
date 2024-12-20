@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../themes/colors.dart';
 import '../../imports/user_barrel.dart';
 import '../../imports/organization_barrel.dart';
 
@@ -31,7 +30,7 @@ Widget eventCard(BuildContext context, bool isOrganization, String image) {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.black.withOpacity(0.4), // Optional, keeps overlay effect
+          color: Colors.black.withOpacity(0.4), 
         ),
       ),
     ),

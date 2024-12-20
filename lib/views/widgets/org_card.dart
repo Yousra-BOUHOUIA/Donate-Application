@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import '../../themes/colors.dart';
 import '../../imports/organization_barrel.dart';
 
-
-
 Widget createOrgCard(
   BuildContext context,
-  String type,  
+  String type,
   String title,
   String description,
-  String image,
+  Widget image,
   int volunteers,
-  int totalVolunteers
-) {
+  int totalVolunteers, {
+  Widget? detailsButton,
+}) {
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
     ),
     elevation: 4,
+    color: appBackgroundColor,
     child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -28,12 +28,7 @@ Widget createOrgCard(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  image,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
+                child: image,
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -73,24 +68,34 @@ Widget createOrgCard(
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlinedButton(
-                onPressed: () {
-                  if (type == 'donation') {
-                    Navigator.pushNamed(context, OrgDonationDescriptionScreen.pageRoute);
-                  } else if (type == 'event') {
-                    Navigator.pushNamed(context, OrgEventDescriptionScreen.pageRoute);
-                  }
-                },
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFF0E1F2F)), // Blue border
-                ),
-                child: const Text(
-                  'Details',
-                  style: TextStyle(
-                    color: Color(0xFF0E1F2F), 
+              detailsButton ??
+                  OutlinedButton(
+                    onPressed: () {
+                      if (type == 'donation') {
+                        Navigator.pushNamed(
+                          context,
+                          OrgDonationDescriptionScreen.pageRoute,
+                        );
+                      } else if (type == 'event') {
+                        Navigator.pushNamed(
+                          context,
+                          OrgEventDescriptionScreen.pageRoute,
+                        );
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF0E1F2F)), 
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      'Details',
+                      style: TextStyle(
+                        color: Colors.black, 
+                      ),
+                    ),
                   ),
-                ),
-              ),
             ],
           ),
         ],
@@ -98,4 +103,3 @@ Widget createOrgCard(
     ),
   );
 }
-

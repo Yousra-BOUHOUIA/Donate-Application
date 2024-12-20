@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import '../../widgets/main_background.dart';
 import '../../widgets/user_card.dart';
 import '../../../themes/colors.dart';
 import '../../widgets/footer.dart';
+import '../../../imports/user_barrel.dart';
 import 'package:donate_application/databases/tables/campaign.dart';
 
 class UserAll extends StatelessWidget {
@@ -38,7 +39,7 @@ class UserAll extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: FutureBuilder<List<Map<String, dynamic>>>(
+                      child: FutureBuilder<List<Map<String, dynamic>>>( 
                         future: _campaignTable.getAllRecords(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -48,21 +49,50 @@ class UserAll extends StatelessWidget {
                             return Text('Error: ${snapshot.error}');
                           }
                           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                            return const Text('No records available.');
+                            return const Center(child: Text('No records available.'));
                           }
 
                           final records = snapshot.data!;
                           return ListView(
                             physics: const BouncingScrollPhysics(),
                             children: records.map((record) {
+                              var imageBytes = record['image'];
+
+                              Widget imageWidget = SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Image.memory(
+                                  imageBytes,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+
                               return createUserCard(
                                 context,
                                 record['type'],
                                 record['title'] ?? 'No title',
                                 record['description'] ?? 'No description',
-                                'assets/images/org_image.jpg',
+                                imageWidget,
                                 record['resource'] ?? 0,
                                 record['resource'] ?? 0,
+                                detailsButton: ElevatedButton(
+                                  onPressed: () {
+                                    if (record['type'] == 'event') {
+                                      Navigator.pushNamed(
+                                        context,
+                                        UserEventDescriptionScreen.pageRoute,
+                                        arguments: record,
+                                      );
+                                    } else if (record['type'] == 'donation') {
+                                      Navigator.pushNamed(
+                                        context,
+                                        UserDonationDescriptionScreen.pageRoute,
+                                        arguments: record,
+                                      );
+                                    }
+                                  },
+                                  child: const Text('Details'),
+                                ),
                               );
                             }).toList(),
                           );

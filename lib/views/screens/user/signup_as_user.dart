@@ -1,3 +1,4 @@
+import 'package:donate_application/views/screens/user/user_homepage.dart';
 import 'package:flutter/material.dart';
 import '../../../themes/colors.dart';
 import '../../../imports/organization_barrel.dart';
@@ -243,7 +244,7 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                     child: ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          print("Inserting data an dhcekiiiiiiiiiiiiiiiiiiig");
+                          print("Inserting data and cheking");
 
                           bool isInserted = await dbParticipantTable.insertRecord({
                             'full_name': _nameController.text,
@@ -260,7 +261,37 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
 
                           if (isInserted) {
 
-                            print("success");
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => const AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    SizedBox(height: 20),
+                                    Text(
+                                    "We have successfully created your account! Please wait a moment.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  ],
+                                ),
+                              ),
+                            );
+
+                            // Wait for 8 seconds
+                            await Future.delayed(const Duration(seconds: 8));
+
+                            // Close dialog and navigate
+                            if (mounted) {
+                              Navigator.pop(context); // Close the dialog
+                              Navigator.pushNamed(context, UserHomePage.pageRoute);
+                            }
                            } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Failed to register user. Please try again.")),

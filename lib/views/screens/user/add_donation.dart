@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../databases/tables/user_donation.dart';
+import '../../../databases/tables/user_donation.dart';  // Import the donation table database class
 import '../../widgets/build3DDropdown.dart';
 import '../../widgets/build3DTextField.dart';
 import 'dart:io';
@@ -16,6 +16,7 @@ class AddDonationScreen extends StatefulWidget {
 }
 
 class _AddDonationScreenState extends State<AddDonationScreen> {
+  final DBUser_donationTable _DBUser_donationTable = DBUser_donationTable();
   final ImagePicker _picker = ImagePicker();
   final _formKey = GlobalKey<FormState>();
   final _contactController = TextEditingController();
@@ -23,9 +24,7 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
   final _userNameController = TextEditingController();
   final _locationController = TextEditingController();
 
-  // ignore: unused_field
   String? _selectedColor;
-  // ignore: unused_field
   String? _selectedCondition;
   XFile? _selectedImage;
 
@@ -47,12 +46,12 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
       _selectedCondition = null;
     });
     _formKey.currentState?.reset();
+    print("Form has been reset!");
   }
 
   bool _validateContact(String value) {
     final emailRegex = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     final phoneRegex = RegExp(r"^\d{10,15}$");
-
     return emailRegex.hasMatch(value) || phoneRegex.hasMatch(value);
   }
 
@@ -71,7 +70,7 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context); // Navigate back to the previous page
+            Navigator.pop(context);
           },
         ),
       ),
@@ -180,28 +179,25 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
                     if (_formKey.currentState!.validate()) {
                       final String itemName = _itemNameController.text;
                       final String contact = _contactController.text;
-                      final String userName = _userNameController.text;
                       final String location = _locationController.text;
                       final String? selectedColor = _selectedColor;
                       final String? selectedCondition = _selectedCondition;
 
                       final donationData = {
-                        'donation_amount': 0.0,
-                        'donation_date': DateTime.now().toIso8601String(),
                         'image': _selectedImage != null
                             ? await _selectedImage!.readAsBytes()
                             : null,
-                        'location': location,
                         'title': itemName,
-                        'contact': contact,
-                        'user_name': userName,
                         'color': selectedColor,
                         'condition': selectedCondition,
+                        'contact': contact,
+                        'location': location,
                       };
 
-                      final dbUserDonationTable = DBUser_donationTable();
+                      print("Donation Data: $donationData");
+
                       bool isInserted =
-                          await dbUserDonationTable.insertRecord(donationData);
+                          await _DBUser_donationTable.insertRecord(donationData);
 
                       if (isInserted) {
                         ScaffoldMessenger.of(context).showSnackBar(

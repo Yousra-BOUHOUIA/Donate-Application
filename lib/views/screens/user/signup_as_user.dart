@@ -1,8 +1,8 @@
-import 'package:donate_application/databases/tables/participant.dart';
 import 'package:flutter/material.dart';
 import '../../../themes/colors.dart';
 import '../../../imports/organization_barrel.dart';
 import '../../../imports/common_barrel.dart';
+import 'package:donate_application/databases/tables/participant.dart';
 
 class SignUpAsUserPage extends StatefulWidget {
   const SignUpAsUserPage({super.key});
@@ -14,13 +14,37 @@ class SignUpAsUserPage extends StatefulWidget {
 
 class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
   bool isUser = true;
-  final bool _isPasswordVisible = false;
+  bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   DBParticipantTable dbParticipantTable = DBParticipantTable();
+  
 
   final _formKey = GlobalKey<FormState>();
-  final Map<String, String> _formData = {};
-  String? _password; // Temporary variable for password validation
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _professionController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  String? _password; 
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _genderController.dispose();
+    _professionController.dispose();
+    _dobController.dispose();
+    _phoneController.dispose();
+    _addressController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +74,7 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
           ),
           // Content
           SingleChildScrollView(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -76,8 +99,7 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const SignUpAsOrganizationPage(),
+                                builder: (context) => const SignUpAsOrganizationPage(),
                               ),
                             );
                           }
@@ -100,14 +122,14 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                   const SizedBox(height: 30),
                   // Input fields
                   CustomTextField(
+                    controller: _nameController,
                     icon: Icons.person,
                     label: "Name",
-                    validator: (value) =>
-                        value!.isEmpty ? "Name is required" : null,
-                    onSaved: (value) => _formData['name'] = value!,
+                    validator: (value) => value!.isEmpty ? "Name is required" : null,
                   ),
                   const SizedBox(height: 20),
                   CustomTextField(
+                    controller: _emailController,
                     icon: Icons.email,
                     label: "Email",
                     validator: (value) {
@@ -118,34 +140,31 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                       }
                       return null;
                     },
-                    onSaved: (value) => _formData['email'] = value!,
                   ),
                   const SizedBox(height: 20),
                   CustomTextField(
+                    controller: _genderController,
                     icon: Icons.transgender,
                     label: "Gender",
-                    validator: (value) =>
-                        value!.isEmpty ? "Gender is required" : null,
-                    onSaved: (value) => _formData['gender'] = value!,
+                    validator: (value) => value!.isEmpty ? "Gender is required" : null,
                   ),
                   const SizedBox(height: 20),
                   CustomTextField(
+                    controller: _professionController,
                     icon: Icons.work,
                     label: "Profession",
-                    validator: (value) =>
-                        value!.isEmpty ? "Profession is required" : null,
-                    onSaved: (value) => _formData['profession'] = value!,
+                    validator: (value) => value!.isEmpty ? "Profession is required" : null,
                   ),
                   const SizedBox(height: 20),
                   CustomTextField(
+                    controller: _dobController,
                     icon: Icons.calendar_today,
                     label: "Date of Birth",
-                    validator: (value) =>
-                        value!.isEmpty ? "Date of Birth is required" : null,
-                    onSaved: (value) => _formData['dob'] = value!,
+                    validator: (value) => value!.isEmpty ? "Date of Birth is required" : null,
                   ),
                   const SizedBox(height: 20),
                   CustomTextField(
+                    controller: _phoneController,
                     icon: Icons.phone,
                     label: "Phone",
                     validator: (value) {
@@ -156,19 +175,18 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                       }
                       return null;
                     },
-                    onSaved: (value) => _formData['phone'] = value!,
                   ),
                   const SizedBox(height: 20),
                   CustomTextField(
+                    controller: _addressController,
                     icon: Icons.location_on,
                     label: "Address",
-                    validator: (value) =>
-                        value!.isEmpty ? "Address is required" : null,
-                    onSaved: (value) => _formData['address'] = value!,
+                    validator: (value) => value!.isEmpty ? "Address is required" : null,
                   ),
                   const SizedBox(height: 20),
                   // Password Field with Eye Icon Toggle
                   CustomTextField(
+                    controller: _passwordController,
                     icon: Icons.lock,
                     label: "Password",
                     isPassword: !_isPasswordVisible,
@@ -176,10 +194,9 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                       if (value == null || value.length < 6) {
                         return "Password must be at least 6 characters";
                       }
-                      _password = value; // Store password temporarily
+                      _password = value;
                       return null;
                     },
-                    onSaved: (value) => _formData['password'] = value!,
                     suffixIcon: IconButton(
                       icon: Icon(
                         _isPasswordVisible
@@ -187,30 +204,17 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                             : Icons.visibility,
                         color: appButtonColor,
                       ),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-
-                          bool isInserted =
-                              await dbParticipantTable.insertRecord(_formData);
-
-                          if (isInserted) {
-                            Navigator.pushReplacementNamed(
-                                context, '/user_home');
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                      "Failed to register user. Please try again.")),
-                            );
-                          }
-                        }
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
                       },
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Confirm Password Field with Eye Icon Toggle
+
                   CustomTextField(
+                    controller: _confirmPasswordController,
                     icon: Icons.lock_outline,
                     label: "Confirm Password",
                     isPassword: !_isConfirmPasswordVisible,
@@ -229,8 +233,7 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                       ),
                       onPressed: () {
                         setState(() {
-                          _isConfirmPasswordVisible =
-                              !_isConfirmPasswordVisible;
+                          _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
                         });
                       },
                     ),
@@ -238,17 +241,36 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                   const SizedBox(height: 40),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          // Navigate to the home screen
-                          Navigator.pushReplacementNamed(context, '/user_home');
+                          print("Inserting data an dhcekiiiiiiiiiiiiiiiiiiig");
+
+                          bool isInserted = await dbParticipantTable.insertRecord({
+                            'full_name': _nameController.text,
+                            'email': _emailController.text,
+                            'gender': _genderController.text,
+                            'profession': _professionController.text,
+                            'date_of_birth': _dobController.text,
+                            'phone_num': _phoneController.text,
+                            'address': _addressController.text,
+                            'password': _passwordController.text,
+                            'image': '',
+
+                          });
+
+                          if (isInserted) {
+
+                            print("success");
+                           } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Failed to register user. Please try again.")),
+                            );
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: appButtonColor,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 50),
+                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -265,16 +287,12 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()),
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
                         );
                       },
                       child: const Text(
                         "Already have an account? Login In",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: appButtonColor,
-                        ),
+                        style: TextStyle(fontSize: 14, color: appButtonColor),
                       ),
                     ),
                   ),
@@ -289,29 +307,29 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
 }
 
 class CustomTextField extends StatelessWidget {
+  final TextEditingController controller;
   final IconData icon;
   final String label;
   final bool isPassword;
   final String? Function(String?) validator;
-  final void Function(String?)? onSaved;
   final Widget? suffixIcon;
 
   const CustomTextField({
     super.key,
+    required this.controller,
     required this.icon,
     required this.label,
     this.isPassword = false,
     required this.validator,
-    this.onSaved,
     this.suffixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       obscureText: isPassword,
       validator: validator,
-      onSaved: onSaved,
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: appButtonColor),
         labelText: label,
@@ -332,22 +350,26 @@ class CustomTextField extends StatelessWidget {
 class WaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    final path = Path();
-    path.lineTo(0, size.height);
-    final firstControlPoint = Offset(size.width / 4, size.height - 50);
-    final firstEndPoint = Offset(size.width / 2, size.height - 30);
+    var path = Path();
+    path.lineTo(0, size.height * 0.6);
+
+    var firstControlPoint = Offset(size.width * 0.2, size.height * 0.2);
+    var firstEndPoint = Offset(size.width * 0.5, size.height * 0.3);
     path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
         firstEndPoint.dx, firstEndPoint.dy);
-    final secondControlPoint =
-        Offset(size.width - (size.width / 4), size.height);
-    final secondEndPoint = Offset(size.width, size.height - 50);
+
+    var secondControlPoint = Offset(size.width * 0.8, size.height * 0.4);
+    var secondEndPoint = Offset(size.width, size.height * 0.3);
     path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
         secondEndPoint.dx, secondEndPoint.dy);
+
     path.lineTo(size.width, 0);
     path.close();
     return path;
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
+  }
 }

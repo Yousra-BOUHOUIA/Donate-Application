@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+import '../../../imports/organization_barrel.dart';
 import '../../../themes/colors.dart';
 import '../../../imports/user_barrel.dart';
-//import '../../../imports/common_barrel.dart';
 import 'package:donate_application/databases/tables/organization.dart';
 
 class SignUpAsOrganizationPage extends StatefulWidget {
@@ -16,16 +16,23 @@ class SignUpAsOrganizationPage extends StatefulWidget {
 class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
   bool isUser = false;
   final _formKey = GlobalKey<FormState>();
-  final Map<String, String> _formData = {};
 
-  
+  final TextEditingController _organizationNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _transactionSupportController = TextEditingController();
+  final TextEditingController _bankAccountController = TextEditingController();
+  final TextEditingController _typeController = TextEditingController();
+  final TextEditingController _socialMediaController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   String? uploadedFilePath;
-  DBOrganizationTable dbOrganizationTable = DBOrganizationTable();
 
+  DBOrganizationTable dbOrganizationTable = DBOrganizationTable();
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +87,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const SignUpAsUserPage(), 
+                                builder: (context) => const SignUpAsUserPage(),
                               ),
                             );
                           }
@@ -103,21 +109,21 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                   ),
                   const SizedBox(height: 30),
                   // Input fields
-                  buildCustomTextField(Icons.business, "Organization Name"),
+                  buildCustomTextField(Icons.business, "Organization Name", _organizationNameController),
                   const SizedBox(height: 20),
-                  buildCustomTextField(Icons.phone, "Phone"),
+                  buildCustomTextField(Icons.phone, "Phone", _phoneController),
                   const SizedBox(height: 20),
-                  buildCustomTextField(Icons.location_on, "Address"),
+                  buildCustomTextField(Icons.location_on, "Address", _addressController),
                   const SizedBox(height: 20),
-                  buildCustomTextField(Icons.payment, "Do you support money transaction?"),
+                  buildCustomTextField(Icons.payment, "Do you support money transaction?", _transactionSupportController),
                   const SizedBox(height: 20),
-                  buildCustomTextField(Icons.account_balance, "Bank Account"),
+                  buildCustomTextField(Icons.account_balance, "Bank Account", _bankAccountController),
                   const SizedBox(height: 20),
-                  buildCustomTextField(Icons.business_center, "Type"),
+                  buildCustomTextField(Icons.business_center, "Type", _typeController),
                   const SizedBox(height: 20),
-                  buildCustomTextField(Icons.share, "Social Media"),
+                  buildCustomTextField(Icons.share, "Social Media", _socialMediaController),
                   const SizedBox(height: 20),
-                  buildCustomTextField(Icons.email, "Email"),
+                  buildCustomTextField(Icons.email, "Email", _emailController),
                   const SizedBox(height: 20),
                   // File upload field
                   Column(
@@ -130,9 +136,8 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                       const SizedBox(height: 8),
                       IconButton(
                         onPressed: () async {
-                          // Implement file picker logic here
                           setState(() {
-                            uploadedFilePath = "example_document.pdf"; // Mock file name
+                            uploadedFilePath = "example_document.pdf"; 
                           });
                         },
                         icon: const Icon(Icons.upload_file, size: 32),
@@ -172,26 +177,64 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                   const SizedBox(height: 40),
                   Center(
                     child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        _formKey.currentState?.save();
+                      onPressed: () async {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          Map<String, dynamic> data = {
+                            'organization_name': _organizationNameController.text.trim(),
+                            'phone_num': _phoneController.text.trim(),
+                            'address': _addressController.text.trim(),
+                            'money_transaction': _transactionSupportController.text.trim(),
+                            'bank_account': _bankAccountController.text.trim(),
+                            'organization_type': _typeController.text.trim(),
+                            'social_media': _socialMediaController.text.trim(),
+                            'email': _emailController.text.trim(),
+                            'uploaded_file': 'null',
+                            'password': _passwordController.text, 
+                          };
 
-                        // Adding the password data to the formData map
-                        _formData['password'] = _passwordController.text;
-                        _formData['confirm_password'] = _confirmPasswordController.text; 
+                          int success = await dbOrganizationTable.insertOrganization(data);
+                          if (success > 0) {
 
-                        // Insert the data into the database
-                        bool isInserted = await dbOrganizationTable.insertRecord(_formData);
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => const AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    SizedBox(height: 20),
+                                    Text(
+                                    "We have successfully created your account! Please wait a moment.",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  ],
+                                ),
+                              ),
+                            );
 
-                        if (isInserted) {
-                          Navigator.pushReplacementNamed(context, '/org_homepage');
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Failed to register organization. Please try again.")),
-                          );
+                            // Wait for 8 seconds
+                            await Future.delayed(const Duration(seconds: 8));
+
+                            // Close dialog and navigate
+                            if (mounted) {
+                              Navigator.pop(context); // Close the dialog
+                              Navigator.pushNamed(context, OrgHomePage.pageRoute);
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Failed to create your account. Please try again later."),
+                              ),
+                            );
+                          }
                         }
-                      }
-                    },
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: appButtonColor,
                         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
@@ -229,16 +272,14 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
     );
   }
 
-  Widget buildCustomTextField(IconData icon, String label) {
+  Widget buildCustomTextField(IconData icon, String label, TextEditingController controller) {
     return TextFormField(
+      controller: controller,
       validator: (value) {
-        if (value == null || value.isEmpty) {
+        if (value == null || value.trim().isEmpty) {
           return 'Please enter $label';
         }
         return null;
-      },
-      onSaved: (value) {
-        _formData[label] = value ?? '';
       },
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: appButtonColor),
@@ -266,25 +307,15 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
         if (label == "Password" && value.length < 6) {
           return 'Password must be at least 6 characters';
         }
-        if (label == "Confirm Password" &&
-            value != _passwordController.text) {
+        if (label == "Confirm Password" && value != _passwordController.text) {
           return 'Passwords do not match';
         }
         return null;
       },
-      onSaved: (value) {
-        _formData[label] = value ?? '';
-      },
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.lock, color: appButtonColor),
+        prefixIcon: Icon(Icons.lock, color: appButtonColor),
         labelText: label,
         labelStyle: const TextStyle(color: appButtonColor),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: appButtonColor),
-        ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: appButtonColor),
-        ),
         suffixIcon: IconButton(
           icon: Icon(
             isPasswordVisible ? Icons.visibility : Icons.visibility_off,
@@ -292,11 +323,17 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
           ),
           onPressed: () => onToggleVisibility(!isPasswordVisible),
         ),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: appButtonColor),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: appButtonColor),
+        ),
       ),
     );
   }
-}
 
+}
 class WaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -321,5 +358,4 @@ class WaveClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return false;
-  }
-}
+  }}

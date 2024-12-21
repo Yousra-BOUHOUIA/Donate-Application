@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
         UserAll.pageRoute: (ctx) =>  UserAll(),
         UserEvents.pageRoute: (ctx) => UserEvents(),
       },
-      home: OrgHomePage(),
+      home: SignUpAsUserPage(),
     );
   }
 }

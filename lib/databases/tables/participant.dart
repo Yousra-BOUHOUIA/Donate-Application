@@ -8,36 +8,58 @@ class DBParticipantTable extends DBBaseTable {
 
   static const String sql_code = '''
     CREATE TABLE participant (
-        email TEXT,
-        password TEXT,
-        contact_id INTEGER,
         participant_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        notif_id INTEGER,
-        card_id INTEGER,
-        full_name TEXT,
+        name TEXT,
+        email TEXT,
         gender TEXT CHECK(gender IN ('female', 'male')),
         profession TEXT,
         date_of_birth DATE,
         phone_num TEXT,
         address TEXT,
-        image BLOB,
-        FOREIGN KEY (notif_id) REFERENCES Notification(notif_id),
-        FOREIGN KEY (card_id) REFERENCES Card(card_id),
-         FOREIGN KEY (contact_id) REFERENCES Contact(contact_id)
+        password TEXT,
+        image BLOB
     );
-    ''';
+  ''';
+
+Future<void> dropTable() async {
+  final db = await DBHelper.getDatabase(); // Access the database
+
+  await db.execute('''
+    DROP TABLE IF EXISTS participants;
+  ''');
+  print("Table dropped successfully");
+}
+
+
+Future<void> checkTableSchema() async {
+    try {
+      final db = await DBHelper.getDatabase();
+
+      // Run PRAGMA query to get the table schema
+      List<Map<String, dynamic>> result = await db.rawQuery('PRAGMA table_info(participant);');
+
+      // Print out the result to inspect the schema
+      for (var column in result) {
+        print('Column: ${column['name']}, Type: ${column['type']}');
+      }
+    } catch (e) {
+      print('Error checking table schema: $e');
+    }
+  }
+
   @override
   Future<bool> insertRecord(Map<String, dynamic> data) async {
     try {
-      // Insert participant data directly
-      final database = await DBHelper.getDatabase();
-      int rowId = await database.insert(
+      final db = await DBHelper.getDatabase();  
+      print("inserting inot table");
+
+      int rowId = await db.insert(
         db_table,
         data,
-        conflictAlgorithm: ConflictAlgorithm.replace,
+        conflictAlgorithm: ConflictAlgorithm.replace, 
       );
 
-      return rowId > 0; // Return true if insertion was successful
+      return rowId > 0; 
     } catch (e, stacktrace) {
       print('Error inserting into $db_table: $e\nStackTrace: $stacktrace');
       return false;

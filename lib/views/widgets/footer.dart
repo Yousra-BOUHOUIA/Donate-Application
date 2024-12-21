@@ -16,7 +16,7 @@ class Footer extends StatefulWidget {
 }
 
 class _FooterState extends State<Footer> {
-  int? _selectedIndex; // Keeps track of the selected tab index (null means no tab selected)
+  int? _selectedIndex; 
 
 
   

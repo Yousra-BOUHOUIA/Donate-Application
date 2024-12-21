@@ -8,42 +8,49 @@ class DBOrganizationTable{
 
   static const String sql_code = '''
     CREATE TABLE organization (
- organization_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        email TEXT,
-        password TEXT,
-        contact_id INTEGER,
-        social_media_id INTEGER,
-        notif_id INTEGER,
+        organization_id INTEGER PRIMARY KEY AUTOINCREMENT,
         organization_name TEXT,
-        phone_num TEXT,
+        phone_num INT,
         address TEXT,
-        money_transaction BOOLEAN,
-        bank_account TEXT,
+        money_transaction TEXT,
+        bank_account INT,
         organization_type TEXT,
-        image BLOB,
-        description TEXT,
-        uploaded_files BLOB,
-        FOREIGN KEY (social_media_id) REFERENCES Social_Media(social_media_id),
-        FOREIGN KEY (notif_id) REFERENCES Notification(notif_id),
-        FOREIGN KEY (card_id) REFERENCES Card(card_id),
-        FOREIGN KEY (contact_id) REFERENCES Contact(contact_id)
+        social_media TEXT,
+        email TEXT,
+        uploaded_file TEXT,
+        password TEXT
     );
   ''';
 
-  Future<bool> insertRecord(Map<String, dynamic> data) async {
+Future<int> insertOrganization(Map<String, dynamic> data) async {
+  print("waiting getdatabase");
+
+  final db = await DBHelper.getDatabase();
+  
+  // Check if the 'organization' table exists before performing the insert
+  bool tableExists = await DBHelper.isTableExists('organization');
+  if (!tableExists) {
+    print("Table 'organization' does not exist!");
+    print("SQL for creating table: ${DBOrganizationTable.sql_code}");
+
+    // Attempt to create the table
     try {
-      final database = await DBHelper.getDatabase();
-      await database.insert(
-        db_table,
-        data,
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      return true;
-    } catch (e, stacktrace) {
-      print('Error inserting into $db_table: $e --> $stacktrace');
+      print("Creating 'organization' table...");
+      await db.execute(DBOrganizationTable.sql_code); // Assuming this SQL code creates the table
+      print("Table 'organization' created successfully.");
+    } catch (e) {
+      print("Error creating table: $e");
+      return -1; // Return -1 or handle it in another way if table creation fails
     }
-    return false;
   }
+  
+  // After making sure the table exists, perform the insert
+  print("waiting insert");
+  return await db.insert('organization', data);
+}
+
+
+
 Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
       {String? condition, List<dynamic>? conditionArgs}) async {
     try {

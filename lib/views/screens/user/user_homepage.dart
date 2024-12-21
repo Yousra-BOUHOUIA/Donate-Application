@@ -8,7 +8,7 @@ import 'package:donate_application/databases/tables/campaign.dart';
 import '/imports/user_barrel.dart';
 
 class UserHomePage extends StatefulWidget {
-  UserHomePage({super.key});
+  const UserHomePage({super.key});
   static const String pageRoute = '/user_homepage';
   
   @override

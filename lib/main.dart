@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'imports/common_barrel.dart';
 import 'imports/organization_barrel.dart';
 import 'imports/user_barrel.dart';
-import 'package:donate_application/bloc/PasswordVisibility_Cubit.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -22,8 +21,7 @@ class MyApp extends StatelessWidget {
         TermsAndPoliciesScreen.pageRoute: (ctx) =>
             const TermsAndPoliciesScreen(),
         ChangePasswordApp.pageRoute: (ctx) => const ChangePasswordApp(),
-        ProductDescriptionPage.pageRoute: (ctx) =>
-            const ProductDescriptionPage(),
+        ProductDescriptionPage.pageRoute: (ctx) => ProductDescriptionPage(),
         LoginPage.pageRoute: (ctx) => const LoginPage(),
         SignUpAsUserPage.pageRoute: (ctx) => const SignUpAsUserPage(),
         SignUpAsOrganizationPage.pageRoute: (ctx) =>
@@ -34,12 +32,12 @@ class MyApp extends StatelessWidget {
         OrgProfilePage.pageRoute: (ctx) => const OrgProfilePage(),
         OrgProfileDetailsScreen.pageRoute: (ctx) =>
             const OrgProfileDetailsScreen(),
-        OrgPostsScreen.pageRoute: (ctx) => const OrgPostsScreen(),
+        OrgPostsScreen.pageRoute: (ctx) => OrgPostsScreen(),
 
         EditOrgProfileScreen.pageRoute: (ctx) => const EditOrgProfileScreen(),
         OrgNotification.pageRoute: (ctx) => const OrgNotification(),
 
-        OrgHomePage.pageRoute: (ctx) => OrgHomePage(),
+        OrgHomePage.pageRoute: (ctx) => const OrgHomePage(),
         EventsPage.pageRoute: (ctx) => EventsPage(),
         DonationsPage.pageRoute: (ctx) => DonationsPage(),
         CardContentPage.pageRoute: (ctx) => CardContentPage(),
@@ -61,15 +59,12 @@ class MyApp extends StatelessWidget {
         UserEventDescriptionScreen.pageRoute: (ctx) =>
             const UserEventDescriptionScreen(),
         AddDonationScreen.pageRoute: (ctx) => const AddDonationScreen(),
-        UserHomePage.pageRoute: (ctx) =>  UserHomePage(),
+        UserHomePage.pageRoute: (ctx) =>  const UserHomePage(),
         UserDonations.pageRoute: (ctx) => UserDonations(),
         UserAll.pageRoute: (ctx) =>  UserAll(),
         UserEvents.pageRoute: (ctx) => UserEvents(),
       },
-      home: BlocProvider(
-        create: (_) => PasswordVisibilityCubit(),
-        child: LoginPage(),
-      ),
+      home: const SignUpAsUserPage(),
     );
   }
 }

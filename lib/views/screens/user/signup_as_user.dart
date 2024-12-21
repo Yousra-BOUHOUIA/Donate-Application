@@ -242,63 +242,72 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                   const SizedBox(height: 40),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          print("Inserting data and cheking");
+   onPressed: () async {
+  if (_formKey.currentState!.validate()) {
+    print("Validating form inputs...");
 
-                          bool isInserted = await dbParticipantTable.insertRecord({
-                            'name': _nameController.text,
-                            'email': _emailController.text,
-                            'gender': _genderController.text,
-                            'profession': _professionController.text,
-                            'date_of_birth': _dobController.text,
-                            'phone_num': _phoneController.text,
-                            'address': _addressController.text,
-                            'password': _passwordController.text,
-                            'image': '',
+    Map<String, dynamic> userData = {
+      'name': _nameController.text,
+      'email': _emailController.text,
+      'gender': _genderController.text,
+      'profession': _professionController.text,
+      'date_of_birth': _dobController.text,
+      'phone_num': _phoneController.text,
+      'address': _addressController.text,
+      'password': _passwordController.text,
+      'image': '', // Assuming no image is uploaded for now
+    };
 
-                          });
+    print("Preparing to insert user data into the database...");
 
-                          if (isInserted) {
+    print("drop table first");
+print("Dropping the participant table...");
+  await dbParticipantTable.dropTable();
+  print("Participant table dropped successfully.");
+      
+    int result = await dbParticipantTable.insertRecord(userData);
 
-                            showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (context) => const AlertDialog(
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CircularProgressIndicator(),
-                                    SizedBox(height: 20),
-                                    Text(
-                                    "We have successfully created your account! Please wait a moment.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  ],
-                                ),
-                              ),
-                            );
+    if (result > 0) {
+      // Success scenario
+      print("User data inserted successfully with row ID: $result");
 
-                            // Wait for 8 seconds
-                            await Future.delayed(const Duration(seconds: 8));
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 20),
+              Text(
+                "We have successfully created your account! Please wait a moment.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 
-                            // Close dialog and navigate
-                            if (mounted) {
-                              Navigator.pop(context); // Close the dialog
-                              Navigator.pushNamed(context, UserHomePage.pageRoute);
-                            }
-                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Failed to register user. Please try again.")),
-                            );
-                          }
-                        }
-                      },
+      await Future.delayed(const Duration(seconds: 8));
+      if (mounted) {
+        Navigator.pop(context); // Close dialog
+        Navigator.pushNamed(context, UserHomePage.pageRoute);
+      }
+    } else {
+      // Error scenario
+      print("Failed to insert user data. Please check the logs for details.");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Failed to register user. Please try again.")),
+      );
+    }
+  }
+},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: appButtonColor,
                         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),

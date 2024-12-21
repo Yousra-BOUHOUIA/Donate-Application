@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../themes/colors.dart';
-import '../../../bloc/PasswordVisibility_cubit.dart'; 
+//import 'package:donate_application/imports/user_barrel.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,12 +11,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool rememberMe = false;
+  bool rememberMe = false; // Checkbox state
+  bool obscurePassword = true; // Password visibility state
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appBackgroundColor,
+      backgroundColor: appBackgroundColor, // Set the background color of the Scaffold
       body: Stack(
         children: [
           // Gradient background
@@ -27,83 +27,76 @@ class _LoginPageState extends State<LoginPage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  formGradientStart, 
-                  formGradientEnd,  
+                  formGradientStart, // Gradient start color
+                  formGradientEnd,   // Gradient end color
                 ],
                 stops: [
-                  0.29,
-                  0.98, 
+                  0.29, // 29% stop
+                  0.98, // 98% stop
                 ],
               ),
             ),
           ),
-
+          // Wave clipper section
           ClipPath(
             clipper: WaveClipper(),
             child: Container(
-              height: 300, 
-              color: backgroundColor, 
+              height: 300, // Adjust the height to fit your design
+              color: backgroundColor, // Background color of the wave
             ),
           ),
-
+          // Main login form with padding
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0), 
+            padding: const EdgeInsets.symmetric(horizontal: 20.0), // 20px padding on both left and right
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(16.0), 
+                padding: const EdgeInsets.all(16.0), // Padding inside the form
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
+                    // Login Title
                     const Text(
                       'Login',
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: textColor, 
+                        color: textColor, // Text color from the color file
                       ),
                     ),
                     const SizedBox(height: 40),
                     // Email input field
                     const TextField(
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email, color: primaryColor),
+                        prefixIcon: Icon(Icons.email, color: primaryColor), // Primary color
                         labelText: 'Email',
-                        labelStyle: TextStyle(color: labelColor),
+                        labelStyle: TextStyle(color: labelColor), // Label color
                         border: UnderlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    BlocProvider(
-                      create: (_) => PasswordVisibilityCubit(),
-                      child: BlocConsumer<PasswordVisibilityCubit, bool>(
-                        listener: (context, state) {},
-                        builder: (context, obscurePassword) {
-                          return TextField(
-                            obscureText: obscurePassword,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.lock, color: primaryColor),
-                              labelText: 'Password',
-                              labelStyle: const TextStyle(color: labelColor),
-                              border: const UnderlineInputBorder(),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  obscurePassword ? Icons.visibility_off : Icons.visibility,
-                                  color: primaryColor,
-                                ),
-                                onPressed: () {
-
-                                  context.read<PasswordVisibilityCubit>().togglePasswordVisibility();
-                                },
-                              ),
-                            ),
-                          );
-                        },
+                    // Password input field
+                    TextField(
+                      obscureText: obscurePassword,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock, color: primaryColor),
+                        labelText: 'Password',
+                        labelStyle: const TextStyle(color: labelColor),
+                        border: const UnderlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            color: primaryColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              obscurePassword = !obscurePassword;
+                            });
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 10),
-
+                    // Remember me and forgot password row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -134,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                     const SizedBox(height: 20),
-
+                    // Login button
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
@@ -146,11 +139,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: const Text(
                         'LOGIN',
-                        style: TextStyle(color: buttonTextColor, fontSize: 16), 
+                        style: TextStyle(color: buttonTextColor, fontSize: 16), // Button text color
                       ),
                     ),
                     const SizedBox(height: 30),
-
+                    // Signup link
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -187,20 +180,22 @@ class WaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.lineTo(0, size.height * 0.6); 
+    path.lineTo(0, size.height * 0.6); // Starting point with added height
 
-    var firstControlPoint = Offset(size.width * 0.2, size.height * 0.2); 
+    // First wave curve: gentler wave
+    var firstControlPoint = Offset(size.width * 0.2, size.height * 0.2); // Closer to the curve for gentler wave
     var firstEndPoint = Offset(size.width * 0.5, size.height * 0.3); 
     path.quadraticBezierTo(
         firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
 
-    var secondControlPoint = Offset(size.width * 0.8, size.height * 0.4); 
-    var secondEndPoint = Offset(size.width, 0); 
+    // Second wave curve: gentler outward wave
+    var secondControlPoint = Offset(size.width * 0.8, size.height * 0.4); // Closer for gentler curve
+    var secondEndPoint = Offset(size.width, 0); // End at the top-right corner
     path.quadraticBezierTo(
         secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
 
-    path.lineTo(size.width, 0); 
-    path.lineTo(0, 0);
+    path.lineTo(size.width, 0); // Go up to the top-right corner
+    path.lineTo(0, 0); // Return to the top-left corner
     path.close();
 
     return path;

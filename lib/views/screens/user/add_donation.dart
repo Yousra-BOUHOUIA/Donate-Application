@@ -193,13 +193,17 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
                         'contact': contact,
                         'location': location,
                       };
+                      print("Preparing to insert user data into the database...");
 
+    print("drop table first");
+print("Dropping the participant table...");
+  await _DBUser_donationTable.dropTable();
+  print("Participant table dropped successfully.");
                       print("Donation Data: $donationData");
 
-                      bool isInserted =
-                          await _DBUser_donationTable.insertRecord(donationData);
+                      int isInserted =await _DBUser_donationTable.insertRecord(donationData);
 
-                      if (isInserted) {
+                      if (isInserted > 0) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text('Donation added successfully!')),

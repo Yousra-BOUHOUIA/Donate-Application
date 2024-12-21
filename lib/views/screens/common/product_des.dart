@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ProductDescriptionPage extends StatelessWidget {
-  const ProductDescriptionPage({super.key});
+  ProductDescriptionPage({super.key});
   static const pageRoute = '/product_description';
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> product_description = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -27,88 +29,73 @@ class ProductDescriptionPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Image.asset(
-                      "assets/images/prod_des.jpg",
-                      fit: BoxFit.contain,
-                    ),
+                    child: product_description['image'] != null
+                        ? Image.memory(
+                            product_description['image'],
+                            fit: BoxFit.cover,
+                          )
+                        : const SizedBox(),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Image.asset(
-                      "assets/images/prod_des.jpg",
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Image.asset(
-                      "assets/images/prod_des.jpg",
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Image.asset(
-                      "assets/images/prod_des.jpg",
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  // Repeat the image if needed or add logic for multiple images
                 ],
               ),
             ),
             const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.circle, size: 8, color: Colors.grey),
-                      SizedBox(width: 4),
-                      Icon(Icons.circle, size: 8, color: Colors.black),
-                      SizedBox(width: 4),
-                      Icon(Icons.circle, size: 8, color: Colors.grey),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey.shade300,
-                        child: const Icon(Icons.person, color: Colors.black),
-                      ),
-                    ),
-                  ),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.circle, size: 8, color: Colors.grey),
+                SizedBox(width: 4),
+                Icon(Icons.circle, size: 8, color: Colors.black),
+                SizedBox(width: 4),
+                Icon(Icons.circle, size: 8, color: Colors.grey),
+              ],
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.grey.shade300,
+                  child: const Icon(Icons.person, color: Colors.black),
+                ),
+              ),
+            ),
             // Product Details
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Desktop",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
                   Text(
-                    "Meza bora kwa matumizi ya ofisi na masomo, ina droo tatu na funguo zake.",
-                    style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                    product_description['title'] ?? 'No title',
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center, // Centered row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Colour: ",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Text("Brown", style: TextStyle(fontSize: 16)),
+                      const Text(
+                        "Colour: ",
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        product_description['color'] ?? 'No color',
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center, // Centered row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Condition: ",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Text("Used", style: TextStyle(fontSize: 16)),
+                      const Text(
+                        "Condition: ",
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        product_description['condition'] ?? 'No condition',
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
                 ],
@@ -118,36 +105,48 @@ class ProductDescriptionPage extends StatelessWidget {
             Container(
               color: const Color(0xFFDCE6F9), // Light blue for user info background
               padding: const EdgeInsets.all(16.0),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center, // Centered row
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("User: ",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Text("name of user", style: TextStyle(fontSize: 16)),
+                      const Text(
+                        "User: ",
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        product_description['username'] ?? 'hiba',
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center, // Centered row
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Contact: ",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Text("0000000000", style: TextStyle(fontSize: 16)),
+                      const Text(
+                        "Contact: ",
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        product_description['contact'] ?? 'No contact',
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center, // Centered row
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Location: ",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      Text("hjfgtdchdfueyrfd", style: TextStyle(fontSize: 16)),
+                      const Text(
+                        "Location: ",
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        product_description['location'] ?? 'No location',
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
                 ],

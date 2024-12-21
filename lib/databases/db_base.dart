@@ -83,8 +83,8 @@ class DBBaseTable {
         await database.query('participant');
 
     // Print the participants data
-    participants.forEach((participant) {
+    for (var participant in participants) {
       print(participant);
-    });
+    }
   }
 }

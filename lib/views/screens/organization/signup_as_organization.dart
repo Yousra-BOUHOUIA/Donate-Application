@@ -313,7 +313,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
         return null;
       },
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.lock, color: appButtonColor),
+        prefixIcon: const Icon(Icons.lock, color: appButtonColor),
         labelText: label,
         labelStyle: const TextStyle(color: appButtonColor),
         suffixIcon: IconButton(

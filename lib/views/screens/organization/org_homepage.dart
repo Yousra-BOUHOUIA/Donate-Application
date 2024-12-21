@@ -9,7 +9,7 @@ import 'package:donate_application/databases/tables/campaign.dart';
 import '/imports/organization_barrel.dart';
 
 class OrgHomePage extends StatefulWidget {
-  OrgHomePage({super.key});
+  const OrgHomePage({super.key});
   static const String pageRoute = '/org_home';
 
   @override
@@ -131,7 +131,8 @@ class _OrgHomePageState extends State<OrgHomePage> {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      InkWell(
+                      InkWell
+                      (
                         onTap: () {
                           Navigator.pushNamed(context, UsersDonationsScreen.pageRoute);                     
                         },

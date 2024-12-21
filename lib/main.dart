@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'imports/common_barrel.dart';
 import 'imports/organization_barrel.dart';
 import 'imports/user_barrel.dart';
-
+import 'package:donate_application/bloc/PasswordVisibility_Cubit.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -65,7 +66,10 @@ class MyApp extends StatelessWidget {
         UserAll.pageRoute: (ctx) =>  UserAll(),
         UserEvents.pageRoute: (ctx) => UserEvents(),
       },
-      home: SignUpAsUserPage(),
+      home: BlocProvider(
+        create: (_) => PasswordVisibilityCubit(),
+        child: LoginPage(),
+      ),
     );
   }
 }

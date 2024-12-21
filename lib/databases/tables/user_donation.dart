@@ -1,86 +1,39 @@
 import 'package:donate_application/databases/db_helper.dart';
-import 'package:sqflite/sqflite.dart';
 
-import '../../databases/db_base.dart';
+class DBUser_donationTable {
 
-class DBUser_donationTable extends DBBaseTable {
-  @override
   final String db_table = 'user_donation';
 
   static const String sql_code = '''
   CREATE TABLE user_donation (
-      donation_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      donation_amount REAL,
-      donation_date DATE,
-      FOREIGN KEY (card_id) REFERENCES Card(card_id),
-      image BLOB,
-      location TEXT,
-      title TEXT
+    donation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    image BLOB,
+    color TEXT,
+    condition TEXT,
+    contact TEXT,
+    location TEXT,
+    participant_id INTEGER,
+    FOREIGN KEY(participant_id) REFERENCES participants(participant_id)
   );
   ''';
 
-
-/*
-  @override
   Future<bool> insertRecord(Map<String, dynamic> data) async {
+    print("Waiting for database...");
+
+    final db = await DBHelper.getDatabase();
     try {
-      final database = await DBHelper.getDatabase();
-      await database.insert(db_table, data,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      return true;
-    } catch (e, stacktrace) {
-      print('Error inserting into $db_table: $e --> $stacktrace');
-    }
-    return false;
-  }*/
-
-
-
-
-  
-
-  @override
-  Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
-      {String? condition, List<dynamic>? conditionArgs}) async {
-    try {
-      final database = await DBHelper.getDatabase();
-      String whereClause = "$column = ?";
-      List<dynamic> whereArgs = [id];
-
-      if (condition != null && conditionArgs != null) {
-        whereClause = "$whereClause AND $condition";
-        whereArgs.addAll(conditionArgs);
+      final int insertResult = await db.insert(db_table, data);
+      if (insertResult > 0) {
+        print("Record inserted successfully!");
+        return true;
+      } else {
+        print("Failed to insert record.");
+        return false;
       }
-
-      var result = await database.query(
-        db_table,
-        where: whereClause,
-        whereArgs: whereArgs,
-        limit: 1,
-      );
-      return result.isNotEmpty ? result.first : null;
-    } catch (e, stacktrace) {
-      print('$e --> $stacktrace');
+    } catch (e) {
+      print("Error inserting record: $e");
+      return false; 
     }
-    return null;
-  }
-
-  @override
-  Future<bool> updateRecord(
-      Map<String, dynamic> data, String column, dynamic id) async {
-    try {
-      final database = await DBHelper.getDatabase();
-      await database.update(
-        db_table,
-        data,
-        where: "$column = ?",
-        whereArgs: [id],
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      return true;
-    } catch (e, stacktrace) {
-      print('$e --> $stacktrace');
-    }
-    return false;
   }
 }

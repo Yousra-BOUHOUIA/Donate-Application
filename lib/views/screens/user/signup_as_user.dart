@@ -247,7 +247,7 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                           print("Inserting data and cheking");
 
                           bool isInserted = await dbParticipantTable.insertRecord({
-                            'full_name': _nameController.text,
+                            'name': _nameController.text,
                             'email': _emailController.text,
                             'gender': _genderController.text,
                             'profession': _professionController.text,

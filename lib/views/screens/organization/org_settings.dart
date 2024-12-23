@@ -108,7 +108,9 @@ class OrgProfileContent extends StatelessWidget {
                         icon: Icons.password,
                         text: "Change password",
                         onTap: () {
-                          Navigator.pushNamed(context, ChangePasswordApp.pageRoute);
+                          MaterialPageRoute(
+                              builder: (ctx) => const ChangePasswordScreen(isOrganization: true,),
+                          );
                         },
                       ),
                       ProfileActionButton(

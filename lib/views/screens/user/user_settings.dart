@@ -133,7 +133,7 @@ class UserProfileContent extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (ctx) => const ChangePasswordApp(),
+                              builder: (ctx) => const ChangePasswordScreen(isOrganization: false,),
                             ),
                           );
                         },

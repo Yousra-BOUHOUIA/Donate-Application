@@ -255,15 +255,8 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
       'phone_num': _phoneController.text,
       'address': _addressController.text,
       'password': _passwordController.text,
-      'image': '', // Assuming no image is uploaded for now
+      'image': '', 
     };
-
-    print("Preparing to insert user data into the database...");
-
-    print("drop table first");
-print("Dropping the participant table...");
-  await dbParticipantTable.dropTable();
-  print("Participant table dropped successfully.");
       
     int result = await dbParticipantTable.insertRecord(userData);
 

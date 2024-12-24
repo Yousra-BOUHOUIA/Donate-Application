@@ -27,21 +27,24 @@ Future<int> insertOrganization(Map<String, dynamic> data) async {
 
   final db = await DBHelper.getDatabase();
   
+  // Check if the 'organization' table exists before performing the insert
   bool tableExists = await DBHelper.isTableExists('organization');
   if (!tableExists) {
     print("Table 'organization' does not exist!");
     print("SQL for creating table: ${DBOrganizationTable.sql_code}");
 
+    // Attempt to create the table
     try {
       print("Creating 'organization' table...");
-      await db.execute(DBOrganizationTable.sql_code); 
+      await db.execute(DBOrganizationTable.sql_code); // Assuming this SQL code creates the table
       print("Table 'organization' created successfully.");
     } catch (e) {
       print("Error creating table: $e");
-      return -1; 
+      return -1; // Return -1 or handle it in another way if table creation fails
     }
   }
   
+  // After making sure the table exists, perform the insert
   print("waiting insert");
   return await db.insert('organization', data);
 }
@@ -72,24 +75,6 @@ Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
     }
     return null;
   }
-
-  Future<String> getPasswordById(int organizationId) async {
-    final db = await DBHelper.getDatabase();
-
-    List<Map<String, dynamic>> result = await db.query(
-      'organization', 
-      columns: ['password'],
-      where: 'organization_id = ?',
-      whereArgs: [organizationId],
-    );
-
-    if (result.isNotEmpty) {
-      return result.first['password'] as String;
-    } else {
-      throw Exception("Organization not found");
-    }
-  }
-
 
   Future<bool> updateRecord(
       Map<String, dynamic> data, String column, dynamic id) async {
@@ -159,5 +144,21 @@ Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
       print('Error fetching events from $db_table: $e --> $stacktrace');
       return [];
     }
+  }
+
+  Future<Map<String, dynamic>> getLastRegisteredOrganization() async {
+      try {
+        final db = await DBHelper.getDatabase();
+        final result = await db.rawQuery('SELECT * FROM organization ORDER BY organization_id DESC LIMIT 1');
+        if (result.isNotEmpty) {
+          return result.first;
+        } else {
+          print('No organization found');
+          throw Exception('No organization found');
+        }
+      } catch (e) {
+        print('Error fetching last registered organization: $e');
+        rethrow;
+      }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:donate_application/imports/user_barrel.dart';
 import 'package:flutter/material.dart';
 import '/themes/colors.dart';
@@ -6,10 +8,11 @@ import '/views/widgets/event_card.dart';
 import '/views/widgets/footer.dart';
 import '/views/widgets/custom_drawer.dart';
 import 'package:donate_application/databases/tables/campaign.dart';
+import 'package:donate_application/databases/tables/organization.dart';
 import '/imports/organization_barrel.dart';
 
 class OrgHomePage extends StatefulWidget {
-  const OrgHomePage({super.key});
+  OrgHomePage({super.key});
   static const String pageRoute = '/org_home';
 
   @override
@@ -18,6 +21,20 @@ class OrgHomePage extends StatefulWidget {
 
 class _OrgHomePageState extends State<OrgHomePage> {
   final DBCampaignTable _campaignTable = DBCampaignTable();
+
+  final DBOrganizationTable _organizationTable = DBOrganizationTable();
+  Future<Map<String, dynamic>> _fetchOrganizationDetails() async {
+    try {
+      return await _organizationTable.getLastRegisteredOrganization();
+    } catch (e) {
+        print('Error fetching organization details: $e');
+        return {
+          'organization_name': 'Unknown organization',
+          'email': 'unknown@example.com',
+          'image': null, // Fallback to null if no image
+        };
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +64,29 @@ class _OrgHomePageState extends State<OrgHomePage> {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      drawer: const CustomDrawer(
-        profilePicture: 'assets/images/org_profile.jpg',
-        name: 'Organization Name',
-        email: 'email@example.com',
-        isOrganization: true,
+      drawer: FutureBuilder<Map<String, dynamic>>(
+          future: _fetchOrganizationDetails(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return const Center(child: Text('Error loading organization details.'));
+            }
+            
+            final organization = snapshot.data?? {};
+
+            final profilePicture = organization['image'] != null
+            ? base64Decode(organization['image']) // Decode Base64 to binary
+            : null; // Null fallback for no image
+
+            return CustomDrawer(
+              profilePicture: profilePicture,
+              name: organization['organization_name'] ?? 'Unknown organization',
+              email: organization['email'] ?? 'unknown@example.com',
+              isOrganization: true,
+            );
+          },
       ),
       body: Container(
         color: Colors.grey[100],
@@ -131,8 +166,7 @@ class _OrgHomePageState extends State<OrgHomePage> {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      InkWell
-                      (
+                      InkWell(
                         onTap: () {
                           Navigator.pushNamed(context, UsersDonationsScreen.pageRoute);                     
                         },

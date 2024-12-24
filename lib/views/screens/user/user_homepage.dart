@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../widgets/user_card.dart';
 import '/themes/colors.dart';
@@ -5,18 +6,37 @@ import '/views/widgets/event_card.dart';
 import '/views/widgets/footer.dart';
 import '/views/widgets/custom_drawer.dart';
 import 'package:donate_application/databases/tables/campaign.dart';
+import 'package:donate_application/databases/tables/participant.dart';
 import '/imports/user_barrel.dart';
 
 class UserHomePage extends StatefulWidget {
-  const UserHomePage({super.key});
+  UserHomePage({super.key});
   static const String pageRoute = '/user_homepage';
   
   @override
   _UserHomePageState createState() => _UserHomePageState();
+  
 }
 
 class _UserHomePageState extends State<UserHomePage> {
   final DBCampaignTable _campaignTable = DBCampaignTable();
+
+
+  final DBParticipantTable _participantTable = DBParticipantTable();
+  Future<Map<String, dynamic>> _fetchUserDetails() async {
+    try {
+      return await _participantTable.getLastRegisteredUser();
+    } catch (e) {
+        print('Error fetching user details: $e');
+        return {
+          'name': 'Unknown User',
+          'email': 'unknown@example.com',
+          'image': null, // Fallback to null if no image
+        };
+      }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +68,31 @@ class _UserHomePageState extends State<UserHomePage> {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      drawer: const CustomDrawer(
-        profilePicture: 'assets/images/user_profile.png',
-        name: 'User Name',
-        email: 'email@example.com',
-        isOrganization: false,
-      ),
-      body: Container(
+      drawer: FutureBuilder<Map<String, dynamic>>(
+          future: _fetchUserDetails(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return const Center(child: Text('Error loading user details.'));
+            }
+            
+            final user = snapshot.data?? {};
+
+            final profilePicture = user['image'] != null
+            ? base64Decode(user['image']) // Decode Base64 to binary
+            : null; // Null fallback for no image
+
+            return CustomDrawer(
+              profilePicture: profilePicture,
+              name: user['name'] ?? 'Unknown User',
+              email: user['email'] ?? 'unknown@example.com',
+              isOrganization: false,
+            );
+          },
+       ),
+       body: Container(
         color: appBackgroundColor, 
         child: SingleChildScrollView(
           child: Padding(

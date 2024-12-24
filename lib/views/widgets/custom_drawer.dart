@@ -1,3 +1,6 @@
+
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 
 import '../../imports/user_barrel.dart';
@@ -7,7 +10,8 @@ import '../../imports/organization_barrel.dart';
 
 
 class CustomDrawer extends StatelessWidget {
-  final String profilePicture; 
+  //final String profilePicture; 
+  final Uint8List? profilePicture;
   final String name;          
   final String email;         
   final bool isOrganization;   
@@ -35,9 +39,18 @@ class CustomDrawer extends StatelessWidget {
               child: Row(
                 children: [
                   // Profile Picture
-                  CircleAvatar(
+                  /*CircleAvatar(
                     radius: 30,
                     backgroundImage: NetworkImage(profilePicture),
+                  ),*/
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage: profilePicture != null
+                        ? MemoryImage(profilePicture!) // Use binary data
+                        : null,
+                    child: profilePicture == null
+                        ? const Icon(Icons.person) // Fallback icon
+                        : null,
                   ),
                   const SizedBox(width: 10),
                   // Name and Email

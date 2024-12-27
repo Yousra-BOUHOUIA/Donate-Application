@@ -26,13 +26,19 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
 
   String? _selectedColor;
   String? _selectedCondition;
-  XFile? _selectedImage;
+  File? _selectedImage;
+  String? _imageErrorMessage;
 
   Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _selectedImage = image;
-    });
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+        _imageErrorMessage = null; // Clear error message when an image is selected
+      });
+    }
   }
 
   void _resetForm() {
@@ -44,6 +50,7 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
       _locationController.clear();
       _selectedColor = null;
       _selectedCondition = null;
+      _imageErrorMessage = null;  // Clear image error message
     });
     _formKey.currentState?.reset();
     print("Form has been reset!");
@@ -98,25 +105,27 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
                       ),
                     ],
                   ),
-                  child: _selectedImage == null
-                      ? const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.image, size: 50, color: Colors.grey),
-                            SizedBox(height: 10),
-                            Text(
-                              'Upload pictures',
-                              style: TextStyle(color: Colors.grey),
+                  child: _selectedImage != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.file(
+                              _selectedImage!,
+                              fit: BoxFit.cover,
                             ),
-                          ],
-                        )
-                      : Image.file(
-                          File(_selectedImage!.path),
-                          fit: BoxFit.cover,
-                        ),
+                          ): const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.image, size: 50, color: Colors.grey),
+                              SizedBox(height: 10),
+                              Text(
+                                'Upload pictures',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ],
+                          ),
                 ),
               ),
-              const SizedBox(height: 25),
+           
               build3DTextField(
                 'Item name',
                 controller: _itemNameController,
@@ -143,7 +152,7 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
               ),
               const SizedBox(height: 25),
               build3DTextField(
-                'User name',
+                'Username',
                 controller: _userNameController,
               ),
               const SizedBox(height: 25),
@@ -177,42 +186,42 @@ class _AddDonationScreenState extends State<AddDonationScreen> {
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      // Ensure an image is selected
+                      if (_selectedImage == null) {
+                        setState(() {
+                          _imageErrorMessage = 'Image is required';
+                        });
+                        return;
+                      }
+
                       final String itemName = _itemNameController.text;
                       final String contact = _contactController.text;
                       final String location = _locationController.text;
                       final String? selectedColor = _selectedColor;
                       final String? selectedCondition = _selectedCondition;
+                      final String slectedusername = _userNameController.text;
 
                       final donationData = {
-                        'image': _selectedImage != null
-                            ? await _selectedImage!.readAsBytes()
-                            : null,
+                        'image': await _selectedImage!.readAsBytes(),
                         'title': itemName,
                         'color': selectedColor,
                         'condition': selectedCondition,
                         'contact': contact,
                         'location': location,
+                        'username': slectedusername,
                       };
                       print("Preparing to insert user data into the database...");
 
-    print("drop table first");
-print("Dropping the participant table...");
-  await _DBUser_donationTable.dropTable();
-  print("Participant table dropped successfully.");
-                      print("Donation Data: $donationData");
-
-                      int isInserted =await _DBUser_donationTable.insertRecord(donationData);
+                      int isInserted = await _DBUser_donationTable.insertRecord(donationData);
 
                       if (isInserted > 0) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Donation added successfully!')),
+                          const SnackBar(content: Text('Donation added successfully!')),
                         );
                         _resetForm();
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Failed to add donation')),
+                          const SnackBar(content: Text('Failed to add donation')),
                         );
                       }
                     }

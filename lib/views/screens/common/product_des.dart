@@ -23,43 +23,24 @@ class ProductDescriptionPage extends StatelessWidget {
             // Horizontal Image Carousel
             Container(
               color: const Color(0xFFF4F8FF), // Light blue background
-              height: 200,
+              height: 300,  // Increased height for the image
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: product_description['image'] != null
-                        ? Image.memory(
+                  product_description['image'] != null
+                      ? SizedBox(
+                          width: MediaQuery.of(context).size.width,  // Ensures full width
+                          child: Image.memory(
                             product_description['image'],
                             fit: BoxFit.cover,
-                          )
-                        : const SizedBox(),
-                  ),
-                  // Repeat the image if needed or add logic for multiple images
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.circle, size: 8, color: Colors.grey),
-                SizedBox(width: 4),
-                Icon(Icons.circle, size: 8, color: Colors.black),
-                SizedBox(width: 4),
-                Icon(Icons.circle, size: 8, color: Colors.grey),
-              ],
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey.shade300,
-                  child: const Icon(Icons.person, color: Colors.black),
-                ),
-              ),
-            ),
+           
+           
             // Product Details
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -116,7 +97,7 @@ class ProductDescriptionPage extends StatelessWidget {
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        product_description['username'] ?? 'hiba',
+                        product_description['username'] ?? 'no username',
                         style: const TextStyle(fontSize: 16),
                       ),
                     ],

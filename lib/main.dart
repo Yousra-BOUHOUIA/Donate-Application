@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         ContactUsScreen.pageRoute: (ctx) => const ContactUsScreen(),
         TermsAndPoliciesScreen.pageRoute: (ctx) =>
             const TermsAndPoliciesScreen(),
-        ChangePasswordApp.pageRoute: (ctx) => const ChangePasswordApp(),
+        ChangePasswordScreen.pageRoute: (ctx) => const ChangePasswordScreen(isOrganization: false,),
         ProductDescriptionPage.pageRoute: (ctx) => ProductDescriptionPage(),
         LoginPage.pageRoute: (ctx) => const LoginPage(),
         SignUpAsUserPage.pageRoute: (ctx) => const SignUpAsUserPage(),
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         EditOrgProfileScreen.pageRoute: (ctx) => const EditOrgProfileScreen(),
         OrgNotification.pageRoute: (ctx) => const OrgNotification(),
 
-        OrgHomePage.pageRoute: (ctx) => const OrgHomePage(),
+        OrgHomePage.pageRoute: (ctx) => OrgHomePage(),
         EventsPage.pageRoute: (ctx) => EventsPage(),
         DonationsPage.pageRoute: (ctx) => DonationsPage(),
         CardContentPage.pageRoute: (ctx) => CardContentPage(),
@@ -59,12 +59,13 @@ class MyApp extends StatelessWidget {
         UserEventDescriptionScreen.pageRoute: (ctx) =>
             const UserEventDescriptionScreen(),
         AddDonationScreen.pageRoute: (ctx) => const AddDonationScreen(),
-        UserHomePage.pageRoute: (ctx) =>  const UserHomePage(),
+        UserHomePage.pageRoute: (ctx) =>   UserHomePage(),
         UserDonations.pageRoute: (ctx) => UserDonations(),
         UserAll.pageRoute: (ctx) =>  UserAll(),
         UserEvents.pageRoute: (ctx) => UserEvents(),
       },
-      home: const SignUpAsUserPage(),
+      //home: const ChangePasswordScreen(isOrganization: true,),
+      home: SignUpAsUserPage(),
     );
   }
 }

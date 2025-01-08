@@ -258,9 +258,9 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
       'image': '', 
     };
       
-    int result = await dbParticipantTable.insertRecord(userData);
+    bool result = await dbParticipantTable.insertRecord(userData);
 
-    if (result > 0) {
+    if (result == true) {
       // Success scenario
       print("User data inserted successfully with row ID: $result");
 

@@ -132,6 +132,22 @@ Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
     }
   }
 
+  Future<String> getPasswordById(int organizationId) async {
+    final db = await DBHelper.getDatabase();
+
+    List<Map<String, dynamic>> result = await db.query(
+      'organization', 
+      columns: ['password'],
+      where: 'organization_id = ?',
+      whereArgs: [organizationId],
+    );
+
+    if (result.isNotEmpty) {
+      return result.first['password'] as String;
+    } else {
+      throw Exception("Organization not found");
+    }
+  }
   Future<List<Map<String, dynamic>>> getEvents() async {
     try {
       final database = await DBHelper.getDatabase();
@@ -162,3 +178,16 @@ Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
       }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

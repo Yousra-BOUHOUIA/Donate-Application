@@ -30,6 +30,22 @@ Future<void> dropTable() async {
   print("Table dropped successfully");
 }
 
+Future<String> getPasswordById(int participantId) async {
+    final db = await DBHelper.getDatabase();
+
+    List<Map<String, dynamic>> result = await db.query(
+      'participant',
+      columns: ['password'],
+      where: 'participant_id = ?',
+      whereArgs: [participantId],
+    );
+
+    if (result.isNotEmpty) {
+      return result.first['password'] as String;
+    } else {
+      throw Exception("Participant not found");
+    }
+  }
 
 Future<void> checkTableSchema() async {
     try {
@@ -62,10 +78,7 @@ Future<void> checkTableSchema() async {
       return false;
     }
   }
-  
-
-
-
+ 
 
   Future<Map<String, dynamic>> getLastRegisteredUser() async {
       try {

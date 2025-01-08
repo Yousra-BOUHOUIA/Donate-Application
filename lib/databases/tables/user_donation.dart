@@ -14,7 +14,7 @@ class DBUser_donationTable {
     condition TEXT,
     contact TEXT,
     location TEXT,
-    username TEXT 
+    username
    
   );
   ''';
@@ -79,14 +79,19 @@ Future<int> insertRecord(Map<String, dynamic> data) async {
 }
 
 
- Future<List<Map<String, dynamic>>> getAllRecords() async {
-    try {
-      final database = await DBHelper.getDatabase();
-      return await database.query(db_table);
-    } catch (e, stacktrace) {
-      print('Error fetching records from $db_table: $e --> $stacktrace');
-      return [];
-    }
+Future<List<Map<String, dynamic>>> getAllRecords() async {
+  try {
+    final db = await DBHelper.getDatabase(); // Get the database instance
+
+    // Query all records from the table
+    List<Map<String, dynamic>> records = await db.query(db_table);
+
+    print("Fetched ${records.length} records from the '$db_table' table.");
+    return records;
+  } catch (e) {
+    print("Error fetching records from $db_table: $e");
+    return []; // Return an empty list in case of an error
   }
+}
 
 }

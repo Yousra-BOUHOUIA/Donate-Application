@@ -1,3 +1,4 @@
+import 'package:donate_application/shared_preference/shared_prefs.dart';
 import 'package:donate_application/views/screens/organization/org_homepage.dart';
 import 'package:donate_application/views/screens/organization/signup_as_organization.dart';
 import 'package:donate_application/views/screens/user/user_homepage.dart';
@@ -35,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
       // Check organization
       var org = await organizationTable.getRecord("email", email);
       if (org != null && org['password'] == password) {
+        await UserPreferences.saveUserEmail(email.trim());
         
         Navigator.pushReplacement(
           context,
@@ -46,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
       // Check participant
       var participant = await participantTable.getRecord("email", email);
       if (participant != null && participant['password'] == password) {
+         await UserPreferences.saveUserEmail(email.trim());
        
         Navigator.pushReplacement(
           context,

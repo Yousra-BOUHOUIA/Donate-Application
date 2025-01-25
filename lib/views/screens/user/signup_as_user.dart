@@ -290,7 +290,7 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
       await Future.delayed(const Duration(seconds: 8));
       if (mounted) {
         Navigator.pop(context); // Close dialog
-        Navigator.pushNamed(context, UserHomePage.pageRoute);
+        Navigator.pushReplacementNamed(context, '/login'); 
       }
     } else {
       // Error scenario

@@ -1,3 +1,4 @@
+import 'package:donate_application/shared_preference/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/build3DSection.dart';
 import '../../widgets/footer.dart';
@@ -116,8 +117,11 @@ class OrgProfileContent extends StatelessWidget {
                       ProfileActionButton(
                         icon: Icons.logout,
                         text: "Log out",
-                        onTap: () {
+                        onTap: () async {
                           Navigator.pushNamed(context, LoginPage.pageRoute); // Example for logging out
+                          await UserPreferences.clearUserEmail();
+                          
+                          
                         },
                       ),
                     ],

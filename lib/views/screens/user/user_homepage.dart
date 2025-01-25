@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:donate_application/shared_preference/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/user_card.dart';
 import '/themes/colors.dart';
@@ -18,6 +19,7 @@ class UserHomePage extends StatefulWidget {
   
 }
 
+
 class _UserHomePageState extends State<UserHomePage> {
   final DBCampaignTable _campaignTable = DBCampaignTable();
 
@@ -35,6 +37,7 @@ class _UserHomePageState extends State<UserHomePage> {
         };
       }
   }
+
 
 
 
@@ -77,7 +80,9 @@ class _UserHomePageState extends State<UserHomePage> {
             if (snapshot.hasError) {
               return const Center(child: Text('Error loading user details.'));
             }
+
             
+
             final user = snapshot.data?? {};
 
             final profilePicture = user['image'] != null

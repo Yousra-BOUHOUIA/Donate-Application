@@ -224,7 +224,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                             // Close dialog and navigate
                             if (mounted) {
                               Navigator.pop(context); // Close the dialog
-                              Navigator.pushNamed(context, OrgHomePage.pageRoute);
+                              Navigator.pushReplacementNamed(context, '/login'); 
                             }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

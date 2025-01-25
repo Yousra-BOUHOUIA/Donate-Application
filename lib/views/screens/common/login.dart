@@ -1,6 +1,10 @@
+import 'package:donate_application/views/screens/organization/org_homepage.dart';
+import 'package:donate_application/views/screens/organization/signup_as_organization.dart';
+import 'package:donate_application/views/screens/user/user_homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:donate_application/databases/tables/organization.dart';
+import 'package:donate_application/databases/tables/participant.dart';
 import '../../../themes/colors.dart';
-//import 'package:donate_application/imports/user_barrel.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,11 +17,63 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool rememberMe = false; // Checkbox state
   bool obscurePassword = true; // Password visibility state
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final DBOrganizationTable organizationTable = DBOrganizationTable();
+  final DBParticipantTable participantTable = DBParticipantTable();
+
+  Future<void> _handleLogin() async {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      _showMessage("Please enter both email and password.");
+      return;
+    }
+
+    try {
+      // Check organization
+      var org = await organizationTable.getRecord("email", email);
+      if (org != null && org['password'] == password) {
+        
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => OrgHomePage()),
+        );
+        return;
+      }
+
+      // Check participant
+      var participant = await participantTable.getRecord("email", email);
+      if (participant != null && participant['password'] == password) {
+       
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => UserHomePage()),
+        );
+        return;
+      }
+
+      // If no match found
+      _showMessage("Invalid email or password.");
+    } catch (e) {
+      _showMessage("An error occurred: $e");
+    }
+  }
+
+  void _showMessage(String message, {bool isSuccess = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isSuccess ? Colors.green : Colors.red,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appBackgroundColor, // Set the background color of the Scaffold
+      backgroundColor: appBackgroundColor,
       body: Stack(
         children: [
           // Gradient background
@@ -27,13 +83,10 @@ class _LoginPageState extends State<LoginPage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  formGradientStart, // Gradient start color
-                  formGradientEnd,   // Gradient end color
+                  formGradientStart,
+                  formGradientEnd,
                 ],
-                stops: [
-                  0.29, // 29% stop
-                  0.98, // 98% stop
-                ],
+                stops: [0.29, 0.98],
               ),
             ),
           ),
@@ -41,41 +94,40 @@ class _LoginPageState extends State<LoginPage> {
           ClipPath(
             clipper: WaveClipper(),
             child: Container(
-              height: 300, // Adjust the height to fit your design
-              color: backgroundColor, // Background color of the wave
+              height: 300,
+              color: backgroundColor,
             ),
           ),
-          // Main login form with padding
+          // Main login form
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0), // 20px padding on both left and right
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(16.0), // Padding inside the form
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Login Title
                     const Text(
                       'Login',
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: textColor, // Text color from the color file
+                        color: textColor,
                       ),
                     ),
                     const SizedBox(height: 40),
-                    // Email input field
-                    const TextField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email, color: primaryColor), // Primary color
+                    TextField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.email, color: primaryColor),
                         labelText: 'Email',
-                        labelStyle: TextStyle(color: labelColor), // Label color
+                        labelStyle: TextStyle(color: labelColor),
                         border: UnderlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Password input field
                     TextField(
+                      controller: passwordController,
                       obscureText: obscurePassword,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock, color: primaryColor),
@@ -96,7 +148,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // Remember me and forgot password row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -127,33 +178,36 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    // Login button
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _handleLogin,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: buttonColor, // Button color
+                        backgroundColor: buttonColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 80),
                       ),
                       child: const Text(
                         'LOGIN',
-                        style: TextStyle(color: buttonTextColor, fontSize: 16), // Button text color
+                        style: TextStyle(
+                          color: buttonTextColor,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 30),
-                    // Signup link
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Don't have an account ?",
+                          "Don't have an account?",
                           style: TextStyle(color: textColor),
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.pushReplacementNamed(context, '/signup_as_user');
+                            Navigator.pushReplacementNamed(
+                                context, '/signup_as_user');
                           },
                           child: const Text(
                             'Sign Up',
@@ -174,33 +228,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
-
-class WaveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height * 0.6); // Starting point with added height
-
-    // First wave curve: gentler wave
-    var firstControlPoint = Offset(size.width * 0.2, size.height * 0.2); // Closer to the curve for gentler wave
-    var firstEndPoint = Offset(size.width * 0.5, size.height * 0.3); 
-    path.quadraticBezierTo(
-        firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
-
-    // Second wave curve: gentler outward wave
-    var secondControlPoint = Offset(size.width * 0.8, size.height * 0.4); // Closer for gentler curve
-    var secondEndPoint = Offset(size.width, 0); // End at the top-right corner
-    path.quadraticBezierTo(
-        secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
-
-    path.lineTo(size.width, 0); // Go up to the top-right corner
-    path.lineTo(0, 0); // Return to the top-left corner
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }

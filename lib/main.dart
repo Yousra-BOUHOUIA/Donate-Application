@@ -3,7 +3,9 @@ import 'imports/common_barrel.dart';
 import 'imports/organization_barrel.dart';
 import 'imports/user_barrel.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

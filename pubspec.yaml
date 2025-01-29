@@ -7,6 +7,11 @@ environment:
   sdk: ">=3.0.0 <4.0.0" 
 
 dependencies:
+  flutter_bloc: ^8.0.0
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.5.0
+  firebase_database: ^10.0.0
+  firebase_messaging: ^14.0.0
   flutter:
     sdk: flutter
   badges: ^3.1.1
@@ -16,8 +21,9 @@ dependencies:
   sqflite_common_ffi: ^2.3.3      
   sqflite_common_ffi_web: ^0.4.4   
   path: ^1.9.0
-  flutter_bloc: ^8.0.0
+  cloud_firestore: ^4.17.5
   shared_preferences: ^2.4.0
+  
 
 dev_dependencies:
   flutter_test:

@@ -6,80 +6,75 @@ import 'package:flutter/material.dart';
 import 'package:donate_application/databases/tables/organization.dart';
 import 'package:donate_application/databases/tables/participant.dart';
 import '../../../themes/colors.dart';
+import 'package:donate_application/bloc/login_cubit.dart'; 
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
   static const String pageRoute = '/login';
 
   @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  bool rememberMe = false; // Checkbox state
-  bool obscurePassword = true; // Password visibility state
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final DBOrganizationTable organizationTable = DBOrganizationTable();
-  final DBParticipantTable participantTable = DBParticipantTable();
-
-  Future<void> _handleLogin() async {
-    String email = emailController.text.trim();
-    String password = passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      _showMessage("Please enter both email and password.");
-      return;
-    }
-
-    try {
-      // Check organization
-      var org = await organizationTable.getRecord("email", email);
-      if (org != null && org['password'] == password) {
-        await UserPreferences.saveUserEmail(email.trim());
-        
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => OrgHomePage()),
-        );
-        return;
-      }
-
-      // Check participant
-      var participant = await participantTable.getRecord("email", email);
-      if (participant != null && participant['password'] == password) {
-         await UserPreferences.saveUserEmail(email.trim());
-       
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => UserHomePage()),
-        );
-        return;
-      }
-
-      // If no match found
-      _showMessage("Invalid email or password.");
-    } catch (e) {
-      _showMessage("An error occurred: $e");
-    }
-  }
-
-  void _showMessage(String message, {bool isSuccess = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isSuccess ? Colors.green : Colors.red,
-      ),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+
+    final LoginCubit loginCubit = LoginCubit(); 
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final DBOrganizationTable organizationTable = DBOrganizationTable();
+    final DBParticipantTable participantTable = DBParticipantTable();
+
+    void showMessage(BuildContext context, String message, {bool isSuccess = false}) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: isSuccess ? const Color.fromARGB(255, 110, 174, 113) : const Color.fromARGB(255, 230, 125, 118),
+        ),
+      );
+    }
+
+    Future<void>  handleLogin() async {
+      String email = emailController.text.trim();
+      String password = passwordController.text.trim();
+
+      if (email.isEmpty || password.isEmpty) {
+        showMessage(context, "Please enter both email and password.");
+        return;
+      }
+
+      try {
+
+        var org = await organizationTable.getRecord("email", email);
+        if (org != null && org['password'] == password) {
+          await UserPreferences.saveUserEmail(email.trim());
+          Navigator.pushReplacement(
+            // ignore: use_build_context_synchronously
+            context,
+            MaterialPageRoute(builder: (context) => const OrgHomePage()),
+          );
+          return;
+        }
+
+        var participant = await participantTable.getRecord("email", email);
+        if (participant != null && participant['password'] == password) {
+          await UserPreferences.saveUserEmail(email.trim());
+          Navigator.pushReplacement(
+            // ignore: use_build_context_synchronously
+            context,
+            MaterialPageRoute(builder: (context) => const UserHomePage()),
+          );
+          return;
+        }
+
+        // ignore: use_build_context_synchronously
+        showMessage(context, "Invalid email or password.");
+      } catch (e) {
+        // ignore: use_build_context_synchronously
+        showMessage(context, "An error occurred: $e");
+      }
+    }
+
     return Scaffold(
       backgroundColor: appBackgroundColor,
       body: Stack(
         children: [
-          // Gradient background
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -93,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          // Wave clipper section
+
           ClipPath(
             clipper: WaveClipper(),
             child: Container(
@@ -101,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
               color: backgroundColor,
             ),
           ),
-          // Main login form
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Center(
@@ -129,60 +124,70 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    TextField(
-                      controller: passwordController,
-                      obscureText: obscurePassword,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.lock, color: primaryColor),
-                        labelText: 'Password',
-                        labelStyle: const TextStyle(color: labelColor),
-                        border: const UnderlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            obscurePassword ? Icons.visibility_off : Icons.visibility,
-                            color: primaryColor,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              obscurePassword = !obscurePassword;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: rememberMe,
-                              onChanged: (value) {
-                                setState(() {
-                                  rememberMe = value!;
-                                });
+                    StreamBuilder<bool>(
+                      stream: loginCubit.obscurePasswordStream,
+                      initialData: true,
+                      builder: (context, snapshot) {
+                        bool obscureText = snapshot.data ?? true;
+                        return TextField(
+                          controller: passwordController,
+                          obscureText: obscureText,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.lock, color: primaryColor),
+                            labelText: 'Password',
+                            labelStyle: const TextStyle(color: labelColor),
+                            border: const UnderlineInputBorder(),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                obscureText ? Icons.visibility_off : Icons.visibility,
+                                color: primaryColor,
+                              ),
+                              onPressed: () {
+                                loginCubit.togglePasswordVisibility();
                               },
-                              activeColor: primaryColor,
                             ),
-                            const Text(
-                              'Remember me',
-                              style: TextStyle(color: labelColor),
+                          ),
+                        );
+                      },
+                    ),
+
+                    const SizedBox(height: 10),
+                    StreamBuilder<bool>(
+                      stream: loginCubit.rememberMeStream,
+                      initialData: false,
+                      builder: (context, snapshot) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: snapshot.data,
+                                  onChanged: (value) {
+                                    loginCubit.rememberMeSink.add(value!);
+                                  },
+                                  activeColor: primaryColor,
+                                ),
+                                const Text(
+                                  'Remember me',
+                                  style: TextStyle(color: labelColor),
+                                ),
+                              ],
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Forgot password?',
+                                style: TextStyle(color: labelColor),
+                              ),
                             ),
                           ],
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Forgot password?',
-                            style: TextStyle(color: labelColor),
-                          ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: _handleLogin,
+                      onPressed: handleLogin,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: buttonColor,
                         shape: RoundedRectangleBorder(

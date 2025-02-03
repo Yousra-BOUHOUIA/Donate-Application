@@ -11,7 +11,7 @@ import 'package:donate_application/databases/tables/participant.dart';
 import '/imports/user_barrel.dart';
 
 class UserHomePage extends StatefulWidget {
-  UserHomePage({super.key});
+  const UserHomePage({super.key});
   static const String pageRoute = '/user_homepage';
   
   @override
@@ -23,7 +23,41 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   final DBCampaignTable _campaignTable = DBCampaignTable();
 
+String? _userName;
+String? _userEmail;
+String? _userImage;
 
+
+@override
+void initState() {
+  super.initState();
+  _fetchUserDetails();
+}
+
+Future<void> _fetchUserDetails() async {
+  String? email = await UserPreferences.getUserEmail();
+  print("Stored email in SharedPreferences: $email"); // Debugging print
+  print("Stored email: $email"); // Debugging print
+
+  if (email != null) {
+    DBParticipantTable participantTable = DBParticipantTable();
+    var userDetails = await participantTable.getUserByEmail(email);
+    print("User details fetched: $userDetails");
+    print("User details: $userDetails"); // Debugging print
+    setState(() {
+      print("Updating state with: $_userName, $_userEmail");
+      _userName = userDetails['name'];
+      _userEmail = userDetails['email'];
+      _userImage = userDetails['image'];
+    });
+
+    
+  }
+}
+
+
+
+/*
   final DBParticipantTable _participantTable = DBParticipantTable();
   Future<Map<String, dynamic>> _fetchUserDetails() async {
     try {
@@ -37,7 +71,7 @@ class _UserHomePageState extends State<UserHomePage> {
         };
       }
   }
-
+*/
 
 
 
@@ -71,7 +105,14 @@ class _UserHomePageState extends State<UserHomePage> {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      drawer: FutureBuilder<Map<String, dynamic>>(
+      drawer:CustomDrawer(
+        profilePicture: _userImage != null ? base64Decode(_userImage!) : null,
+        name: _userName ?? 'Unknown User',
+        email: _userEmail ?? 'unknown@example.com',
+        
+      ),
+
+      /*drawer: FutureBuilder<Map<String, dynamic>>(
           future: _fetchUserDetails(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -96,7 +137,7 @@ class _UserHomePageState extends State<UserHomePage> {
               isOrganization: false,
             );
           },
-       ),
+       ),*/
        body: Container(
         color: appBackgroundColor, 
         child: SingleChildScrollView(

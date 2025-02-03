@@ -179,7 +179,19 @@ Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
   }
 }
 
-
+Future<Map<String, dynamic>> getOrganizationByEmail(String email) async {
+ final db = await DBHelper.getDatabase();
+  var result = await db.query(
+    'organization', 
+    where: 'email = ?',
+    whereArgs: [email],
+  );
+  if (result.isNotEmpty) {
+    return result.first; 
+  } else {
+    throw Exception('organization not found');
+  }
+}
 
 
 

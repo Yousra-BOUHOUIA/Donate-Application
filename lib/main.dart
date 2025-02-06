@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             const OrgProfileDetailsScreen(),
         OrgPostsScreen.pageRoute: (ctx) => OrgPostsScreen(),
 
-        EditOrgProfileScreen.pageRoute: (ctx) => const EditOrgProfileScreen(),
+        //EditOrgProfileScreen.pageRoute: (ctx) => const EditOrgProfileScreen(),
         OrgNotification.pageRoute: (ctx) => const OrgNotification(),
 
         OrgHomePage.pageRoute: (ctx) => OrgHomePage(),
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         UserProfilePage.pageRoute: (ctx) => const UserProfilePage(),
         UserProfileDetailsScreen.pageRoute: (ctx) =>
             const UserProfileDetailsScreen(),
-        EditUserProfileScreen.pageRoute: (ctx) => const EditUserProfileScreen(),
+      //  EditUserProfileScreen.pageRoute: (ctx) => const EditUserProfileScreen(),
         UserPostsScreen.pageRoute: (ctx) => const UserPostsScreen(),
         OrgDonationDescriptionScreen.pageRoute: (ctx) =>
             const OrgDonationDescriptionScreen(),

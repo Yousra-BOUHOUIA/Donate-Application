@@ -93,7 +93,7 @@ class UserEventDescriptionScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          // Progress bar and stats
+                         
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -126,7 +126,7 @@ class UserEventDescriptionScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          // Description with "Show More" button
+                          
                           RichText(
                             text: TextSpan(
                               text: event['description'] ?? 'No description available.',
@@ -144,7 +144,7 @@ class UserEventDescriptionScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          // Verified account section
+                          
                           const Row(
                             children: [
                               Text(
@@ -159,13 +159,12 @@ class UserEventDescriptionScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
-                          // Participate Now Button at the end of the content
+                           const SizedBox(height: 20),
                           SizedBox(
-                            width: screenWidth, // Button width is 60% of the screen width
+                            width: screenWidth * 0.9,
                             child: ElevatedButton(
                               onPressed: () {
-                                // Define the action for participation
+                                //send notification to the organization
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: appButtonColor,
@@ -176,7 +175,10 @@ class UserEventDescriptionScreen extends StatelessWidget {
                               ),
                               child: const Text(
                                 "Participate Now",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                             ),
                           ),

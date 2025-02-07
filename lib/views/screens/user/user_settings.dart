@@ -32,11 +32,11 @@ class UserProfileContent extends StatelessWidget {
       children: [
         const SizedBox(height: 10),
         const Text(
-          "Full Name",
+          "hiba",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const Text(
-          "youremail@domain.com",
+          "hiba@gmail.com",
           style: TextStyle(fontSize: 14, color: Colors.grey),
         ),
         const SizedBox(height: 20),
@@ -63,11 +63,11 @@ class UserProfileContent extends StatelessWidget {
                         icon: Icons.edit,
                         text: "Edit profile information",
                         onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (ctx) => const EditUserProfileScreen(),
-                            ),
-                          );
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //    // builder: (ctx) =>  EditUserProfileScreen(),
+                          //   ),
+                          // );
                         },
                       ),
                       ProfileActionButton(

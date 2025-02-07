@@ -1,3 +1,4 @@
+
 import 'package:donate_application/shared_preference/shared_prefs.dart';
 import 'package:donate_application/views/screens/organization/org_homepage.dart';
 import 'package:donate_application/views/screens/organization/signup_as_organization.dart';
@@ -97,7 +98,8 @@ class LoginPage extends StatelessWidget {
             ),
           ),
 
-          Padding(
+
+Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Center(
               child: Padding(
@@ -151,7 +153,8 @@ class LoginPage extends StatelessWidget {
                       },
                     ),
 
-                    const SizedBox(height: 10),
+
+const SizedBox(height: 10),
                     StreamBuilder<bool>(
                       stream: loginCubit.rememberMeStream,
                       initialData: false,

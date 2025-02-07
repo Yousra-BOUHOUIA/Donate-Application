@@ -162,10 +162,13 @@ class UserDonationDescriptionScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 20),
                           SizedBox(
-                            width: screenWidth * 0.6,
+                            width: screenWidth * 0.9,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                //send notification to the organization
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: appButtonColor,
                                 padding: const EdgeInsets.symmetric(vertical: 14),

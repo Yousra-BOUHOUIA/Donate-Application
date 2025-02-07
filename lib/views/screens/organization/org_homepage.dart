@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:donate_application/imports/user_barrel.dart';
-import 'package:donate_application/shared_preference/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import '/themes/colors.dart';
 import '/views/widgets/org_card.dart';
@@ -23,41 +22,6 @@ class OrgHomePage extends StatefulWidget {
 class _OrgHomePageState extends State<OrgHomePage> {
   final DBCampaignTable _campaignTable = DBCampaignTable();
 
-  
-String? _organizationName;
-String? _organizationEmail;
-String? _organizationImage;
-
-
-
-@override
-void initState() {
-  super.initState();
-  _fetchorganizationDetails();
-}
-
-Future<void> _fetchorganizationDetails() async {
-  String? email = await UserPreferences.getUserEmail();
-  print("Stored email in SharedPreferences: $email"); // Debugging print
-  print("Stored email: $email"); // Debugging print
-
-  if (email != null) {
-    DBOrganizationTable organizationTable = DBOrganizationTable();
-    var organizationDetails = await organizationTable.getOrganizationByEmail(email);
-    print("organization details fetched: $organizationDetails");
-    print("organization details: $organizationDetails"); // Debugging print
-    setState(() {
-      print("Updating state with: $_organizationName, $_organizationEmail");
-      _organizationName = organizationDetails['organization_name'];
-      _organizationEmail = organizationDetails['email'];
-      _organizationImage = organizationDetails['image'];
-    });
-
-    
-  }
-}
-
-/*
   final DBOrganizationTable _organizationTable = DBOrganizationTable();
   Future<Map<String, dynamic>> _fetchOrganizationDetails() async {
     try {
@@ -71,7 +35,7 @@ Future<void> _fetchorganizationDetails() async {
         };
       }
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,13 +64,7 @@ Future<void> _fetchorganizationDetails() async {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      drawer:CustomDrawer(
-        profilePicture: _organizationImage != null ? base64Decode(_organizationImage!) : null,
-        name: _organizationName ?? 'Unknown organization',
-        email: _organizationEmail ?? 'unknown@example.com',
-       
-      ),
-      /*drawer: FutureBuilder<Map<String, dynamic>>(
+      drawer: FutureBuilder<Map<String, dynamic>>(
           future: _fetchOrganizationDetails(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -129,7 +87,7 @@ Future<void> _fetchorganizationDetails() async {
               isOrganization: true,
             );
           },
-      ),*/
+      ),
       body: Container(
         color: Colors.grey[100],
         child: SingleChildScrollView(

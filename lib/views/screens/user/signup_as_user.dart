@@ -1,5 +1,6 @@
-import 'package:donate_application/views/screens/user/user_homepage.dart';
+import 'package:donate_application/bloc/SignUp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../themes/colors.dart';
 import '../../../imports/organization_barrel.dart';
 import '../../../imports/common_barrel.dart';
@@ -15,8 +16,7 @@ class SignUpAsUserPage extends StatefulWidget {
 
 class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
   bool isUser = true;
-  bool _isPasswordVisible = false;
-  bool _isConfirmPasswordVisible = false;
+
   DBParticipantTable dbParticipantTable = DBParticipantTable();
   
 
@@ -49,7 +49,10 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+  
+    return BlocBuilder<SignupCubit, Map<String, dynamic>>(
+      builder: (context, state) {
+            return Scaffold(
       body: Stack(
         children: [
           // Gradient background
@@ -93,22 +96,32 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                           color: Colors.white,
                         ),
                       ),
-                      Switch(
-                        value: isUser,
-                        onChanged: (value) {
-                          if (!value) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignUpAsOrganizationPage(),
-                              ),
-                            );
-                          }
-                          setState(() {
-                            isUser = value;
-                          });
-                        },
-                      ),
+                  BlocListener<SignupCubit, Map<String, dynamic>>(
+                    listenWhen: (previous, current) => previous["isUser"] != current["isUser"],
+                    listener: (context, state) {
+                      if (state["isUser"] == false) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SignUpAsOrganizationPage()),
+                        );
+                      } else {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SignUpAsUserPage()),
+                        );
+                      }
+                    },
+                    child: Switch(
+                      value: state["isUser"] ?? true,
+                      onChanged: (value) {
+                    
+                        context.read<SignupCubit>().switchUserType(value);
+                      },
+                    ),
+                  )
+
+
+
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -186,59 +199,49 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
                   ),
                   const SizedBox(height: 20),
                   // Password Field with Eye Icon Toggle
-                  CustomTextField(
-                    controller: _passwordController,
-                    icon: Icons.lock,
-                    label: "Password",
-                    isPassword: !_isPasswordVisible,
-                    validator: (value) {
-                      if (value == null || value.length < 6) {
-                        return "Password must be at least 6 characters";
-                      }
-                      _password = value;
-                      return null;
-                    },
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isPasswordVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: appButtonColor,
+                   CustomTextField(
+                        controller: _passwordController,
+                        icon: Icons.lock,
+                        label: "Password",
+                        isPassword: !state["isPasswordVisible"],
+                        validator: (value) {
+                          if (value == null || value.length < 6) {
+                            return "Password must be at least 6 characters";
+                          }
+                          return null;
+                        },
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            state["isPasswordVisible"] ? Icons.visibility : Icons.visibility_off,
+                            color: appButtonColor,
+                          ),
+                          onPressed: () {
+                            context.read<SignupCubit>().togglePasswordVisibility();
+                          },
+                        ),
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  CustomTextField(
-                    controller: _confirmPasswordController,
-                    icon: Icons.lock_outline,
-                    label: "Confirm Password",
-                    isPassword: !_isConfirmPasswordVisible,
-                    validator: (value) {
-                      if (value == null || value != _password) {
-                        return "Passwords do not match";
-                      }
-                      return null;
-                    },
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isConfirmPasswordVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: appButtonColor,
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _confirmPasswordController,
+                        icon: Icons.lock_outline,
+                        label: "Confirm Password",
+                        isPassword: !state["isConfirmPasswordVisible"],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Confirm your password";
+                          }
+                          return null;
+                        },
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            state["isConfirmPasswordVisible"] ? Icons.visibility : Icons.visibility_off,
+                            color: appButtonColor,
+                          ),
+                          onPressed: () {
+                            context.read<SignupCubit>().toggleConfirmPasswordVisibility();
+                          },
+                        ),
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                        });
-                      },
-                    ),
-                  ),
                   const SizedBox(height: 40),
                   Center(
                     child: ElevatedButton(
@@ -335,7 +338,9 @@ class _SignUpAsUserPageState extends State<SignUpAsUserPage> {
           ),
         ],
       ),
-    );
+            );
+          }
+        );
   }
 }
 

@@ -97,19 +97,5 @@ Future<void> checkTableSchema() async {
   }
 
 
-  Future<Map<String, dynamic>> getUserByEmail(String email) async {
-     final db = await DBHelper.getDatabase();
-      var result = await db.query(
-        'participant', 
-        where: 'email = ?',
-        whereArgs: [email],
-      );
-      if (result.isNotEmpty) {
-        return result.first; // Return the first matching record
-      } else {
-        throw Exception('User not found');
-      }
-}
-
 
 }

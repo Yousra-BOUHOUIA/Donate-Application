@@ -18,6 +18,8 @@ Widget createUserCard(
     btntext = 'Donate Now';
   } else if (type == 'event') {
     btntext = 'Participate Now';
+  } else {
+    btntext = ''; // Ensure the button text is defined for any other case
   }
 
   return Card(
@@ -95,19 +97,20 @@ Widget createUserCard(
                       ),
                     ),
                   ),
-                  
               ElevatedButton(
                 onPressed: () {
                   if (type == 'donate') {
                     Navigator.pushNamed(context, AddDonationScreen.pageRoute);
                   } else if (type == 'event') {
+                    // Add event action or leave it empty
+                    print("Event button pressed"); // Placeholder action
                   }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF27425D),
                 ),
                 child: Text(
-                  btntext,
+                  btntext.isNotEmpty ? btntext : 'Donate now',
                   style: const TextStyle(
                     color: Colors.white,
                   ),

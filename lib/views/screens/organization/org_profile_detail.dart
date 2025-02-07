@@ -1,14 +1,69 @@
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:donate_application/databases/tables/organization.dart';
 import 'package:flutter/material.dart';
 import '../../../themes/colors.dart';
 import '../../widgets/input_field.dart';
 import '../../../imports/organization_barrel.dart';
 
-class OrgProfileDetailsScreen extends StatelessWidget {
+
+class OrgProfileDetailsScreen extends StatefulWidget {
   const OrgProfileDetailsScreen({super.key});
   static const String pageRoute = '/org_profile_details';
 
   @override
+  _OrgProfileDetailsScreenState createState() => _OrgProfileDetailsScreenState();
+}
+
+class _OrgProfileDetailsScreenState extends State<OrgProfileDetailsScreen> {
+  Map<String, dynamic>? organizationData;
+  final DBOrganizationTable dbHelper = DBOrganizationTable();
+  int? organizationId; // Store the fetched ID
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchOrganizationIdAndData();
+  }
+
+  Future<void> _fetchOrganizationIdAndData() async {
+    // Fetch the last registered organization ID
+    final lastOrg = await dbHelper.getLastRegisteredOrganization();
+    setState(() {
+      organizationId = lastOrg['organization_id']; // Store the fetched ID
+    });
+
+    // Fetch organization data using the fetched ID
+    if (organizationId != null) {
+      final data = await dbHelper.getRecord('organization_id', organizationId!);
+      setState(() {
+        organizationData = data;
+        isLoading = false;
+      });
+    }
+  }
+
+  Uint8List? _getImageBytes(dynamic imageData) {
+  if (imageData == null) return null;
+
+  if (imageData is Uint8List) {
+    return imageData; // Already in the correct format
+  } else if (imageData is String && imageData.isNotEmpty) {
+    try {
+      return base64Decode(imageData);
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
+}
+
+
+  @override
   Widget build(BuildContext context) {
+    Uint8List? imageBytes = _getImageBytes(organizationData?['image']);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarColor,
@@ -20,150 +75,104 @@ class OrgProfileDetailsScreen extends StatelessWidget {
         title: const Text('Profile details', style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
-      body: Container(
-        color: appBackgroundColor,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 24),
-                Center(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : organizationData == null || organizationId == null
+              ? const Center(child: Text("No organization data found"))
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundImage: const AssetImage('assets/images/org_profile.jpg'), 
-                            backgroundColor: Colors.grey[200],
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const EditOrgProfileScreen(),
+                      const SizedBox(height: 24),
+                      Center(
+                        child: Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.grey[200],
+                              backgroundImage: imageBytes != null
+                                  ? MemoryImage(imageBytes) as ImageProvider
+                                  : const AssetImage('assets/images/org_profile.jpg'),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  // Navigate to the edit screen with the fetched organization ID
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EditOrgProfileScreen(organizationId: organizationId!),
+                                    ),
+                                  ).then((value) {
+                                    if (value == true) {
+                                      _fetchOrganizationIdAndData(); // Refresh data after editing
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.grey, width: 1),
                                   ),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                  border: Border.all(color: Colors.grey, width: 1),
-                                ),
-                                padding: const EdgeInsets.all(5),
-                                child: const Icon(
-                                  Icons.edit,
-                                  color: Colors.black,
-                                  size: 20,
+                                  padding: const EdgeInsets.all(5),
+                                  child: const Icon(Icons.edit, color: Colors.black, size: 20),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        "Hilal Ahmar",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Text(
+                        organizationData!['organization_name'] ?? '',
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4),
-                      const Text(
-                        "contact@hilal-ahmer-algeria.org",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
+                      Text(
+                        organizationData!['email'] ?? '',
+                        style: const TextStyle(fontSize: 14, color: Colors.grey),
                       ),
+                      const SizedBox(height: 24),
+                      _buildInputField("Organization Name", organizationData!['organization_name']),
+                      _buildInputField("Email", organizationData!['email']),
+                      _buildInputField("Type", organizationData!['organization_type']),
+                      _buildInputField("Phone Number", organizationData!['phone_num'].toString()),
+                      _buildInputField("Address", organizationData!['address']),
+                      const SizedBox(height: 20),
+                      _buildInputField("Bank Account", organizationData!['bank_account']?.toString() ?? 'Not available'),
+                      const SizedBox(height: 20),
+                      const Text("Social Platforms", style: TextStyle(color: Colors.grey, fontSize: 15)),
+                      const SizedBox(height: 10),
+                      _buildSocialPlatformTile(context, organizationData!['social_media'] ?? "No link provided"),
+                      const SizedBox(height: 40),
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
-                InputField(
-                  label: "Organization name",
-                  controller: TextEditingController(text: "Hilal Ahmar"),
-                  enabled: false,
-                ),
-                const SizedBox(height: 20),
-                InputField(
-                  label: "Email",
-                  controller: TextEditingController(text: "contact@hilal-ahmer-algeria.org"),
-                  enabled: false,
-                ),
-                const SizedBox(height: 20),
-                InputField(
-                  label: "Type",
-                  controller: TextEditingController(text: "Humanitarian non-profit"),
-                  enabled: false,
-                ),
-                const SizedBox(height: 20),
-                InputField(
-                  label: "Phone number",
-                  controller: TextEditingController(text: "+213 21 92 74 00"),
-                  enabled: false,
-                ),
-                const SizedBox(height: 20),
-                InputField(
-                  label: "Address",
-                  controller: TextEditingController(
-                    text: "Rue Bouzered Hocine, Annaba 23000, Algeria",
-                  ),
-                  enabled: false,
-                ),
-                const SizedBox(height: 20),
-                InputField(
-                  label: "About the organization",
-                  controller: TextEditingController(
-                    text:
-                    "Hilal Ahmar is a non-profit organization dedicated to providing humanitarian aid and support to vulnerable communities in Algeria. We offer essential services such as healthcare, emergency relief, and educational programs to empower individuals and help them build a better future.",
-                  ),
-                  enabled: false,
-                  maxLines: 8, 
-                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10), 
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Social platforms",
-                  style: TextStyle(color: Colors.grey, fontSize: 15),
-                ),
-                const SizedBox(height: 10),
-                _buildSocialPlatformTile(
-                  context,
-                  initialText: "https://www.hilaleahmar.com",
-                ),
-                const SizedBox(height: 10),
-                _buildSocialPlatformTile(
-                  context,
-                  initialText: "https://web.facebook.com/p/",
-                ),
-                const SizedBox(height: 10),
-                _buildSocialPlatformTile(
-                  context,
-                  initialText: "Add a new platform link",
-                ),
-                const SizedBox(height: 40),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 
-  Widget _buildSocialPlatformTile(
-    BuildContext context, {
-    required String initialText,
-  }) {
+  Widget _buildInputField(String label, String value, {int maxLines = 1}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InputField(
+          label: label,
+          controller: TextEditingController(text: value),
+          enabled: false,
+          maxLines: maxLines,
+          contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildSocialPlatformTile(BuildContext context, String link) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -179,21 +188,14 @@ class OrgProfileDetailsScreen extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        title: Row(
-          children: [
-       
-            Expanded(
-              child: TextField(
-                enabled: false, // Prevent editing
-                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: initialText,
-                  hintStyle: const TextStyle(color: Colors.black),
-                ),
-              ),
-            ),
-          ],
+        title: TextField(
+          enabled: false,
+          style: const TextStyle(color: Colors.black),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: link,
+            hintStyle: const TextStyle(color: Colors.black),
+          ),
         ),
       ),
     );

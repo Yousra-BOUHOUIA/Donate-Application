@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../databases/db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -18,7 +20,8 @@ class DBOrganizationTable{
         social_media TEXT,
         email TEXT,
         uploaded_file TEXT,
-        password TEXT
+        password TEXT,
+        image BLOB
     );
   ''';
 
@@ -75,24 +78,28 @@ Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
     }
     return null;
   }
-
-  Future<bool> updateRecord(
-      Map<String, dynamic> data, String column, dynamic id) async {
-    try {
-      final database = await DBHelper.getDatabase();
-      await database.update(
-        db_table,
-        data,
-        where: "$column = ?",
-        whereArgs: [id],
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      return true;
-    } catch (e, stacktrace) {
-      print('Error updating $db_table: $e --> $stacktrace');
+Future<bool> updateRecord(Map<String, dynamic> data, String column, dynamic id) async {
+  try {
+    final database = await DBHelper.getDatabase();
+    
+    // Convert base64 image to bytes if present
+    if (data.containsKey('image') && data['image'] is String) {
+      data['image'] = base64Decode(data['image']);
     }
-    return false;
+    
+    await database.update(
+      db_table,
+      data,
+      where: "$column = ?",
+      whereArgs: [id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    return true;
+  } catch (e, stacktrace) {
+    print('Error updating $db_table: $e --> $stacktrace');
   }
+  return false;
+}
 
   Future<bool> deleteRecord(String column, dynamic id) async {
     try {
@@ -177,28 +184,5 @@ Future<Map<String, dynamic>?> getRecord(String column, dynamic id,
         rethrow;
       }
   }
-
-  Future<Map<String, dynamic>> getOrganizationByEmail(String email) async {
- final db = await DBHelper.getDatabase();
-  var result = await db.query(
-    'organization', 
-    where: 'email = ?',
-    whereArgs: [email],
-  );
-  if (result.isNotEmpty) {
-    return result.first; 
-  } else {
-    throw Exception('organization not found');
-  }
+  
 }
-}
-
-
-
-
-
-
-
-
-
-

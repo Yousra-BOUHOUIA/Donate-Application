@@ -1,12 +1,27 @@
+import 'package:donate_application/bloc/Footer.dart';
+import 'package:donate_application/bloc/SignUp.dart';
+import 'package:donate_application/bloc/add_donation.dart';
+import 'package:donate_application/bloc/create_compaign_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'imports/common_barrel.dart';
 import 'imports/organization_barrel.dart';
 import 'imports/user_barrel.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const MyApp());
+
+
+void main() {
+  runApp(
+   MultiBlocProvider(
+  providers: [
+    BlocProvider<FooterCubit>(create: (_) => FooterCubit()),
+    BlocProvider<SignupCubit>(create: (_) => SignupCubit()),
+    BlocProvider<AddDonationCubit>(create: (_) => AddDonationCubit()),
+    BlocProvider<CreateCampaignCubit>(create: (_) => CreateCampaignCubit()), // Add this line
+  ],
+  child: const MyApp(),
+)
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -22,7 +37,9 @@ class MyApp extends StatelessWidget {
         ContactUsScreen.pageRoute: (ctx) => const ContactUsScreen(),
         TermsAndPoliciesScreen.pageRoute: (ctx) =>
             const TermsAndPoliciesScreen(),
-        ChangePasswordScreen.pageRoute: (ctx) => const ChangePasswordScreen(isOrganization: false,),
+        ChangePasswordScreen.pageRoute: (ctx) => const ChangePasswordScreen(
+              isOrganization: false,
+            ),
         ProductDescriptionPage.pageRoute: (ctx) => ProductDescriptionPage(),
         LoginPage.pageRoute: (ctx) => const LoginPage(),
         SignUpAsUserPage.pageRoute: (ctx) => const SignUpAsUserPage(),
@@ -36,10 +53,10 @@ class MyApp extends StatelessWidget {
             const OrgProfileDetailsScreen(),
         OrgPostsScreen.pageRoute: (ctx) => OrgPostsScreen(),
 
-        //EditOrgProfileScreen.pageRoute: (ctx) => const EditOrgProfileScreen(),
+        // EditOrgProfileScreen.pageRoute: (ctx) => const EditOrgProfileScreen(),
         OrgNotification.pageRoute: (ctx) => const OrgNotification(),
 
-        OrgHomePage.pageRoute: (ctx) => OrgHomePage(),
+        OrgHomePage.pageRoute: (ctx) => const OrgHomePage(),
         EventsPage.pageRoute: (ctx) => EventsPage(),
         DonationsPage.pageRoute: (ctx) => DonationsPage(),
         CardContentPage.pageRoute: (ctx) => CardContentPage(),
@@ -48,7 +65,8 @@ class MyApp extends StatelessWidget {
         UserProfilePage.pageRoute: (ctx) => const UserProfilePage(),
         UserProfileDetailsScreen.pageRoute: (ctx) =>
             const UserProfileDetailsScreen(),
-      //  EditUserProfileScreen.pageRoute: (ctx) => const EditUserProfileScreen(),
+        // EditUserProfileScreen.pageRoute: (ctx) =>
+        //     EditUserProfileScreen(),
         UserPostsScreen.pageRoute: (ctx) => const UserPostsScreen(),
         OrgDonationDescriptionScreen.pageRoute: (ctx) =>
             const OrgDonationDescriptionScreen(),
@@ -60,14 +78,14 @@ class MyApp extends StatelessWidget {
             const UserDonationDescriptionScreen(),
         UserEventDescriptionScreen.pageRoute: (ctx) =>
             const UserEventDescriptionScreen(),
-        AddDonationScreen.pageRoute: (ctx) => const AddDonationScreen(),
-        UserHomePage.pageRoute: (ctx) =>   UserHomePage(),
+        AddDonationScreen.pageRoute: (ctx) =>  const AddDonationScreen(),
+        UserHomePage.pageRoute: (ctx) => const UserHomePage(),
         UserDonations.pageRoute: (ctx) => UserDonations(),
-        UserAll.pageRoute: (ctx) =>  UserAll(),
+        UserAll.pageRoute: (ctx) => UserAll(),
         UserEvents.pageRoute: (ctx) => UserEvents(),
       },
       //home: const ChangePasswordScreen(isOrganization: true,),
-      home: SignUpAsUserPage(),
+      home: const SignUpAsUserPage(),
     );
   }
 }

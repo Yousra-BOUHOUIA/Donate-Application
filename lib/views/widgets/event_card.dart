@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../imports/user_barrel.dart';
-import '../../imports/organization_barrel.dart';
 
 const double cardWidth = 250;
 const double cardHeight = 150;
@@ -21,11 +19,7 @@ Widget eventCard(BuildContext context, bool isOrganization, String image) {
     child: InkWell(
       onTap: () {
         // Navigate based on whether it's an organization or user
-        if (isOrganization) {
-          Navigator.pushNamed(context, OrgEventDescriptionScreen.pageRoute);
-        } else {
-          Navigator.pushNamed(context, UserEventDescriptionScreen.pageRoute);
-        }
+        
       },
       child: Container(
         decoration: BoxDecoration(

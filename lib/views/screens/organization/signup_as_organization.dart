@@ -1,8 +1,10 @@
+import 'package:donate_application/bloc/SignUp.dart';
 import 'package:flutter/material.dart';
-import '../../../imports/organization_barrel.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../themes/colors.dart';
 import '../../../imports/user_barrel.dart';
 import 'package:donate_application/databases/tables/organization.dart';
+import 'package:file_picker/file_picker.dart';
 
 class SignUpAsOrganizationPage extends StatefulWidget {
   const SignUpAsOrganizationPage({super.key});
@@ -28,14 +30,15 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
-  bool _isPasswordVisible = false;
-  bool _isConfirmPasswordVisible = false;
+  
   String? uploadedFilePath;
 
   DBOrganizationTable dbOrganizationTable = DBOrganizationTable();
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<SignupCubit, Map<String, dynamic>>(
+      builder: (context, state) {
     return Scaffold(
       body: Stack(
         children: [
@@ -80,23 +83,34 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                           color: Colors.white,
                         ),
                       ),
-                      Switch(
-                        value: isUser,
-                        onChanged: (value) {
-                          if (value) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignUpAsUserPage(),
-                              ),
-                            );
-                          }
-                          setState(() {
-                            isUser = value;
-                          });
-                        },
-                      ),
-                    ],
+                 BlocListener<SignupCubit, Map<String, dynamic>>(
+                  listenWhen: (previous, current) => previous["isUser"] != current["isUser"],
+                  listener: (context, state) {
+                    if (state["isUser"] == false) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SignUpAsOrganizationPage()),
+                      );
+                    } else {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SignUpAsUserPage()),
+                      );
+                    }
+                  },
+                  child: Switch(
+                    value: state["isUser"] ?? true,
+                    onChanged: (value) {
+                      
+                      context.read<SignupCubit>().switchUserType(value);
+                    },
+                  ),
+                )
+
+                           
+
+
+                                  ],
                   ),
                   const SizedBox(height: 20),
                   const Text(
@@ -129,51 +143,81 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Document Upload",
-                        style: TextStyle(color: appButtonColor, fontSize: 16),
-                      ),
-                      const SizedBox(height: 8),
-                      IconButton(
-                        onPressed: () async {
-                          setState(() {
-                            uploadedFilePath = "example_document.pdf"; 
-                          });
-                        },
-                        icon: const Icon(Icons.upload_file, size: 32),
-                        color: appButtonColor,
-                      ),
-                      if (uploadedFilePath != null)
-                        Text(
-                          "Uploaded: $uploadedFilePath",
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                    ],
+  
+  const Text(
+    "Document Upload",
+    style: TextStyle(color: appButtonColor, fontSize: 16),
+  ),
+  const SizedBox(height: 8),
+  uploadedFilePath == null
+      ? IconButton(
+          onPressed: () async {
+            // Open file picker to select a file
+            FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+            if (result != null) {
+              // Get the selected file path
+              String filePath = result.files.single.path!;
+              // Call your upload method with the selected file path
+              context.read<SignupCubit>().uploadFile(filePath);
+            }
+          },
+          icon: const Icon(Icons.upload_file, size: 32),
+          color: appButtonColor,
+        )
+      : Text(
+          // Show the uploaded file name after it's uploaded
+          "Uploaded: ${uploadedFilePath?.split('/').last}",
+          style: const TextStyle(color: Colors.white),
+        ),
+],
+
                   ),
                   const SizedBox(height: 20),
                   // Password field with toggle visibility
-                  buildPasswordTextField(
-                    _passwordController,
-                    "Password",
-                    _isPasswordVisible,
-                    (value) {
-                      setState(() {
-                        _isPasswordVisible = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  // Confirm Password field with toggle visibility
-                  buildPasswordTextField(
-                    _confirmPasswordController,
-                    "Confirm Password",
-                    _isConfirmPasswordVisible,
-                    (value) {
-                      setState(() {
-                        _isConfirmPasswordVisible = value;
-                      });
-                    },
-                  ),
+               CustomTextField(
+                        controller: _passwordController,
+                        icon: Icons.lock,
+                        label: "Password",
+                        isPassword: !state["isPasswordVisible"],
+                        validator: (value) {
+                          if (value == null || value.length < 6) {
+                            return "Password must be at least 6 characters";
+                          }
+                          return null;
+                        },
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            state["isPasswordVisible"] ? Icons.visibility : Icons.visibility_off,
+                            color: appButtonColor,
+                          ),
+                          onPressed: () {
+                            context.read<SignupCubit>().togglePasswordVisibility();
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _confirmPasswordController,
+                        icon: Icons.lock_outline,
+                        label: "Confirm Password",
+                        isPassword: !state["isConfirmPasswordVisible"],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Confirm your password";
+                          }
+                          return null;
+                        },
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            state["isConfirmPasswordVisible"] ?  Icons.visibility : Icons.visibility_off,
+                            color: appButtonColor,
+                          ),
+                          onPressed: () {
+                            context.read<SignupCubit>().toggleConfirmPasswordVisibility();
+                          },
+                        ),
+                      ),
                   const SizedBox(height: 40),
                   Center(
                     child: ElevatedButton(
@@ -271,6 +315,7 @@ class _SignUpAsOrganizationPageState extends State<SignUpAsOrganizationPage> {
       ),
     );
   }
+    );}
 
   Widget buildCustomTextField(IconData icon, String label, TextEditingController controller) {
     return TextFormField(

@@ -1,7 +1,5 @@
 # donate_application
 
-## Donation App - README
-
 ### Introduction
 
 The Donation App is designed to make charitable giving simple, secure, and impactful. Users can browse various causes, donate easily, track their contributions, and even create their own fundraising campaigns.
